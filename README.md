@@ -1,2 +1,3 @@
 # indeed-clone
-CMPE 273 - Enterprise Distributed Systems - Final Project: 'Simulation of Indeed.com'
+CMPE 273 - Enterprise Distributed Systems - Final Project 
+Title: Simulation of Indeed.com
