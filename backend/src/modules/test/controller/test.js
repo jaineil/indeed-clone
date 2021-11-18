@@ -4,7 +4,7 @@ export class TestController {
   fetch = async (req, res) => {
     try {
       console.log(req);
-      const results = await TestReview.insertOne({});
+      const results = await TestReview.find({});
       console.log("Query result", results);
       res.status(200).send(results);
     } catch (err) {
