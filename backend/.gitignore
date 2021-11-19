@@ -9,6 +9,9 @@
 /config
 /src/db/config
 
+# cache
+/dump.rdb
+
 # testing
 /coverage
 
