@@ -5,5 +5,6 @@ const testRouter = express.Router();
 const testController = new TestController();
 
 testRouter.get("/get-test-reviews", testController.fetch);
+testRouter.get("/insert-random-review", testController.insert10K);
 
 export default testRouter;
