@@ -6,8 +6,8 @@
 .pnp.js
 
 # config
-/config
-/src/db/config
+
+/src/db/config/mongo.config.js
 
 # cache
 /dump.rdb

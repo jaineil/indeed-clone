@@ -5,7 +5,7 @@ import { randomBytes } from "crypto";
 export class TestController {
 	fetch = async (req, res) => {
 		try {
-			console.log(req);
+			// console.log(req);
 			const results = await TestReview.find({});
 			console.log("Query result", results);
 			res.status(200).send(results);
@@ -19,6 +19,7 @@ export class TestController {
 		client.get("test-reviews", async (err, reply) => {
 			if (err) {
 				console.error(err);
+				res.status(500).send("Error when connecting to Redis cache");
 			} else {
 				if (reply != null) {
 					console.log("Found from cache");
