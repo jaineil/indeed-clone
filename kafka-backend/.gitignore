@@ -6,11 +6,8 @@
 .pnp.js
 
 # config
-
-/src/db/config/mongo.config.js
-
-# cache
-/dump.rdb
+/config
+/src/db/config
 
 # testing
 /coverage
