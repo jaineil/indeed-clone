@@ -17,7 +17,7 @@ const jobSeekerApplicationsSchema = new Schema({
 	},
 	coverLetter: {
 		type: {
-			_id: { type: String },
+			coverLetterId: { type: String },
 			url: { type: String },
 			name: { type: String },
 		},
