@@ -3,21 +3,21 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const jobSeekerApplicationsSchema = new Schema({
-	jobId: { type: mongoose.Types.ObjectId },
-	jobSeekerId: { type: mongoose.Types.ObjectId },
+	jobId: { type: String },
+	jobSeekerId: { type: String },
 	companyId: { type: String },
 	companyName: { type: String },
 	applicationStatus: { type: String },
 	resume: {
 		type: {
-			_id: { type: mongoose.Types.ObjectId },
+			resumeId: { type: String },
 			url: { type: String },
 			name: { type: String },
 		},
 	},
 	coverLetter: {
 		type: {
-			_id: { type: mongoose.Types.ObjectId },
+			_id: { type: String },
 			url: { type: String },
 			name: { type: String },
 		},
