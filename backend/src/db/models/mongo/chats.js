@@ -3,8 +3,14 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const chatsSchema = new Schema({
-	employerId: { type: String },
-	jobSeekerId: { type: String },
+	employerId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "employerDetails",
+	},
+	jobSeekerId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "jobSeekerDetails",
+	},
 	messages: [
 		{
 			senderId: { type: String },

@@ -3,9 +3,11 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const jobRecordsSchema = new Schema({
-	jobRecordId: { type: String },
 	jobSeekerId: { type: String },
-	companyId: { type: String },
+	companyId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "companyDetails",
+	},
 	companyName: { type: String },
 	isCurrentEmployee: { type: Boolean },
 	jobEndDate: { type: Date },
