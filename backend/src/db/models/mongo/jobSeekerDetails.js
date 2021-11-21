@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const jobSeekerSchema = new Schema({
-    jobSeekerId: {type : String},
+    userId: {type : Number},
     profilePicture: 
         { type : String },
     resumes: [
@@ -28,7 +28,11 @@ const jobSeekerSchema = new Schema({
         zip: { type : String }
     },
     savedJobs: [{
-        jobId: { type : String },
+        jobId: 
+        {   
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "jobDetails"
+        },
         jobTitle: { type : String },
         companyId:    
             {   
