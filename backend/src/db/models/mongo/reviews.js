@@ -3,8 +3,11 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const reviewsSchema = new Schema({
-	jobSeekerId: { type: String },
-	companyId: { type: String },
+	jobSeekerId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "jobSeekerDetails",
+	},
+	companyId: { type: mongoose.Schema.Types.ObjectId, ref: "companyDetails" },
 	companyName: { type: String },
 	overallCompanyRatingByReviewer: { type: Number },
 	reviewTitle: { type: String },
