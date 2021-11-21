@@ -25,7 +25,7 @@ const jobSeekerApplicationsSchema = new Schema({
 });
 
 const JobSeekerApplications = mongoose.model(
-	"jobSeekerApplications",
+	"jobSeekerApplication",
 	jobSeekerApplicationsSchema
 );
 
