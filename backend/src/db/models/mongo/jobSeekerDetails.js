@@ -3,38 +3,39 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const jobSeekerSchema = new Schema({
-   
-    profilePicture: String,
+    jobSeekerId: {type : String},
+    profilePicture: 
+        { type : String },
     resumes: [
         {
-            url: String,
-            name: string
+            url: { type : String },
+            name: { type : String }
         }
       ],
     coverLetters: [
         {
-            url: String,
-            name: string
+            url: { type : String },
+            name: { type : String }
         }
       ],
-    contactNumber: String,
+    contactNumber: { type : String },
     address: {
-        street: String,
-        apt: String,
-        city: String,
-        state: String,
-        country: String,
-        zip: String
+        street: { type: String },
+        apt: { type: String },
+        city: { type : String },
+        state: { type : String },
+        country: { type : String },
+        zip: { type : String }
     },
     savedJobs: [{
-        jobId: String,
-        jobTitle: String,
+        jobId: { type : String },
+        jobTitle: { type : String },
         companyId:    
             {   
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "companyDetails"
             },
-        companyName: String
+        companyName: { type : String }
     }],
     // reviews: [{
     //     reviewId:
@@ -53,6 +54,6 @@ const jobSeekerSchema = new Schema({
     
 });
 
-const JobSeekerDetails = mongoose.model('jobSeekerDetails', jobSeekerSchema);
+const JobSeekerDetails = mongoose.model('jobSeekerDetail', jobSeekerSchema);
 
 export default JobSeekerDetails;
