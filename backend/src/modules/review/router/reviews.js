@@ -10,4 +10,9 @@ reviewRouter.post(
 	reviewController.create
 );
 
+reviewRouter.put(
+	"/job-seeker/company-details/helpfulness-count",
+	reviewController.setHelpfulness
+);
+
 export default reviewRouter;

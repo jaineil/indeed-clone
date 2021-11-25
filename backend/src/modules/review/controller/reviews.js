@@ -32,6 +32,31 @@ class ReviewController {
 			console.error(err);
 		}
 	};
+
+	setHelpfulness = async (req, res) => {
+		try {
+			const response = await Review.findOneAndUpdate(
+				{
+					companyId: req.body.companyId,
+					_id: req.body.reviewId,
+				},
+				{
+					$inc: {
+						reviewHelpfulCount: req.body.helpful ? 1 : 0,
+						reviewNotHelpfulCount: req.body.helpful ? 0 : 1,
+					},
+				}
+			);
+			res.status(200).send({
+				reviewHelpfulCount:
+					response.reviewHelpfulCount + (req.body.helpful ? 1 : 0),
+				reviewNotHelpfulCount:
+					response.reviewNotHelpfulCount + (req.body.helpful ? 0 : 1),
+			});
+		} catch (err) {
+			console.error(err);
+		}
+	};
 }
 
 export default ReviewController;
