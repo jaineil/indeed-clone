@@ -13,7 +13,7 @@ import Radio from "@material-ui/core/Radio";
 const useStyles = makeStyles(() => ({
     registrationContainer: {
         backgroundColor: "#f2f2f2",
-        display: "flex",
+        display: "flex", 
         flexDirection: "column",
         alignItems: "center",
         height: "120vh"       
