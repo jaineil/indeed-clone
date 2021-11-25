@@ -5,6 +5,8 @@ import kafkaTestRouter from "./src/modules/kafka-test/router/kafkaTestRouter.js"
 import companyRouter from "./src/modules/company/router/companies.js";
 import reviewRouter from "./src/modules/review/router/reviews.js";
 import chatsRouter from "./src/modules/chat/router/chats.js";
+import jobRouter from "./src/modules/job/router/jobs.js";
+import jobRecordRouter from "./src/modules/job-record/router/jobRecords.js";
 
 mongoInit();
 
@@ -13,3 +15,5 @@ app.use(kafkaTestRouter);
 app.use(companyRouter);
 app.use(reviewRouter);
 app.use(chatsRouter);
+app.use(jobRouter);
+app.use(jobRecordRouter);

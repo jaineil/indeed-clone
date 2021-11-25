@@ -1,0 +1,24 @@
+{
+    "jobSeekerId": "619f3868ef6dff3633f6d959",
+    "companyId": "619f3868ef6dff3633f6d959",
+    "companyName": "Apple",
+    "isCurrentEmployee": false,
+    "jobEndDate": "10-07-2021",
+    "jobTitle": "Staff Software Engineer",
+    "jobLocation": {
+        "city": "Cupertino",
+        "state": "California",
+        "zipcode": "92041",
+        "country": "USA"
+    },
+    "yearsOfExperience": 7,
+    "benefits": {
+        "paidTimeOff": false,
+        "healthInsurance": true,
+        "lifeInsurance": true,
+        "dentalInsurance": true,
+        "visionInsurance": true,
+        "retirement401k": false,
+        "other": "Off on all major holidays, additional sick leaves"
+    }
+}
