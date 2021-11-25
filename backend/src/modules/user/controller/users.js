@@ -57,7 +57,6 @@ export class UserController {
 		try {
                 let sql = "SELECT * FROM users WHERE emailId = ?";
                 const emailId = req.body.emailId;
-                console.log(emailId)
                 conn.query(sql, [emailId], function (err, result) {
                     if (err) throw err;
                     else{
