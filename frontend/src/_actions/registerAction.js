@@ -26,34 +26,34 @@ const registerRequest = () => {
     };
   };
   
-  export const makeRegisterRequest = ({ email, password }) => (dispatch) => {
+  export const makeRegisterRequest = ({ emailId, pass, userPersona }) => (dispatch) => {
     dispatch(registerRequest());
-  
-    axios
-      .get(endPointObj.url + '/getUser')
+    axios.get(endPointObj.url + '/getUser')
       .then((res) => {
-        dispatch(checkUserExists(email, password, res.data));
+        dispatch(checkUserExists(emailId, pass, userPersona, res.data));
       })
       .catch((err) => dispatch(registerFailure("Something went wrong")));
   };
   
-  const checkUserExists = (email, password, usersData) => (dispatch) => {
+  const checkUserExists = (emailId, pass, userPersona, usersData) => (dispatch) => {
     for (let i = 0; i < usersData.length; i++) {
-      if (usersData[i].email === email) {
+      if (usersData[i].emailId === emailId) {
         dispatch(registerFailure("user with the email id already exists"));
         return;
       }
     }
   
-    dispatch(registerNewUser({ email, password }));
+    dispatch(registerNewUser({ emailId, pass, userPersona }));
   };
   
-  const registerNewUser = ({ email, password }) => (dispatch) => {
+  const registerNewUser = ({ emailId, pass, userPersona }) => (dispatch) => {
+    let data = {
+      emailId: emailId,
+      pass: pass,
+      userPersona: userPersona  
+    }
     axios
-      .post(endPointObj.url + '/signup/jobseeker', {
-        email,
-        password
-      })
+      .post(endPointObj.url + '/signup/jobseeker', data)
       .then((res) => dispatch(registerSuccess()));
   };
   

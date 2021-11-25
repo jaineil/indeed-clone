@@ -1,18 +1,21 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './store';
+import { ThemeProvider } from "@material-ui/core";
+import theme from "../src/components/common/MenuTheme";
 import Main from './Main.js'
+import Header from "./components/common/Header";
+import { useSelector } from "react-redux";
+import "./App.css";
 
 function App() {
+  //To extract isAuth data from redux store
+  const isAuth = useSelector((state) => state.login.isAuth);
   return (
-    <Provider store={store}>
-      <div>
-        <BrowserRouter>
-          <Main/>
-        </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        {isAuth ? <Header /> : <></>}
+        <Main />
       </div>
-    </Provider>
+    </ThemeProvider>
   );
 }
 
