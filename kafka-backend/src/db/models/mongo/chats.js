@@ -4,13 +4,15 @@ const Schema = mongoose.Schema;
 
 const chatsSchema = new Schema({
 	employerId: {
-		// type: mongoose.Schema.Types.ObjectId,
-		// ref: "employerDetails",
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "employerDetails",
 	},
+	employerName: { type: String },
 	jobSeekerId: {
-		// type: mongoose.Schema.Types.ObjectId,
-		// ref: "jobSeekerDetails",
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "jobSeekerDetails",
 	},
+	jobSeekerName: { type: String },
 	messages: [
 		{
 			senderId: { type: String },

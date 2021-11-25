@@ -1,9 +1,13 @@
 import express from "express";
-import ChatController from "../controller/chats.js";
+import ChatsController from "../controller/chats.js";
 
 const chatsRouter = express.Router();
-const chatController = new ChatController();
+const chatsController = new ChatsController();
 
-chatsRouter.post("/employer/send-first-message", chatController.sendNewMessage);
+chatsRouter.post(
+	"/employer/send-first-message",
+	chatsController.sendNewMessage
+);
+chatsRouter.post("/employer/send-message", chatsController.sendMessage);
 
 export default chatsRouter;

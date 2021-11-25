@@ -4,7 +4,9 @@ const Schema = mongoose.Schema;
 
 const employerDetailsSchema = new Schema({
 	userId: { type: Number }, // SQL user id
-	employerName: { type: String },
+	firstName: { type: String },
+	lastName: { type: String },
+	companyName: { type: String },
 	role: { type: String },
 	companyLocation: {
 		type: {

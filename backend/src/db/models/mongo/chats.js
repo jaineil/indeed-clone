@@ -7,10 +7,12 @@ const chatsSchema = new Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "employerDetails",
 	},
+	employerName: { type: String },
 	jobSeekerId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "jobSeekerDetails",
 	},
+	jobSeekerName: { type: String },
 	messages: [
 		{
 			senderId: { type: String },
