@@ -34,6 +34,19 @@ class JobController {
 			console.error(err);
 		}
 	};
+
+	showJobsByCompany = async (req, res) => {
+		try {
+			const response = await Jobs.find({
+				companyId: req.body.companyId,
+			});
+			res.status(200).send({
+				jobList: response,
+			});
+		} catch (err) {
+			console.error(err);
+		}
+	};
 }
 
 export default JobController;
