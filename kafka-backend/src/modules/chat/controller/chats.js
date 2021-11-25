@@ -16,7 +16,7 @@ export class ChatController {
 				{
 					senderId: data.employerId,
 					receiverId: data.jobSeekerId,
-					time: time.toISOString(),
+					timestamp: time.toISOString(),
 					messageText: data.message,
 				},
 			],
@@ -49,7 +49,7 @@ export class ChatController {
 			message = {
 				senderId: jobSeekerId,
 				receiverId: employerId,
-				time: time.toISOString(),
+				timestamp: time.toISOString(),
 				messageText: messageText,
 			};
 		}
@@ -58,7 +58,7 @@ export class ChatController {
 			message = {
 				senderId: employerId,
 				receiverId: jobSeekerId,
-				time: time.toISOString(),
+				timestamp: time.toISOString(),
 				messageText: messageText,
 			};
 		}
