@@ -10,6 +10,10 @@ const handleChatRequest = async (req, callback) => {
 		case "/employer/send-first-message":
 			results = await chatController.sendNewMessage(req.body);
 			break;
+
+		case "/employer/send-message":
+			results = await chatController.sendMessage(req.body);
+			break;
 	}
 
 	callback(null, results);
