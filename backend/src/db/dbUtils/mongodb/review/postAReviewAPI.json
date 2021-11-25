@@ -1,0 +1,30 @@
+{
+    "companyId": "619f3868ef6dff3633f6d959",
+    "jobSeekerId": "619f3868ef6dff3633f6d959",
+    "overallRating": 4,
+    "reviewTitle": "Dream company to work at",
+    "reviewBody": "I loved working at Apple. I have been a Senior Software Engineer here for the past 3 years",
+    "pros": [
+        "Great work life balance",
+        "Diverse team",
+        "Productive work environment",
+        "Decent salary and benefits"
+    ],
+    "cons": [
+        "Lack of exciting projects coming up",
+        "Arrogant manager"
+    ],
+    "ceoApprovalRating": 5,
+    "interviewPrepTips": [
+        "Make sure you do the top leetcode questions",
+        "Connect with the Hiring manager on Linkedin",
+        "Be confident"
+    ],
+    "categoricalRating": {
+        "workLifeBalance": 5,
+        "compensationAndBenefits": 3,
+        "jobSecurityAndAdvancement": 2,
+        "management": 1,
+        "jobCulture": 3
+    }
+}
