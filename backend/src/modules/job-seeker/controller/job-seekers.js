@@ -16,8 +16,6 @@ export class JobSeekerController {
 			console.error(err);
 		}
 	};
-
-	
 }
 
 export default JobSeekerController;

@@ -16,8 +16,8 @@ class ReviewController {
 					companyId: req.body.companyId,
 					companyName: companyDetails.companyName,
 					overallCompanyRatingByReviewer: req.body.overallRating,
-					reviewTitle: req.body.reviewSummary,
-					reviewBody: req.body.yourReview,
+					reviewTitle: req.body.reviewTitle,
+					reviewBody: req.body.reviewBody,
 					pros: req.body.pros,
 					cons: req.body.cons,
 					ceoApprovalRating: req.body.ceoApproval,
@@ -53,6 +53,37 @@ class ReviewController {
 				reviewNotHelpfulCount:
 					response.reviewNotHelpfulCount + (req.body.helpful ? 0 : 1),
 			});
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	viewReviewsAndRatings = async (req, res) => {
+		try {
+			const companyDetails = await CompanyDetails.findById(
+				req.body.companyId
+			);
+			const featuredReviews = companyDetails.featuredReviews.map((x) =>
+				x.reviewId.toString()
+			);
+			const companyReviews = await Review.find({
+				companyId: req.body.companyId,
+			});
+			let response = [];
+			for (let i = 0; i < companyReviews.length; i++) {
+				response.push({
+					jobSeekerId: companyReviews[i].jobSeekerId,
+					reviewId: companyReviews[i].id,
+					overallCompanyRatingByReviewer:
+						companyReviews[i].overallCompanyRatingByReviewer,
+					reviewTitle: companyReviews[i].reviewTitle,
+					reviewBody: companyReviews[i].reviewBody,
+					featuredReview: featuredReviews.includes(
+						companyReviews[i].id
+					),
+				});
+			}
+			res.status(200).send(response);
 		} catch (err) {
 			console.error(err);
 		}
