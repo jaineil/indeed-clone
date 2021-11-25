@@ -6,6 +6,7 @@ class JobController {
 			const newJob = new Jobs({
 				companyId: req.body.companyId,
 				companyName: req.body.companyName,
+				employerId: req.body.employerId,
 				jobTitle: req.body.jobTitle,
 				industry: req.body.industry,
 				jobLocation: req.body.jobLocation,
@@ -16,6 +17,19 @@ class JobController {
 			});
 			const response = await newJob.save();
 			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	getJobList = async (req, res) => {
+		try {
+			const response = await Jobs.find({
+				employerId: req.body.employerId,
+			});
+			res.status(200).send({
+				jobList: response,
+			});
 		} catch (err) {
 			console.error(err);
 		}
