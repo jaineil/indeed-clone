@@ -1,13 +1,9 @@
 import TestReview from "../../../db/models/testReviews.js";
+import client from "../../../db/config/redis.config.js";
 
 export const test = async (data, callback) => {
-	try {
-		console.log(data);
-		const results = await TestReview.find({});
-		console.log("Query result", results);
-		callback(null, results);
-	} catch (err) {
-		console.error(err);
-		callback(null, "Could not fetch test reviews");
-	}
+	const results = await TestReview.find({});
+	client.set("test-reviews", JSON.stringify(results));
+	console.log("Found from DB");
+	callback(null, results);
 };
