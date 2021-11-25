@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }))
 
+//Load search data  
 function loadData(key) {
     let data = window.localStorage.getItem(key);
     data = JSON.parse(data);
@@ -83,8 +84,8 @@ function SearchJobForm(props) {
     const [location,setLocation] = useState('');
     const jobOptions = ['Java Developer','Javascript Developer','React Developer','Government','Account']
     const locationOptions = ['Bangalore','Mumbai','Delhi','Kolkata','Chennai'];
-        const history = useHistory()
-        const [error,setError] = useState(false);
+    const history = useHistory()
+    const [error,setError] = useState(false);
         
 
     const handleSearch=e=>{
@@ -101,6 +102,7 @@ function SearchJobForm(props) {
         let str = job !== "" && location !== "" ? {category:"both" , query: `${job} - ${location}`} : job === "" && location !== "" ? {category:"location", query:`${location}`} : {category:"job",query:`${job}`}
 
         if(data.length === 4){
+            //To get most recent job search
             data.reverse()
             if(data.some(item=>item.category===str.category && item.query === str.query)){
                 data = data.filter(item=>item.category !== str.category || item.query !== str.query)

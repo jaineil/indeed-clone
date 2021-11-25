@@ -159,7 +159,7 @@ export function Login() {
                     </Grid>
                 </Grid>
             </Box>
-        </Container> : <Redirect to="/" />
+        </Container> : <Redirect to="/home" />
     )
 }
 export default Login;

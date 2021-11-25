@@ -90,7 +90,7 @@ export function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
         //Dispatch role also (TBD)
-        dispatch(makeRegisterRequest({email,password}))   
+        dispatch(makeRegisterRequest({email,password,role}))   
     }
 
 
@@ -131,13 +131,19 @@ export function Register() {
                             <Typography align = "left" variant = "caption" style = {{ flexDirection : "column", alignContent: "center", margin: "20px 0", color: "#aba6a6"}}>
                                 Let us know how you'll be using our products</Typography>
                             <RadioGroup name="role" value="role" onChange={ onRoleChange }>
-                            <FormControlLabel className={classes.formhelperText} value="1" control={<Radio />} label="Employeer"
+                            <FormControlLabel className={classes.formhelperText} value="employeer" control={<Radio />} label="Employeer"
                             style = {{ border: "1px solid #cccccc",
                             height: "48px",
                             width: "400px",
                             margin: "10px 0",
                             borderRadius:10 }}/> 
-                            <FormControlLabel className={classes.formhelperText} value="2" control={<Radio />} label="Job seeker" 
+                            <FormControlLabel className={classes.formhelperText} value="jobseeker" control={<Radio />} label="Job seeker" 
+                            style = {{ border: "1px solid #cccccc",
+                            height: "48px",
+                            width: "400px",
+                            margin: "10px 0",
+                            borderRadius:10 }}/>
+                            <FormControlLabel className={classes.formhelperText} value="admin" control={<Radio />} label="Admin" 
                             style = {{ border: "1px solid #cccccc",
                             height: "48px",
                             width: "400px",
