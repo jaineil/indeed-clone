@@ -3,7 +3,7 @@ import React, { useState , useRef, useEffect} from 'react';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 
-function SearchInput({classes,setValue,value,options,setError}) {
+function SearchInput({placeholder,classes,setValue,value,options,setError}) {
     const [display,setDisplay] = useState(false); 
     
     const wrapperRef = useRef(null);
@@ -25,6 +25,7 @@ function SearchInput({classes,setValue,value,options,setError}) {
     return (
         <Box  ref={wrapperRef} className={classes.suggestionInput}>
                                 <OutlinedInput
+                                placeholder={placeholder}
                                 className={classes.input }
                                 onKeyUp={()=>setDisplay(value !== ""? true:false)}
                                 value={value}

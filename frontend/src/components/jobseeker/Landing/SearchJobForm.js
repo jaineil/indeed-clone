@@ -61,17 +61,21 @@ function loadData(key) {
 
 
 function saveData(key, data) {
-    window.localStorage.setItem(key, JSON.stringify(data));
+    window.localStorage.setItem(key, JSON.queryStringingify(data));
 }
+{/* <InputGrid setValue={setJob} value={job} label={'What?'} 
+    placeholder={'City, state, or pin code'} classes={classes}
+    options={job !== "" ?jobOptions:null}
+    setError = {setError}
+/> */}
 
-function InputGrid({ label, helperText, classes, setValue, value, options, setError }) {
+function InputGrid({ label, placeholder, classes, setValue, value, options, setError }) {
     return (
         <Grid item lg={5} md={5} sm={5} xs={12}>
             <Typography variant='h5'>
                 {label}
             </Typography>
-            <FormHelperText className={classes.removeMargin}>{helperText}</FormHelperText>
-            <SearchInput setValue={setValue} value={value} classes={classes} options={options} setError={setError} />
+            <SearchInput placeholder= {placeholder} setValue={setValue} value={value} classes={classes} options={options} setError={setError} />
         </Grid>
     );
 }
@@ -99,36 +103,36 @@ function SearchJobForm(props) {
         dispatch(getSearchData(job === ""?"":job,location=== "" ? "" : location))
         
         let data = loadData("recent") || []
-        let str = job !== "" && location !== "" ? {category:"both" , query: `${job} - ${location}`} : job === "" && location !== "" ? {category:"location", query:`${location}`} : {category:"job",query:`${job}`}
+        let queryString = job !== "" && location !== "" ? {category:"both" , query: `${job} - ${location}`} : job === "" && location !== "" ? {category:"location", query:`${location}`} : {category:"job",query:`${job}`}
 
         if(data.length === 4){
             //To get most recent job search
             data.reverse()
-            if(data.some(item=>item.category===str.category && item.query === str.query)){
-                data = data.filter(item=>item.category !== str.category || item.query !== str.query)
-                data.push(str)
+            if(data.some(item=>item.category===queryString.category && item.query === queryString.query)){
+                data = data.filter(item=>item.category !== queryString.category || item.query !== queryString.query)
+                data.push(queryString)
             }
             else{
                 data.shift()
-                data.push(str)
+                data.push(queryString)
             }
             
         }
         else {
-            if(data.some(item=>item.category===str.category && item.query===str.query)){
-                data = data.filter(item=>item.category !== str.category || item.query !== str.query)
-                data.push(str)
+            if(data.some(item=>item.category===queryString.category && item.query===queryString.query)){
+                data = data.filter(item=>item.category !== queryString.category || item.query !== queryString.query)
+                data.push(queryString)
             }
             else{
                 
-                data.push(str)
+                data.push(queryString)
             }
         }
 
         saveData("recent",data.reverse())
         history.push(`/jobs?q=${job}&location=${location}&page=1`)
 
-        // console.log(str,"str")
+        // console.log(queryString,"queryString")
 
     }
 
@@ -145,13 +149,13 @@ function SearchJobForm(props) {
                 <Grid container spacing={1}>
                     
                     <InputGrid setValue={setJob} value={job} label={'What?'} 
-                    helperText={'City, state, or pin code'} classes={classes}
+                    placeholder={'Job title, keywords, or company'} classes={classes}
                     options={job !== "" ?jobOptions:null}
                     setError = {setError}
                     />
 
                     <InputGrid setError = {setError} setValue={setLocation} value={location} label={'Where'}
-                    helperText='City, state, or pin code' classes={classes}
+                    placeholder='City, state, zip code, or “remote”' classes={classes}
                     options={locationOptions} />
 
                     <Grid item lg={2} md={2} sm={2} xs={12} className={classes.btn_Container}>
