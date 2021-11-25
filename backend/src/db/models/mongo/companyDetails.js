@@ -20,6 +20,11 @@ const companyDetailsSchema = new Schema({
 		zipcode: { type: String },
 		country: { type: String },
 	},
+	featuredReviews: [
+		{
+			reviewId: { type: mongoose.Schema.Types.ObjectId },
+		},
+	],
 });
 
 const CompanyDetails = mongoose.model("companyDetail", companyDetailsSchema);
