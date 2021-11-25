@@ -1,5 +1,4 @@
 import express from "express";
-import JobSeekerDetails from "../../../db/models/mongo/jobSeekerDetails.js";
 import JobSeekerController from "../controller/job-seekers.js";
 
 const jobseekerRouter = express.Router();

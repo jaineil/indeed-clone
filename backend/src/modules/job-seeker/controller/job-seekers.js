@@ -1,4 +1,4 @@
-import JobSeekerDetails from "../../../db/models/mongo/jobSeekerDetails";
+import JobSeekerDetails from "../../../db/models/mongo/jobSeekerDetails.js";
 export class JobSeekerController {
 	getprofile = async (req, res) => {
 		try {
