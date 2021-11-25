@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        height: "100vh"       
+        height: "120vh"       
     },
     registrationBox: {
         width: "450px",
