@@ -15,4 +15,9 @@ reviewRouter.put(
 	reviewController.setHelpfulness
 );
 
+reviewRouter.get(
+	"/employer/view-reviews",
+	reviewController.viewReviewsAndRatings
+);
+
 export default reviewRouter;
