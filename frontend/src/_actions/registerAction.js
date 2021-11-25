@@ -28,9 +28,7 @@ const registerRequest = () => {
   
   export const makeRegisterRequest = ({ email, password }) => (dispatch) => {
     dispatch(registerRequest());
-  
-    axios
-      .get(endPointObj.url + '/getUser')
+    axios.get(endPointObj.url + '/getUser')
       .then((res) => {
         dispatch(checkUserExists(email, password, res.data));
       })
