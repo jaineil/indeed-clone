@@ -6,7 +6,7 @@ import { Box, makeStyles, withStyles,FormHelperText,FormControlLabel,
         Button, IconButton, Snackbar} from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { makeRegisterRequest } from '../../_actions/registerAction';
+import { userRegistration } from '../../_actions/registerAction';
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 
@@ -90,9 +90,9 @@ export function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
         //Dispatch role also (TBD)
-        dispatch(makeRegisterRequest({email,password,role}))   
+        dispatch(userRegistration({email,password,role}))   
     }
-
+    console.log("role", role);
 
     return (
         
@@ -130,25 +130,25 @@ export function Register() {
                             <FormHelperText className = {classes.formhelperText}>Your role</FormHelperText>
                             <Typography align = "left" variant = "caption" style = {{ flexDirection : "column", alignContent: "center", margin: "20px 0", color: "#aba6a6"}}>
                                 Let us know how you'll be using our products</Typography>
-                            <RadioGroup name="role" value="role" onChange={ onRoleChange }>
-                            <FormControlLabel className={classes.formhelperText} value="employeer" control={<Radio />} label="Employeer"
-                            style = {{ border: "1px solid #cccccc",
-                            height: "48px",
-                            width: "400px",
-                            margin: "10px 0",
-                            borderRadius:10 }}/> 
-                            <FormControlLabel className={classes.formhelperText} value="jobseeker" control={<Radio />} label="Job seeker" 
-                            style = {{ border: "1px solid #cccccc",
-                            height: "48px",
-                            width: "400px",
-                            margin: "10px 0",
-                            borderRadius:10 }}/>
-                            <FormControlLabel className={classes.formhelperText} value="admin" control={<Radio />} label="Admin" 
-                            style = {{ border: "1px solid #cccccc",
-                            height: "48px",
-                            width: "400px",
-                            margin: "10px 0",
-                            borderRadius:10 }}/>
+                            <RadioGroup name="role" value={role} onChange={ onRoleChange }>
+                                <FormControlLabel className={classes.formhelperText} value="employeer" control={<Radio />} label="Employeer" type = "radio"
+                                style = {{ border: "1px solid #cccccc",
+                                height: "48px",
+                                width: "400px",
+                                margin: "10px 0",
+                                borderRadius:10 }}/> 
+                                <FormControlLabel className={classes.formhelperText} value="jobseeker" control={<Radio />} label="Job seeker" 
+                                style = {{ border: "1px solid #cccccc",
+                                height: "48px",
+                                width: "400px",
+                                margin: "10px 0",
+                                borderRadius:10 }}/>
+                                <FormControlLabel className={classes.formhelperText} value="admin" control={<Radio />} label="Admin" 
+                                style = {{ border: "1px solid #cccccc",
+                                height: "48px",
+                                width: "400px",
+                                margin: "10px 0",
+                                borderRadius:10 }}/>
                             </RadioGroup>
                             <br/>
                             <SignInButton type = "submit" className = {classes.createAccountButton} variant = "contained">

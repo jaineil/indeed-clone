@@ -13,10 +13,10 @@ const loginRequest = () => {
   };
 };
 
-const loginSuccess = (currentUser) => {
+const loginSuccess = (payload) => {
   return {
     type: LOGIN_SUCCESS,
-    payload: currentUser,
+    payload: payload,
   };
 };
 
@@ -33,28 +33,15 @@ export const logout = () => {
   };
 };
 
-export const makeLoginRequest = ({ email, password }) => (dispatch) => {
+export const makeLoginRequest = ({ emailId, pass }) => (dispatch) => {
   dispatch(loginRequest());
 
-  axios.get(endPointObj.url+ "/users")
-    .then((res) => {
-      dispatch(authenticateUser(email, password, res.data));
-    })
-    .catch((err) => dispatch(loginFailure("Somthing went wrong")));
-};
-
-const authenticateUser = (email, password, usersData) => (dispatch) => {
-  for (let i = 0; i < usersData.length; i++) {
-    if (usersData[i].email === email && usersData[i].password === password) {
-      dispatch(loginSuccess(usersData[i]));
-      return;
-    } else {
-      if (usersData[i].email === email && usersData[i].password !== password) {
-        dispatch(loginFailure("Wrong password"));
-        return;
-      }
-    }
+  let data = {
+    emailId: emailId,
+    pass: pass
   }
-
-  dispatch(loginFailure("User Does Not Exist"));
+  axios.post(endPointObj.url+ "/user/login", data)
+      .then(response => dispatch(loginSuccess(
+           response.data)))
+      .catch((err) => dispatch(loginFailure("Something went wrong")));
 };

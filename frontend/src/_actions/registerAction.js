@@ -26,10 +26,12 @@ const registerRequest = () => {
     };
   };
   
-  export const makeRegisterRequest = ({ emailId, pass, userPersona }) => (dispatch) => {
+  export const userRegistration = ({ emailId, pass, userPersona }) => (dispatch) => {
+    console.log("Inside user registration dispatch request", emailId,pass, userPersona);
     dispatch(registerRequest());
-    axios.get(endPointObj.url + '/getUser')
+    axios.get(endPointObj.url + '/user/getuser')
       .then((res) => {
+        console.log("get user data", res.data);
         dispatch(checkUserExists(emailId, pass, userPersona, res.data));
       })
       .catch((err) => dispatch(registerFailure("Something went wrong")));
@@ -53,7 +55,7 @@ const registerRequest = () => {
       userPersona: userPersona  
     }
     axios
-      .post(endPointObj.url + '/signup/jobseeker', data)
+      .post(endPointObj.url + '/user/signup', data)
       .then((res) => dispatch(registerSuccess()));
   };
   
