@@ -30,4 +30,6 @@ reviewRouter.get(
 	reviewController.top5MostReviewedCompanies
 );
 
+reviewRouter.get("/admin/top-ceos", reviewController.topCEOs);
+
 export default reviewRouter;

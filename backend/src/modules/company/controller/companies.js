@@ -50,7 +50,6 @@ class CompanyController {
 			const companies = await CompanyDetails.find()
 				.sort({ averageRating: -1 })
 				.limit(5);
-			console.log(companies);
 			let response = [];
 			for (let i = 0; i < companies.length; i++) {
 				response.push({
