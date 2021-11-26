@@ -20,4 +20,9 @@ reviewRouter.get(
 	reviewController.viewReviewsAndRatings
 );
 
+reviewRouter.get(
+	"/admin/search-company-admin",
+	reviewController.searchCompanyAdmin
+);
+
 export default reviewRouter;
