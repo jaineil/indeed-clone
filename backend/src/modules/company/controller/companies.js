@@ -35,6 +35,15 @@ class CompanyController {
 			console.error(err);
 		}
 	};
+
+	getAllCompanies = async (req, res) => {
+		try {
+			const response = await CompanyDetails.find();
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 }
 
 export default CompanyController;
