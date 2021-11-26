@@ -41,8 +41,13 @@ export const makeLoginRequest = ({ emailId, pass }) => (dispatch) => {
     emailId: emailId,
     pass: pass
   }
-  axios.post(endPointObj.url+ "/user/login", data)
-      .then(response => dispatch(loginSuccess(
-           response.data)))
-      .catch((err) => dispatch(loginFailure("Something went wrong")));
+  axios.post(endPointObj.url + '/user/login', data)
+        .then(response => {
+          console.log("login response", response.data);
+          dispatch(loginSuccess(response.data))
+      })
+        .catch(error => {
+          console.log("error",error.response);
+            dispatch(loginFailure(error.response.data.message)); 
+        });
 };

@@ -110,7 +110,7 @@ export function Login() {
     return (
         !isAuth ?
         <Container className = {classes.loginContainer} maxWidth = "xl">
-            {isError ? <Box>{errorMsg}</Box> : <></>}
+            
             <Box className = {classes.boxImg}>
                 <img
                     className = {classes.indeedLogo}
@@ -126,7 +126,7 @@ export function Login() {
                     <Grid item>
                         <form onSubmit = { handleSubmit }>
                             <FormHelperText className = {classes.formhelperText}>Email Address</FormHelperText>
-                            <OutlinedInput  className = {classes.borderlinedInput} onChange = { onEmailChange } value = { email } required type = "text" variant="outlined"/>
+                            <OutlinedInput  className = {classes.borderlinedInput} onChange = { onEmailChange } value = { email } required type = "email" variant="outlined"/>
                             <FormHelperText className = {classes.formhelperText}>Password</FormHelperText>
                             <OutlinedInput  className = {classes.borderlinedInput} onChange = { onPasswordChange } value = { password } required type = "password" variant="outlined"/>
                             <br/><br/>
@@ -135,6 +135,11 @@ export function Login() {
                                 isLoading?<CircularProgress disableShrink />:<></>
                             }
                             </div>
+                            {isError ? 
+                            <Box style={{cursor: "pointer",color: "#bb0707", fontSize: "15px"}}>
+                                <b>{errorMsg}</b>
+                            </Box> : <></>}
+                            <br/>
                             <SignInButton type = "submit" className = {classes.loginButton} variant = "contained" disabled={isLoading}>
                                 Sign In
                             </SignInButton>
