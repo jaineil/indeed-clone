@@ -1,4 +1,4 @@
-import TestReview from "../../../db/models/testReviews.js";
+import TestReview from "../../../db/models/mongo/testReviews.js";
 import client from "../../../db/config/redis.config.js";
 import { randomBytes } from "crypto";
 

@@ -1,0 +1,19 @@
+{
+    "companyName": "Apple",
+    "websiteUrl": "www.apple.com",
+    "companySize": "500",
+    "companyType": "Product-based",
+    "revenue": "7000000",
+    "headquarters": "Cuptertino, CA",
+    "industry": "Technology Products",
+    "founded": "1986",
+    "missionAndVision": "At apple, we believe in the statement: Think different",
+    "ceoName": "Tim Cook",
+    "averageRating": "4.1",
+    "companyLocation": {
+        "city": "Cupertino",
+        "state": "California",
+        "zipcode": "91102",
+        "country": "USA"
+    }
+}

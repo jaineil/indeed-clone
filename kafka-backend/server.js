@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import { ConnectionProvider } from "./kafka/connection.js";
 import mongoUri from "../kafka-backend/src/db/config/mongo.config.js";
-import { test } from "./src/modules/test/controller/test.js";
+// import { test } from "./src/modules/test/controller/test.js";
+import handleChatRequest from "./services/chats.js";
 
 try {
 	mongoose.connect(mongoUri, {
@@ -48,4 +49,5 @@ const handleTopicRequest = (topicName, functionName) => {
 	});
 };
 
-handleTopicRequest("get-test-reviews", test);
+// handleTopicRequest("get-test-reviews", test);
+handleTopicRequest("chat", handleChatRequest);
