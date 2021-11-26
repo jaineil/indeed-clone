@@ -23,6 +23,18 @@ class CompanyController {
 			console.error(err);
 		}
 	};
+
+	postFeaturedReview = async (req, res) => {
+		try {
+			const response = await CompanyDetails.updateOne(
+				{ companyId: req.body.companyId },
+				{ $push: { featuredReviews: { reviewId: req.body.reviewId } } }
+			);
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 }
 
 export default CompanyController;
