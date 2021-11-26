@@ -99,6 +99,24 @@ class ReviewController {
 			console.error(err);
 		}
 	};
+
+	top5MostReviewedCompanies = async (req, res) => {
+		try {
+			const companies = await Review.aggregate([
+				{ $sortByCount: "$companyName" },
+			]).limit(5);
+			let response = [];
+			for (let i = 0; i < companies.length; i++) {
+				response.push({
+					companyName: companies[i]._id,
+					reviewCount: companies[i].count,
+				});
+			}
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 }
 
 export default ReviewController;

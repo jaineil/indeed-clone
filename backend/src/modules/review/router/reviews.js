@@ -25,4 +25,9 @@ reviewRouter.get(
 	reviewController.searchCompanyAdmin
 );
 
+reviewRouter.get(
+	"/admin/top-5-reviewed-companies/",
+	reviewController.top5MostReviewedCompanies
+);
+
 export default reviewRouter;
