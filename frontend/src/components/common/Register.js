@@ -90,7 +90,7 @@ export function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
         //Dispatch role also (TBD)
-        dispatch(userRegistration({email,password,role}))   
+        dispatch(userRegistration({emailId:email ,pass: password,userPersona:role}))   
     }
     console.log("role", role);
 

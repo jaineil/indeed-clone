@@ -46,10 +46,7 @@ export class UserController {
                         res.send("User added");
                     }
                 }
-            );
-        
-        
-           
+            );   
         }catch (err) { console.error(err); }
     };
 

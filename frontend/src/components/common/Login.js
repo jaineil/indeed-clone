@@ -103,7 +103,7 @@ export function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(makeLoginRequest({email,password}))
+        dispatch(makeLoginRequest({emailId:email,pass:password}))
     }
 
 

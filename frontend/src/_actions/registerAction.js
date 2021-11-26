@@ -29,24 +29,35 @@ const registerRequest = () => {
   export const userRegistration = ({ emailId, pass, userPersona }) => (dispatch) => {
     console.log("Inside user registration dispatch request", emailId,pass, userPersona);
     dispatch(registerRequest());
-    axios.get(endPointObj.url + '/user/getuser')
+    let data = {
+      emailId: emailId 
+    } 
+    axios.post(endPointObj.url + '/user/getuser', data)
       .then((res) => {
         console.log("get user data", res.data);
-        dispatch(checkUserExists(emailId, pass, userPersona, res.data));
+        if (res.data.length > 0) {
+          console.log("FAIL");
+          dispatch(registerFailure("user with the email id already exists"));
+          return;  
+        } else {
+          console.log("FAIL");
+          dispatch(registerNewUser({ emailId, pass, userPersona }));
+        }
+        
       })
       .catch((err) => dispatch(registerFailure("Something went wrong")));
   };
   
-  const checkUserExists = (emailId, pass, userPersona, usersData) => (dispatch) => {
-    for (let i = 0; i < usersData.length; i++) {
-      if (usersData[i].emailId === emailId) {
-        dispatch(registerFailure("user with the email id already exists"));
-        return;
-      }
-    }
+  // const checkUserExists = (emailId, pass, userPersona, usersData) => (dispatch) => {
+  //   for (let i = 0; i < usersData.length; i++) {
+  //     if (usersData[i].emailId === emailId) {
+  //       dispatch(registerFailure("user with the email id already exists"));
+  //       return;
+  //     }
+  //   }
   
-    dispatch(registerNewUser({ emailId, pass, userPersona }));
-  };
+  //   dispatch(registerNewUser({ emailId, pass, userPersona }));
+  // };
   
   const registerNewUser = ({ emailId, pass, userPersona }) => (dispatch) => {
     let data = {

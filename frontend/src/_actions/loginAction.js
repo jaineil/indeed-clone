@@ -34,6 +34,7 @@ export const logout = () => {
 };
 
 export const makeLoginRequest = ({ emailId, pass }) => (dispatch) => {
+  console.log()
   dispatch(loginRequest());
 
   let data = {
