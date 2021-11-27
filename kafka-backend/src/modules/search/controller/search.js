@@ -1,3 +1,4 @@
+import Jobs from "../../../db/models/mongo/jobs.js";
 import JobRecords from "../../../db/models/mongo/jobRecords.js";
 import Reviews from "../../../db/models/mongo/reviews.js";
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
@@ -7,6 +8,34 @@ export class SearchController {
 		status: statusCode,
 		response: message,
 	});
+
+	searchJobsTitlesForAutocomplete = async (data) => {
+		console.log(data);
+		const queryString = data.query;
+		let results = [];
+
+		try {
+			const suggestions = await Jobs.find({
+				jobTitle: {
+					$regex: queryString,
+					$options: "i",
+				},
+			});
+			console.log(suggestions);
+			suggestions.map((suggestion) => results.push(suggestion.jobTitle));
+
+			return this.responseGenerator(200, [...new Set(results.sort())]);
+		} catch (err) {
+			console.error(
+				"Error when fetching job titles for suggestions ",
+				err
+			);
+			return this.responseGenerator(
+				404,
+				"Error when fetching job titles for suggestions"
+			);
+		}
+	};
 
 	searchCompanies = async (data) => {
 		console.log(data);

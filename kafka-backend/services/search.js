@@ -7,6 +7,11 @@ const handleSearchRequest = async (req, callback) => {
 	let results;
 
 	switch (req.path) {
+		case "/job-seeker/search-suggestions":
+			results = await searchController.searchJobsTitlesForAutocomplete(
+				req.body
+			);
+			break;
 		case "/job-seeker/search-for-companies":
 			results = await searchController.searchCompanies(req.body);
 			break;
