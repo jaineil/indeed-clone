@@ -35,6 +35,33 @@ class CompanyController {
 			console.error(err);
 		}
 	};
+
+	getAllCompanies = async (req, res) => {
+		try {
+			const response = await CompanyDetails.find();
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	top5CompaniesByAverageRating = async (req, res) => {
+		try {
+			const companies = await CompanyDetails.find()
+				.sort({ averageRating: -1 })
+				.limit(5);
+			let response = [];
+			for (let i = 0; i < companies.length; i++) {
+				response.push({
+					companyName: companies[i].companyName,
+					averageRating: companies[i].averageRating,
+				});
+			}
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 }
 
 export default CompanyController;

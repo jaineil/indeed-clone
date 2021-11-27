@@ -20,7 +20,7 @@ class ReviewController {
 					reviewBody: req.body.reviewBody,
 					pros: req.body.pros,
 					cons: req.body.cons,
-					ceoApprovalRating: req.body.ceoApproval,
+					ceoApprovalRating: req.body.ceoApprovalRating,
 					interviewTips: req.body.interviewPrepTips,
 					companyLocation: companyDetails.companyLocation,
 					categoricalRating: req.body.categoricalRating,
@@ -84,6 +84,74 @@ class ReviewController {
 				});
 			}
 			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	searchCompanyAdmin = async (req, res) => {
+		try {
+			const response = await Review.find({
+				companyName: req.body.companyName,
+			});
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	top5MostReviewedCompanies = async (req, res) => {
+		try {
+			const companies = await Review.aggregate([
+				{ $sortByCount: "$companyName" },
+			]).limit(5);
+			let response = [];
+			for (let i = 0; i < companies.length; i++) {
+				response.push({
+					companyName: companies[i]._id,
+					reviewCount: companies[i].count,
+				});
+			}
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	topCEOs = async (req, res) => {
+		try {
+			const companies = await Review.aggregate([
+				{
+					$group: {
+						_id: "$companyId",
+						ceoApprovalRating: {
+							$avg: "$ceoApprovalRating",
+						},
+					},
+				},
+				{
+					$sort: {
+						ceoApprovalRating: -1,
+					},
+				},
+				{
+					$lookup: {
+						from: "companydetails",
+						localField: "_id",
+						foreignField: "_id",
+						as: "companyDetails",
+					},
+				},
+			]).limit(10);
+			res.status(200).send(
+				companies.map((x) => {
+					return {
+						companyId: x._id,
+						ceoApprovalRating: x.ceoApprovalRating,
+						ceoName: x.companyDetails[0].ceoName,
+					};
+				})
+			);
 		} catch (err) {
 			console.error(err);
 		}

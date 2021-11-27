@@ -20,4 +20,16 @@ reviewRouter.get(
 	reviewController.viewReviewsAndRatings
 );
 
+reviewRouter.get(
+	"/admin/search-company-admin",
+	reviewController.searchCompanyAdmin
+);
+
+reviewRouter.get(
+	"/admin/top-5-reviewed-companies/",
+	reviewController.top5MostReviewedCompanies
+);
+
+reviewRouter.get("/admin/top-ceos", reviewController.topCEOs);
+
 export default reviewRouter;
