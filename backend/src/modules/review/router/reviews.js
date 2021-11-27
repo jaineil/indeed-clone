@@ -32,4 +32,9 @@ reviewRouter.get(
 
 reviewRouter.get("/admin/top-ceos", reviewController.topCEOs);
 
+reviewRouter.get("/admin/get-review-requests", reviewController.getRequests);
+
+reviewRouter.put("/admin/update-review", reviewController.updateRequest);
+
+
 export default reviewRouter;

@@ -1,5 +1,6 @@
 import Review from "../../../db/models/mongo/reviews.js";
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
+
 class ReviewController {
 	create = async (req, res) => {
 		try {
@@ -156,6 +157,51 @@ class ReviewController {
 			console.error(err);
 		}
 	};
+
+
+
+	getRequests = async (req, res) => {
+
+		try {
+			let reviews = []
+			if (req.query.filter){
+				reviews = await Review.find({
+					isReviewApprovedByAdmin : req.query.filter
+				});
+			}
+			else {
+				reviews = await Review.find({});
+			}
+			res.status(200).send(reviews);
+
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	updateRequest = async (req, res) => {
+
+		try {
+				const {reviewId, companyId, status} = req.body
+
+				const response = await Review.findOneAndUpdate(
+					{
+						companyId: companyId,
+						_id: reviewId,
+					},
+					{
+						isReviewApprovedByAdmin: status
+					}
+				);
+
+				res.status(200).send({message : "Review Status Updated"});
+
+		} catch (err) {
+			console.error(err);
+		}
+	};
+	
+
 }
 
 export default ReviewController;

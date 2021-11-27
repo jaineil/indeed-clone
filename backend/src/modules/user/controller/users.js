@@ -66,7 +66,7 @@ export class UserController {
                         let sql = `UPDATE users SET mongoId = ? WHERE userId = ?`;
                         const user = conn.query(sql, [mongoId, id ])
                         res.status(200);
-                        res.send("User Created");
+                        res.send({message: "User Created"});
                     }
                 }
             );
