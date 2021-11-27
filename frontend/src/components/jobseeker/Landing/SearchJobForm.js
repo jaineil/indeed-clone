@@ -2,7 +2,7 @@ import {  Box, Button, Grid, Typography} from '@material-ui/core';
 import React, { useState } from 'react';
 import {useDispatch, useSelector} from "react-redux"
 import { makeStyles } from '@material-ui/core/styles';
-import { getSearchData, setCurrentPage } from '../../../_actions/jobSearchActions';
+import { getJobSearchData, setCurrentPage } from '../../../_actions/jobSearchActions';
 import { useHistory } from 'react-router-dom';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import SearchInput from './SearchInput';
@@ -86,13 +86,13 @@ function SearchJobForm(props) {
     const classes = useStyles();
     const [job,setJob] = useState('');
     const [location,setLocation] = useState('');
-    const jobOptions = ['Java Developer','Javascript Developer','React Developer','Government','Account']
-    const locationOptions = ['Bangalore','Mumbai','Delhi','Kolkata','Chennai'];
+    const jobOptions = ['Software Developer','Software development engineer','Data scientist','Data Engineer', 'Software Tester'];
+    const locationOptions = ['San Jose','San Francisco', 'New York', 'Seattle'];
     const history = useHistory()
     const [error,setError] = useState(false);
         
 
-    const handleSearch=e=>{
+    const handleSearch=(e)=>{
         
         e.preventDefault()
         if(job === "" && location === ""){
@@ -100,7 +100,9 @@ function SearchJobForm(props) {
             return
         }
         dispatch(setCurrentPage(1))
-        dispatch(getSearchData(job === ""?"":job,location=== "" ? "" : location))
+
+        //Get job search data
+        dispatch(getJobSearchData(job === ""?"":job,location=== "" ? "" : location))
         
         let data = loadData("recent") || []
         let queryString = job !== "" && location !== "" ? {category:"both" , query: `${job} - ${location}`} : job === "" && location !== "" ? {category:"location", query:`${location}`} : {category:"job",query:`${job}`}
@@ -137,11 +139,6 @@ function SearchJobForm(props) {
     }
 
 
-
-    // const handelSubmit = (e)=>{
-    //     e.preventDefault();
-    //     history.push(`/jobs/q=${job}&l=${location}`)
-    // }
     return (
         <>
            { error ? <Box>Query is Empty</Box> : <></> }
@@ -165,9 +162,7 @@ function SearchJobForm(props) {
                     </Grid>
                 </Grid>
             </form>
-       </>
-           
-        
+       </> 
     );
 }
 

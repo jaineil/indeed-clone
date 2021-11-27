@@ -6,17 +6,17 @@ import { Box, makeStyles, withStyles,FormHelperText,FormControlLabel,
         Button, IconButton, Snackbar} from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { makeRegisterRequest } from '../../_actions/registerAction';
+import { userRegistration } from '../../_actions/registerAction';
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 
 const useStyles = makeStyles(() => ({
     registrationContainer: {
         backgroundColor: "#f2f2f2",
-        display: "flex",
+        display: "flex", 
         flexDirection: "column",
         alignItems: "center",
-        height: "100vh"       
+        height: "120vh"       
     },
     registrationBox: {
         width: "450px",
@@ -74,7 +74,7 @@ export function Register() {
     const dispatch = useDispatch();
     const [snackBarOpen,setSnackBarOpen] = useState(false)
     
-    const {success,isError,errorMsg} = useSelector(state=>state.register)
+    const {success,isError,errorMsg,userAlreadyExistsMsg} = useSelector(state=>state.register)
     
     const onEmailChange = (e) => {
         setEmail(e.target.value)
@@ -90,15 +90,15 @@ export function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
         //Dispatch role also (TBD)
-        dispatch(makeRegisterRequest({email,password,role}))   
+        dispatch(userRegistration({emailId:email ,pass: password,userPersona:role}))   
     }
-
+    console.log("role", role);
 
     return (
         
         <Container className = {classes.registrationContainer} maxWidth = "xl">
             {
-                success ? alert('User registered successfully') : <></>
+                success ? <Redirect to="/login" /> : <></>
             }
             {isError ? 
                 <Box>
@@ -124,32 +124,40 @@ export function Register() {
                     <Grid item>
                         <form onSubmit = { handleSubmit }>
                             <FormHelperText className = {classes.formhelperText}>Email Address</FormHelperText>
-                            <OutlinedInput  className = {classes.borderlinedInput} onChange = { onEmailChange } value = { email } required type = "text" variant="outlined"/><br/>
+                            <OutlinedInput  className = {classes.borderlinedInput} onChange = { onEmailChange } value = { email } required type = "email" variant="outlined"/><br/>
                             <FormHelperText className = {classes.formhelperText}>Password</FormHelperText>
                             <OutlinedInput  className = {classes.borderlinedInput} onChange = { onPasswordChange } value = { password } required type = "password" variant="outlined"/>
                             <FormHelperText className = {classes.formhelperText}>Your role</FormHelperText>
                             <Typography align = "left" variant = "caption" style = {{ flexDirection : "column", alignContent: "center", margin: "20px 0", color: "#aba6a6"}}>
                                 Let us know how you'll be using our products</Typography>
-                            <RadioGroup name="role" value="role" onChange={ onRoleChange }>
-                            <FormControlLabel className={classes.formhelperText} value="employeer" control={<Radio />} label="Employeer"
-                            style = {{ border: "1px solid #cccccc",
-                            height: "48px",
-                            width: "400px",
-                            margin: "10px 0",
-                            borderRadius:10 }}/> 
-                            <FormControlLabel className={classes.formhelperText} value="jobseeker" control={<Radio />} label="Job seeker" 
-                            style = {{ border: "1px solid #cccccc",
-                            height: "48px",
-                            width: "400px",
-                            margin: "10px 0",
-                            borderRadius:10 }}/>
-                            <FormControlLabel className={classes.formhelperText} value="admin" control={<Radio />} label="Admin" 
-                            style = {{ border: "1px solid #cccccc",
-                            height: "48px",
-                            width: "400px",
-                            margin: "10px 0",
-                            borderRadius:10 }}/>
+                            <RadioGroup name="role" value={role} onChange={ onRoleChange }>
+                                <FormControlLabel className={classes.formhelperText} value="employeer" control={<Radio />} label="Employeer" type = "radio"
+                                style = {{ border: "1px solid #cccccc",
+                                height: "48px",
+                                width: "400px",
+                                margin: "10px 0",
+                                borderRadius:10 }}/> 
+                                <FormControlLabel className={classes.formhelperText} value="jobseeker" control={<Radio />} label="Job seeker" 
+                                style = {{ border: "1px solid #cccccc",
+                                height: "48px",
+                                width: "400px",
+                                margin: "10px 0",
+                                borderRadius:10 }}/>
+                                <FormControlLabel className={classes.formhelperText} value="admin" control={<Radio />} label="Admin" 
+                                style = {{ border: "1px solid #cccccc",
+                                height: "48px",
+                                width: "400px",
+                                margin: "10px 0",
+                                borderRadius:10 }}/>
                             </RadioGroup>
+                            <br/>
+                            { console.log("userAlreadyExistsMsg",userAlreadyExistsMsg) }
+                            {
+                             userAlreadyExistsMsg ? 
+                                <Box style={{cursor: "pointer",color: "#bb0707", fontSize: "15px"}}>
+                                    <b>{userAlreadyExistsMsg}</b>
+                                </Box> :<></>
+                            }
                             <br/>
                             <SignInButton type = "submit" className = {classes.createAccountButton} variant = "contained">
                                 Create Account

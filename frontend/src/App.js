@@ -8,13 +8,15 @@ import "./App.css";
 
 function App() {
   //To extract isAuth data from redux store
-  const isAuth = useSelector((state) => state.login.isAuth);
+  //const isAuth = useSelector((state) => state.login.isAuth);
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
+      {/* <div className="App">
         {isAuth ? <Header /> : <></>}
         <Main />
-      </div>
+      </div> */}
+      <Main />
+
     </ThemeProvider>
   );
 }
