@@ -88,7 +88,7 @@ const SignInButton = withStyles(() => ({
 
 export function Login() {
     
-    const {isAuth,isLoading,isError,errorMsg} = useSelector(state=>state.login)
+    const {isAuth,isLoading,isError,errorMsg,user} = useSelector(state=>state.login)
     const classes = useStyles();
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
@@ -105,8 +105,11 @@ export function Login() {
         e.preventDefault();
         dispatch(makeLoginRequest({emailId:email,pass:password}))
     }
+    console.log("login user data", user);
+    localStorage.setItem("userId",user.userId);
+    localStorage.setItem("userEmailId",user.emailId);
 
-
+    console.log("localstorage login user data", localStorage.getItem("userEmailId"));
     return (
         !isAuth ?
         <Container className = {classes.loginContainer} maxWidth = "xl">
@@ -164,7 +167,7 @@ export function Login() {
                     </Grid>
                 </Grid>
             </Box>
-        </Container> : <Redirect to="/home" />
-    )
+        </Container> :<Redirect to="/home" />
+    )   
 }
 export default Login;

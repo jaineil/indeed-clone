@@ -1,6 +1,6 @@
 import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import {getSearchData} from "../../../_actions/jobSearchActions"
+import {getJobSearchData} from "../../../_actions/jobSearchActions"
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -91,7 +91,7 @@ function RecentJobSearch(props) {
             location = query
         }
         
-        dispatch(getSearchData(job,location))
+        dispatch(getJobSearchData(job,location))
         
         let data = loadData("recent") || []
         let str = job !== "" && location !== "" ? {category:"both" , query: `${job} - ${location}`} : job === "" && location !== "" ? {category:"location", query:`${location}`} : {category:"job",query:`${job}`}
