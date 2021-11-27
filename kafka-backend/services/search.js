@@ -7,6 +7,9 @@ const handleSearchRequest = async (req, callback) => {
 	let results;
 
 	switch (req.path) {
+		case "/job-seeker/search-for-companies":
+			results = await searchController.searchCompanies(req.body);
+			break;
 		case "/job-seeker/search-salary-for-role":
 			results = await searchController.searchSalaries(req.body);
 			break;

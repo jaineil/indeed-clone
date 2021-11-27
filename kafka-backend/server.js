@@ -48,7 +48,6 @@ const handleTopicRequest = (topicName, functionName) => {
 			return;
 		});
 	});
-	console.log("HIT");
 };
 
 // handleTopicRequest("get-test-reviews", test);

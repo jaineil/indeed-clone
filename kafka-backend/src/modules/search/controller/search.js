@@ -1,11 +1,101 @@
 import JobRecords from "../../../db/models/mongo/jobRecords.js";
 import Reviews from "../../../db/models/mongo/reviews.js";
+import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
 
 export class SearchController {
 	responseGenerator = (statusCode, message) => ({
 		status: statusCode,
 		response: message,
 	});
+
+	searchCompanies = async (data) => {
+		console.log(data);
+		let location;
+		const companyName = data.companyName;
+		data.location ? (location = data.location) : (location = undefined);
+
+		let results = [];
+
+		if (location) {
+			try {
+				const companies = await CompanyDetails.find({
+					$and: [
+						{
+							companyName: {
+								$regex: companyName,
+								$options: "i",
+							},
+						},
+						{
+							$or: [
+								{
+									"companyLocation.city": {
+										$regex: location,
+										$options: "i",
+									},
+								},
+								{
+									"companyLocation.state": {
+										$regex: location,
+										$options: "i",
+									},
+								},
+								{
+									"companyLocation.zipcode": {
+										$regex: location,
+										$options: "i",
+									},
+								},
+							],
+						},
+					],
+				});
+				console.log(JSON.stringify(companies));
+				companies.map((company) =>
+					results.push({
+						companyId: company.id,
+						companyName: company.companyName,
+					})
+				);
+				return this.responseGenerator(200, results);
+			} catch (err) {
+				console.error(
+					"Error during searching companies with both filters ",
+					err
+				);
+				return this.responseGenerator(
+					404,
+					"Error during searching companies with both filters"
+				);
+			}
+		} else {
+			try {
+				const companies = await CompanyDetails.find({
+					companyName: {
+						$regex: companyName,
+						$options: "i",
+					},
+				});
+				console.log(JSON.stringify(companies));
+				companies.map((company) =>
+					results.push({
+						companyId: company.id,
+						companyName: company.companyName,
+					})
+				);
+				return this.responseGenerator(200, results);
+			} catch (err) {
+				console.error(
+					"Error during searching companies with company name ",
+					err
+				);
+				return this.responseGenerator(
+					404,
+					"Error during searching companies with company name"
+				);
+			}
+		}
+	};
 
 	searchSalaries = async (data) => {
 		console.log(data);

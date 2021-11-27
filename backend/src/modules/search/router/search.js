@@ -5,5 +5,5 @@ const searchRouter = express.Router();
 const search = new SearchController();
 
 searchRouter.get("/job-seeker/search-salary-for-role", search.searchSalaries);
-
+searchRouter.get("/job-seeker/search-for-companies", search.searchCompanies);
 export default searchRouter;
