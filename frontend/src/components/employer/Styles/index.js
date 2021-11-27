@@ -13,7 +13,7 @@ export const useStyles = makeStyles((theme) => ({
         borderRadius: '10px',
         width: '50%', 
         backgroundColor: '#2557a7', 
-        color: 'white', 
+        color: '#ffffff', 
         fontStyle: 'Open Sans', 
         fontWeight: 'bold',
         height: '150%',
