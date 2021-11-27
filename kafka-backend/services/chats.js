@@ -14,6 +14,20 @@ const handleChatRequest = async (req, callback) => {
 		case "/employer/send-message":
 			results = await chatController.sendMessage(req.body);
 			break;
+
+		case "/job-seeker/get-messages/:jobSeekerId":
+			results = await chatController.fetchChatsOverviewForJobSeeker(
+				req.body
+			);
+			break;
+
+		case "/employer/get-messages/:employerId":
+			results = await chatController.fetchChatsOverviewForEmployer(
+				req.body
+			);
+			break;
+		case "/employer/get-chats/:employerId/:jobSeekerId":
+			results = await chatController.fetchChatHistory(req.body);
 	}
 
 	callback(null, results);
