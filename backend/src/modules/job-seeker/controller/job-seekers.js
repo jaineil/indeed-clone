@@ -3,7 +3,7 @@ export class JobSeekerController {
 	getprofile = async (req, res) => {
 		try {
 			const jobSeekerDetails = await JobSeekerDetails.findById(
-				req.query.jobSeekerId
+				req.query.jobseekerId
 			);
 			if (!jobSeekerDetails) {
 				res.status(404).send({
@@ -16,6 +16,67 @@ export class JobSeekerController {
 			console.error(err);
 		}
 	};
+
+
+	// createprofile = async (req, res) => {
+	// 	try {
+
+			// const { userId, firstName, lastName, profilePicture='', resumes=[], coverLetters=[], contactNumber, street, apt, city, state, country, zip, savedJobs=[]} = req.body;
+ 
+			// const address = {
+			// 	street: street,
+			// 	apt : apt,
+			// 	city : city,
+			// 	state : state,
+			// 	country : country,
+			// 	zip : zip
+			// }
+			// const jobSeeker = new JobSeekerDetails({userId, firstName, lastName, profilePicture, resumes, coverLetters, contactNumber, address, savedJobs})
+			// const response = await jobSeeker.save();
+			
+				  
+
+
+	// 		const jobSeekerDetails = await JobSeekerDetails.findById(
+	// 			req.query.jobSeekerId
+	// 		);
+	// 		if (!jobSeekerDetails) {
+	// 			res.status(404).send({
+	// 				message: "Could not find jobseeker profile",
+	// 			});
+	// 		} else {
+	// 			res.status(200).send(jobSeekerDetails);
+	// 		}
+	// 	} catch (err) {
+	// 		console.error(err);
+	// 	}
+
+
+
+	// };
+
+	updateprofile = async(req, res) => {
+
+
+		const { jobseekerId, firstName, lastName, profilePicture='', resumes=[], coverLetters=[], contactNumber, street, apt, city, state, country, zip, savedJobs=[]} = req.body;
+ 
+		const address = {
+			street: street,
+			apt : apt,
+			city : city,
+			state : state,
+			country : country,
+			zip : zip
+		}
+
+        console.log(req.body);
+        const update = { firstName, lastName, profilePicture, resumes, coverLetters, contactNumber, address, savedJobs }
+        const result = await JobSeekerDetails.findByIdAndUpdate(jobseekerId, update, { new:true });
+        console.log(result);
+        res.status(200).send(result);
+	};
+
+
 }
 
 export default JobSeekerController;

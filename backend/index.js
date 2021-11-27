@@ -9,6 +9,7 @@ import userRouter from "./src/modules/user/router/users.js"
 import jobRouter from "./src/modules/job/router/jobs.js";
 import jobRecordRouter from "./src/modules/job-record/router/jobRecords.js";
 import jobseekerRouter from "./src/modules/job-seeker/router/job-seekers.js"
+import employerRouter from "./src/modules/employer/router/employers.js"
 
 mongoInit();
 
@@ -21,3 +22,4 @@ app.use(userRouter);
 app.use(jobRouter);
 app.use(jobRecordRouter);
 app.use(jobseekerRouter);
+app.use(employerRouter);
