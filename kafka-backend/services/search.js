@@ -1,0 +1,18 @@
+import { SearchController } from "../src/modules/search/controller/search.js";
+
+const handleSearchRequest = async (req, callback) => {
+	console.log("----------------", req.path, "----------------");
+
+	const searchController = new SearchController();
+	let results;
+
+	switch (req.path) {
+		case "/job-seeker/search-salary-for-role":
+			results = await searchController.searchSalaries(req.body);
+			break;
+	}
+
+	callback(null, results);
+};
+
+export default handleSearchRequest;
