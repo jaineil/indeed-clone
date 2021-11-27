@@ -50,6 +50,8 @@ export default function UserMenu() {
   const history = useHistory();
   const loggedUser = useSelector(state=>state.login.loggedUser);
   const dispatch = useDispatch()
+  let emailId = localStorage.getItem("userEmailId");
+  
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -79,9 +81,17 @@ export default function UserMenu() {
         onClose={handleClose}
         
       >
-        <Typography variant={'h5'} style={{fontSize:'20px',marginLeft:'15px'}}>
-            {loggedUser.email}
+        <Typography variant={'h5'} style={{fontSize:'20px',marginLeft:'15px'}}> 
+            {emailId}
         </Typography>
+        <StyledMenuItem onClick={()=>{
+            handleClose()
+            history.push('/userprofile')}}>
+          <ListItemIcon>
+            <FavoriteIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="My Profile" />
+        </StyledMenuItem>
         <StyledMenuItem onClick={()=>{
             handleClose()
             history.push('/savedjobs')}}>
@@ -90,7 +100,9 @@ export default function UserMenu() {
           </ListItemIcon>
           <ListItemText primary="My Jobs" />
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={()=>{
+            handleClose()
+            history.push('/myreviews')}}>
           <ListItemIcon>
             <RateReviewIcon fontSize="small" />
           </ListItemIcon>
