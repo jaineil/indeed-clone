@@ -10,6 +10,7 @@ import jobRouter from "./src/modules/job/router/jobs.js";
 import jobRecordRouter from "./src/modules/job-record/router/jobRecords.js";
 import jobseekerRouter from "./src/modules/job-seeker/router/job-seekers.js";
 import photoRouter from "./src/modules/photo/router/photos.js";
+import searchRouter from "./src/modules/search/router/search.js";
 
 mongoInit();
 
@@ -23,3 +24,4 @@ app.use(jobRouter);
 app.use(jobRecordRouter);
 app.use(jobseekerRouter);
 app.use(photoRouter);
+app.use(searchRouter);
