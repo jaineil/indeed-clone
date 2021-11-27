@@ -1,18 +1,17 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
 const companyPhotosSchema = new Schema({
-
-   	userId: { type: String },
+	userId: { type: String },
 	companyId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "companyDetails",
 	},
 	companyPhotoUrl: { type: String },
-	isPhotoApprovedByAdmin: { type: String },
+	isPhotoApprovedByAdmin: { type: String, default: "PENDING" },
 });
 
-const CompanyPhotos = mongoose.model('companyPhoto', companyPhotosSchema);
+const CompanyPhotos = mongoose.model("companyPhoto", companyPhotosSchema);
 
 export default CompanyPhotos;

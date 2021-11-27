@@ -9,5 +9,17 @@ chatsRouter.post(
 	chatsController.sendNewMessage
 );
 chatsRouter.post("/employer/send-message", chatsController.sendMessage);
+chatsRouter.get(
+	"/job-seeker/get-messages/:jobSeekerId",
+	chatsController.fetchChatsOverviewForJobSeeker
+);
+chatsRouter.get(
+	"/employer/get-messages/:employerId",
+	chatsController.fetchChatsOverviewForEmployer
+);
+chatsRouter.get(
+	"/employer/get-chats/:employerId/:jobSeekerId",
+	chatsController.fetchChatHistory
+);
 
 export default chatsRouter;
