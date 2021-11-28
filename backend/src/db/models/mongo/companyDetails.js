@@ -13,7 +13,7 @@ const companyDetailsSchema = new Schema({
 	founded: { type: String },
 	missionAndVision: { type: String },
 	ceoName: { type: String },
-	averageRating: { type: Number },
+	averageRating: { type: String },
 	companyLocation: {
 		city: { type: String },
 		state: { type: String },
