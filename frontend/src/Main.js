@@ -5,6 +5,8 @@ import home from './components/jobseeker/Landing/Home'
 import login from './components/common/Login';
 import jobs from './components/jobseeker/jobs/DisplayJobs';
 
+import employerDashboard from './components/employer/LandingPage';
+import employerProfile from './components/employer/Profile';
 
 class Main extends Component {
     render() {
@@ -15,8 +17,8 @@ class Main extends Component {
                 <Route path="/register" component={register} />
                 <Route path="/home" component={home} />
                 <Route path="/displayjobs" component={jobs} />
-
-
+                <Route path="/employer" component={employerDashboard} />
+                <Route path="/profile" component={employerProfile} />
             </div>
         );
     }

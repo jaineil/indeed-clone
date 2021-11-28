@@ -1,4 +1,5 @@
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
+import EmployerDetails from "../../../db/models/mongo/employerDetails.js";
 
 class CompanyController {
 	create = async (req, res) => {
@@ -18,6 +19,8 @@ class CompanyController {
 				companyLocation: req.body.companyLocation,
 			});
 			const response = await newCompany.save();
+			await EmployerDetails.findByIdAndUpdate(req.body.employerId, {companyId: response._id.valueOf()});
+
 			res.status(200).send(response);
 		} catch (err) {
 			console.error(err);
@@ -30,6 +33,33 @@ class CompanyController {
 				{ companyId: req.body.companyId },
 				{ $push: { featuredReviews: { reviewId: req.body.reviewId } } }
 			);
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	getAllCompanies = async (req, res) => {
+		try {
+			const response = await CompanyDetails.find();
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	top5CompaniesByAverageRating = async (req, res) => {
+		try {
+			const companies = await CompanyDetails.find()
+				.sort({ averageRating: -1 })
+				.limit(5);
+			let response = [];
+			for (let i = 0; i < companies.length; i++) {
+				response.push({
+					companyName: companies[i].companyName,
+					averageRating: companies[i].averageRating,
+				});
+			}
 			res.status(200).send(response);
 		} catch (err) {
 			console.error(err);

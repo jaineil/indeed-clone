@@ -15,4 +15,26 @@ reviewRouter.put(
 	reviewController.setHelpfulness
 );
 
+reviewRouter.get(
+	"/employer/view-reviews",
+	reviewController.viewReviewsAndRatings
+);
+
+reviewRouter.get(
+	"/admin/search-company-admin",
+	reviewController.searchCompanyAdmin
+);
+
+reviewRouter.get(
+	"/admin/top-5-reviewed-companies/",
+	reviewController.top5MostReviewedCompanies
+);
+
+reviewRouter.get("/admin/top-ceos", reviewController.topCEOs);
+
+reviewRouter.get("/admin/get-review-requests", reviewController.getRequests);
+
+reviewRouter.put("/admin/update-review", reviewController.updateRequest);
+
+
 export default reviewRouter;
