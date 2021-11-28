@@ -36,6 +36,16 @@ class CompanyController {
 		}
 	};
 
+	getCompany = async (req, res) => {
+		try {
+			const response = await CompanyDetails.findOne({_id: req.query.companyId });
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+
+	};
+
 	getAllCompanies = async (req, res) => {
 		try {
 			const response = await CompanyDetails.find();
@@ -62,6 +72,41 @@ class CompanyController {
 			console.error(err);
 		}
 	};
+
+
+
+	updateCompany = async (req, res) => {
+
+		try {
+				const {companyId, companyName, websiteUrl, companySize, companyType, revenue, headquarters, industry, founded, 
+				missionAndVision, ceoName, averageRating, city, state, zipcode, country, featuredReviews=[]} 
+				= req.body
+				const companyLocation = {
+					city: city,
+					state: state,
+					zipcode: zipcode,
+					country: country
+				}
+
+				const update = { companyName, websiteUrl, companySize, companyType, revenue, headquarters, industry, founded, 
+					missionAndVision, ceoName, averageRating,companyLocation}
+		
+				const response = await CompanyDetails.findOneAndUpdate(
+					{
+						_id: companyId,
+	
+					},
+					update
+				);
+
+				res.status(200).send({message : "Company Updated"});
+
+		} catch (err) {
+			console.error(err);
+		}
+	};
+	
+
 }
 
 export default CompanyController;

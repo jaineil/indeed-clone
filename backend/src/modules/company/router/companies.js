@@ -11,6 +11,8 @@ CompanyRouter.post(
 	companyController.postFeaturedReview
 );
 CompanyRouter.get("/admin/get-companies", companyController.getAllCompanies);
+CompanyRouter.get("/admin/get-company", companyController.getCompany);
+CompanyRouter.put("/employer/update-company", companyController.updateCompany);
 CompanyRouter.get(
 	"/admin/top-5-companies-average-rating",
 	companyController.top5CompaniesByAverageRating
