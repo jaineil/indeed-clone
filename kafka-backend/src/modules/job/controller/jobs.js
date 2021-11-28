@@ -29,6 +29,7 @@ class JobController {
 			console.log(totalReviewsForCompany.length);
 
 			const result = {
+				companyId: companyId,
 				companyName: jobDetails.companyName,
 				jobTitle: jobDetails.jobTitle,
 				averageRating: averageRating,
