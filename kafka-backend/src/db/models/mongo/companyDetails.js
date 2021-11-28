@@ -27,7 +27,7 @@ const companyDetailsSchema = new Schema({
 	},
 	featuredReviews: [
 		{
-			reviewId: { type: mongoose.Schema.Types.ObjectId },
+			reviewId: { type: mongoose.Schema.Types.ObjectId, ref: "review" },
 		},
 	],
 });
