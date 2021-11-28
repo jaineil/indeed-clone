@@ -4,6 +4,7 @@ import mongoUri from "../kafka-backend/src/db/config/mongo.config.js";
 // import { test } from "./src/modules/test/controller/test.js";
 import handleChatRequest from "./services/chats.js";
 import handleSearchRequest from "./services/search.js";
+import handleJobRequest from "./services/jobs.js";
 
 try {
 	mongoose.connect(mongoUri, {
@@ -52,4 +53,5 @@ const handleTopicRequest = (topicName, functionName) => {
 
 // handleTopicRequest("get-test-reviews", test);
 handleTopicRequest("chat", handleChatRequest);
-handleTopicRequest("search-salary", handleSearchRequest);
+handleTopicRequest("searches", handleSearchRequest);
+handleTopicRequest("job", handleJobRequest);
