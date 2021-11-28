@@ -24,26 +24,6 @@ export const setSearchCount = (payload) => {
   };
 };
 
-export const dispatchCount = (payload) => (dispatch) => {
-  const { job, location, start, jobType } = payload;
-  // console.log(job,location,start)
-
-  var config = {
-    method: "GET",
-    url: `${endPointObj.url}/jobs`,
-    params: {
-      q: job,
-      city_like: location,
-      jobType_like: jobType,
-      _start: start
-    },
-  };
-
-  axios(config).then((res) => {
-    // console.log("data",res.data)
-    dispatch(setSearchCount(res.data.length));
-  });
-};
 
 export const getJobSearchData = (job = "", location = "", page = "1") => (dispatch) => {
 
@@ -63,7 +43,7 @@ export const getJobSearchData = (job = "", location = "", page = "1") => (dispat
   // };
 
   //fetch job first 5 records
-  var data = {
+  /*var data = {
     location: location,
     job: job
   }
@@ -78,9 +58,113 @@ export const getJobSearchData = (job = "", location = "", page = "1") => (dispat
           if(error.response && error.response.data) {
             console.log("error",error.response);
       }
-  });
+  });*/
 
-  
+  var jobsData = [
+    {
+      "jobId": "1",
+      "roleName": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salaryDetails": "$120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "2",
+      "roleName": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salaryDetails": "$120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "3",
+      "roleName": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salaryDetails": "$120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "4",
+      "roleName": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salaryDetails": "$120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "5",
+      "roleName": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salaryDetails": "$120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "6",
+      "roleName": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salaryDetails": "$120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "7",
+      "roleName": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salaryDetails": "$120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "8",
+      "roleName": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salaryDetails": "$120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "9",
+      "roleName": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salaryDetails": "$120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "10",
+      "roleName": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salaryDetails": "$120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    }
+  ];
+  console.log("Job data", jobsData);
+  dispatch(searchSuccess(jobsData));
+  dispatch(setSearchCount(jobsData.length)); 
 
   // axios(config).then((res) => {
   //     dispatch(searchSuccess(res.data));

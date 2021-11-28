@@ -3,6 +3,8 @@ import { Route } from 'react-router-dom';
 import register from './components/common/Register';
 import home from './components/jobseeker/Landing/Home'
 import login from './components/common/Login';
+import jobs from './components/jobseeker/jobs/DisplayJobs';
+
 
 class Main extends Component {
     render() {
@@ -12,6 +14,8 @@ class Main extends Component {
                 <Route path="/login" component={login} />
                 <Route path="/register" component={register} />
                 <Route path="/home" component={home} />
+                <Route path="/displayjobs" component={jobs} />
+
 
             </div>
         );

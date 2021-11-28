@@ -90,10 +90,12 @@ function SearchJobForm(props) {
     const locationOptions = ['San Jose','San Francisco', 'New York', 'Seattle'];
     const history = useHistory()
     const [error,setError] = useState(false);
-        
+       
+    let searchedJobs = useSelector(state=>state.search.searchedJobs)
+
 
     const handleSearch=(e)=>{
-        
+        console.log("Inside handle job search");
         e.preventDefault()
         if(job === "" && location === ""){
             setError(true)
@@ -102,40 +104,11 @@ function SearchJobForm(props) {
         dispatch(setCurrentPage(1))
 
         //Get job search data
-        dispatch(getJobSearchData(job === ""?"":job,location=== "" ? "" : location))
-        
-        let data = loadData("recent") || []
-        let queryString = job !== "" && location !== "" ? {category:"both" , query: `${job} - ${location}`} : job === "" && location !== "" ? {category:"location", query:`${location}`} : {category:"job",query:`${job}`}
+        dispatch(getJobSearchData(job === ""?"":job,location=== "" ? "" : location));
+        console.log("Inside search job form: searchedJobs", searchedJobs);
 
-        if(data.length === 4){
-            //To get most recent job search
-            data.reverse()
-            if(data.some(item=>item.category===queryString.category && item.query === queryString.query)){
-                data = data.filter(item=>item.category !== queryString.category || item.query !== queryString.query)
-                data.push(queryString)
-            }
-            else{
-                data.shift()
-                data.push(queryString)
-            }
-            
-        }
-        else {
-            if(data.some(item=>item.category===queryString.category && item.query===queryString.query)){
-                data = data.filter(item=>item.category !== queryString.category || item.query !== queryString.query)
-                data.push(queryString)
-            }
-            else{
-                
-                data.push(queryString)
-            }
-        }
-
-        saveData("recent",data.reverse())
-        history.push(`/jobs?q=${job}&location=${location}&page=1`)
-
+        history.push(`/displayjobs?q=${job}&location=${location}&page=1`)
         // console.log(queryString,"queryString")
-
     }
 
 
