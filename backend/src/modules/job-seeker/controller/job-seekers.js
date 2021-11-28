@@ -17,44 +17,6 @@ export class JobSeekerController {
 		}
 	};
 
-
-	// createprofile = async (req, res) => {
-	// 	try {
-
-			// const { userId, firstName, lastName, profilePicture='', resumes=[], coverLetters=[], contactNumber, street, apt, city, state, country, zip, savedJobs=[]} = req.body;
- 
-			// const address = {
-			// 	street: street,
-			// 	apt : apt,
-			// 	city : city,
-			// 	state : state,
-			// 	country : country,
-			// 	zip : zip
-			// }
-			// const jobSeeker = new JobSeekerDetails({userId, firstName, lastName, profilePicture, resumes, coverLetters, contactNumber, address, savedJobs})
-			// const response = await jobSeeker.save();
-			
-				  
-
-
-	// 		const jobSeekerDetails = await JobSeekerDetails.findById(
-	// 			req.query.jobSeekerId
-	// 		);
-	// 		if (!jobSeekerDetails) {
-	// 			res.status(404).send({
-	// 				message: "Could not find jobseeker profile",
-	// 			});
-	// 		} else {
-	// 			res.status(200).send(jobSeekerDetails);
-	// 		}
-	// 	} catch (err) {
-	// 		console.error(err);
-	// 	}
-
-
-
-	// };
-
 	updateprofile = async(req, res) => {
 
 
