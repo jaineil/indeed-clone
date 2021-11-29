@@ -24,44 +24,147 @@ export const setSearchCount = (payload) => {
   };
 };
 
-export const dispatchCount = (payload) => (dispatch) => {
-  const { job, location, start, jobType } = payload;
-  // console.log(job,location,start)
-
-  var config = {
-    method: "GET",
-    url: `${endPointObj.url}/jobs`,
-    params: {
-      q: job,
-      city_like: location,
-      jobType_like: jobType,
-      _start: start
-    },
-  };
-
-  axios(config).then((res) => {
-    // console.log("data",res.data)
-    dispatch(setSearchCount(res.data.length));
-  });
-};
 
 export const getSearchData = (job = "", location = "", page = "1") => (dispatch) => {
 
-  //fetching first 5 records
-  let url = `${endPointObj.url}/jobs?_page=${page}&_limit=5`;
+  
+  //let url = `${endPointObj.url}/jobs?_page=${page}&_limit=5`;
 
-  if (location !== "" && job !== "") {
-    url = `${endPointObj.url}/jobs?location_like=${location}&jobTitle_like=${job}&_page=${page}&_limit=5`;
-  } else if (location !== "") {
-    url = `${endPointObj.url}/jobs?location_like=${location}&_page=${page}&_limit=5`;
-  } else if (job !== "") {
-    url = `${endPointObj.url}/jobs?jobTitle_like=${job}&_page=${page}&_limit=5`;
-  } else return;
+  // if (location !== "" && job !== "") {
+  //   url = `${endPointObj.url}/jobs?location_like=${location}&jobTitle_like=${job}&_page=${page}&_limit=5`;
+  // } else if (location !== "") {
+  //   url = `${endPointObj.url}/jobs?location_like=${location}&_page=${page}&_limit=5`;
+  // } else if (job !== "") {
+  //   url = `${endPointObj.url}/jobs?jobTitle_like=${job}&_page=${page}&_limit=5`;
+  // } else return;
+  // var config = {
+  //   method: "GET",
+  //   url: url,
+  // };
 
-  var config = {
-    method: "GET",
-    url: url,
-  };
+  //fetch job first 5 records
+  /*var data = {
+    location: location,
+    job: job
+  }
+
+  axios.post(endPointObj.url + '/jobs', data)
+        .then(response => {
+          console.log("Get job response", response.data);
+          dispatch(searchSuccess(response.data));
+          dispatch(setSearchCount(response.data.length));
+      })
+      .catch(error => {
+          if(error.response && error.response.data) {
+            console.log("error",error.response);
+      }
+  });*/
+
+  var jobsData = [
+    {
+      "jobId": "1",
+      "jobTitle": "Software Development Engineer",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salary": "120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "2",
+      "jobTitle": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salary": "120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "3",
+      "jobTitle": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salary": "120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "4",
+      "jobTitle": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salary": "120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "5",
+      "jobTitle": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salary": "120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "6",
+      "jobTitle": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salary": "120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "7",
+      "jobTitle": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salary": "120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "8",
+      "jobTitle": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salary": "120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "9",
+      "jobTitle": "SDE",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salary": "120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "10",
+      "jobTitle": "Software Development Engineer",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salary": "120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
+    }
+  ];
+  console.log("Job data", jobsData);
+  dispatch(searchSuccess(jobsData));
+  dispatch(setSearchCount(jobsData.length)); 
 
   axios(config).then((res) => {
       dispatch(searchSuccess(res.data));
