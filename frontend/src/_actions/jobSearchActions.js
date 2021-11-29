@@ -63,102 +63,102 @@ export const getJobSearchData = (job = "", location = "", page = "1") => (dispat
   var jobsData = [
     {
       "jobId": "1",
-      "roleName": "SDE",
+      "jobTitle": "Software Development Engineer",
       "companyName": "amazon", 
       "rating": 3,
       "city": "San Jose",
       "state": "California",
-      "salaryDetails": "$120k - 140k",
+      "salary": "120k - 140k",
       "jobDescription": "Software Development Engineer job description"
     },
     {
       "jobId": "2",
-      "roleName": "SDE",
+      "jobTitle": "SDE",
       "companyName": "amazon", 
       "rating": 3,
       "city": "San Jose",
       "state": "California",
-      "salaryDetails": "$120k - 140k",
+      "salary": "120k - 140k",
       "jobDescription": "Software Development Engineer job description"
     },
     {
       "jobId": "3",
-      "roleName": "SDE",
+      "jobTitle": "SDE",
       "companyName": "amazon", 
       "rating": 3,
       "city": "San Jose",
       "state": "California",
-      "salaryDetails": "$120k - 140k",
+      "salary": "120k - 140k",
       "jobDescription": "Software Development Engineer job description"
     },
     {
       "jobId": "4",
-      "roleName": "SDE",
+      "jobTitle": "SDE",
       "companyName": "amazon", 
       "rating": 3,
       "city": "San Jose",
       "state": "California",
-      "salaryDetails": "$120k - 140k",
+      "salary": "120k - 140k",
       "jobDescription": "Software Development Engineer job description"
     },
     {
       "jobId": "5",
-      "roleName": "SDE",
+      "jobTitle": "SDE",
       "companyName": "amazon", 
       "rating": 3,
       "city": "San Jose",
       "state": "California",
-      "salaryDetails": "$120k - 140k",
+      "salary": "120k - 140k",
       "jobDescription": "Software Development Engineer job description"
     },
     {
       "jobId": "6",
-      "roleName": "SDE",
+      "jobTitle": "SDE",
       "companyName": "amazon", 
       "rating": 3,
       "city": "San Jose",
       "state": "California",
-      "salaryDetails": "$120k - 140k",
+      "salary": "120k - 140k",
       "jobDescription": "Software Development Engineer job description"
     },
     {
       "jobId": "7",
-      "roleName": "SDE",
+      "jobTitle": "SDE",
       "companyName": "amazon", 
       "rating": 3,
       "city": "San Jose",
       "state": "California",
-      "salaryDetails": "$120k - 140k",
+      "salary": "120k - 140k",
       "jobDescription": "Software Development Engineer job description"
     },
     {
       "jobId": "8",
-      "roleName": "SDE",
+      "jobTitle": "SDE",
       "companyName": "amazon", 
       "rating": 3,
       "city": "San Jose",
       "state": "California",
-      "salaryDetails": "$120k - 140k",
+      "salary": "120k - 140k",
       "jobDescription": "Software Development Engineer job description"
     },
     {
       "jobId": "9",
-      "roleName": "SDE",
+      "jobTitle": "SDE",
       "companyName": "amazon", 
       "rating": 3,
       "city": "San Jose",
       "state": "California",
-      "salaryDetails": "$120k - 140k",
+      "salary": "120k - 140k",
       "jobDescription": "Software Development Engineer job description"
     },
     {
       "jobId": "10",
-      "roleName": "SDE",
+      "jobTitle": "Software Development Engineer",
       "companyName": "amazon", 
       "rating": 3,
       "city": "San Jose",
       "state": "California",
-      "salaryDetails": "$120k - 140k",
+      "salary": "120k - 140k",
       "jobDescription": "Software Development Engineer job description"
     }
   ];
