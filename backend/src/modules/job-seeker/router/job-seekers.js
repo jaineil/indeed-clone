@@ -7,5 +7,7 @@ const jobseekerController = new JobSeekerController();
 
 jobseekerRouter.get("/job-seeker/get-profile",jobseekerController.getprofile);
 jobseekerRouter.put("/job-seeker/update-profile", jobseekerController.updateprofile)
+jobseekerRouter.put("/job-seeker/unsave-job", jobseekerController.unsaveJob);
+jobseekerRouter.post("/job-seeker/upload-resume", jobseekerController.uploadResume);
 
 export default jobseekerRouter;
