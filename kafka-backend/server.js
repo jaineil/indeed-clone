@@ -59,5 +59,5 @@ handleTopicRequest("chat", handleChatRequest);
 handleTopicRequest("searches", handleSearchRequest);
 handleTopicRequest("job", handleJobRequest);
 handleTopicRequest("company", handleCompanyRequest);
-// handleTopicRequest("job-seeker", handleJobSeekerRequest);
+handleTopicRequest("job-seeker", handleJobSeekerRequest);
 // handleTopicRequest("job-application", handleJobApplicationRequest);
