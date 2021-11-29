@@ -3,7 +3,8 @@ import endPointObj from '../endPointUrl.js';
 
 import {
     CREATE_EMPLOYER_AND_COMPANY_PROFILE,
-    GET_EMPLOYER_PROFILE
+    GET_EMPLOYER_PROFILE,
+    GET_COMPANY_PROFILE
 } from "./actionTypes";
 
 export const createEmployerAndCompanyProfile = (employerProfile,companyProfile) => async (dispatch) => {
@@ -34,22 +35,59 @@ export const createEmployerAndCompanyProfile = (employerProfile,companyProfile) 
     }
   };
 
-  export const getEmployerProfile = (emailId) => async (dispatch) => {
-    //dispatch(loginRequest());
+  export const getEmployerProfile = (mongoId) => async (dispatch) => {
 
     try {
-        const employer = await axios.get(endPointObj.url+ "/getEmployerProfile/" + emailId);
+        const employer = await axios.get(endPointObj.url+ "/employer/get-profile?employerId=" + mongoId);
 
-        console.log("Employer : " + employer);
-        dispatch({
-            type: GET_EMPLOYER_PROFILE,
-            payload : null
-        })
+        console.log("Returned an Employer from backend: " + JSON.stringify(employer.data));
+        if(employer.data){
+            dispatch({
+                type: GET_EMPLOYER_PROFILE,
+                payload : employer.data
+            })
+        }
+        else{
+            dispatch({
+                type: GET_EMPLOYER_PROFILE,
+                payload : null
+            })
+        }
+       
     }
     catch (err) {
         console.log(err.message);
         dispatch({
             type: GET_EMPLOYER_PROFILE,
+            payload : null
+        })
+    }
+  };
+
+  export const getCompanyProfile = (mongoId) => async (dispatch) => {
+
+    try {
+        const company = await axios.get(endPointObj.url+ "/employer/get-profile?employerId=" + mongoId);
+
+        console.log("Returned an Employer from backend: " + JSON.stringify(company.data));
+        if(company.data){
+            dispatch({
+                type: GET_COMPANY_PROFILE,
+                payload : company.data
+            })
+        }
+        else{
+            dispatch({
+                type: GET_COMPANY_PROFILE,
+                payload : null
+            })
+        }
+       
+    }
+    catch (err) {
+        console.log(err.message);
+        dispatch({
+            type: GET_COMPANY_PROFILE,
             payload : null
         })
     }

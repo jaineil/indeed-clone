@@ -5,6 +5,10 @@ import home from './components/jobseeker/Landing/Home'
 import login from './components/common/Login';
 import employerDashboard from './components/employer/LandingPage';
 import employerProfile from './components/employer/Profile';
+import postJob from './components/employer/PostJob';
+import candidates from './components/employer/Candidates';
+import viewApplication from './components/employer/ViewApplication';
+import report from './components/employer/Report';
 
 class Main extends Component {
     render() {
@@ -16,6 +20,11 @@ class Main extends Component {
                 <Route path="/home" component={home} />
                 <Route path="/employer" component={employerDashboard} />
                 <Route path="/profile" component={employerProfile} />
+                <Route path="/postJob" component={postJob} />
+                <Route path="/candidates" component={candidates} />
+                <Route path="/jobs" component={employerDashboard} />
+                <Route path="/viewApplication" component={viewApplication} />
+                <Route path="/reports" component={report} />
             </div>
         );
     }

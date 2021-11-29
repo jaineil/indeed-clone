@@ -13,13 +13,68 @@ import {
     TextField
 } from '@material-ui/core';
 
-import { useDispatch } from 'react-redux';
-import { createEmployerAndCompanyProfile, getEmployerProfile } from '../../_actions/employerAction';
+import { useDispatch,useSelector } from 'react-redux';
+import { createEmployerAndCompanyProfile, getEmployerProfile, getCompanyProfile } from '../../_actions/employerAction';
 import { Link, Redirect } from 'react-router-dom';
 
 export default function Profile() {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const mongoId = "61a1899070aa0513ab04bdb0";
+    useEffect(() => {
+        dispatch(getEmployerProfile(mongoId));
+    },[])
+
+    const employerProfile = useSelector( (state) => state.employer.employerProfile);
+    const companyProfile = useSelector( (state) => state.employer.companyProfile);
+
+    useEffect(() => {
+        if (employerProfile) {
+            if(employerProfile.firstName && employerProfile.lastName){
+                setEmployerFirstName( employerProfile.firstName);
+                setEmployerLastName (employerProfile.lastName);
+                setEmployerRole (employerProfile.role ? employerProfile.role : "");
+                setEmployerStreet (employerProfile.companyLocation.street ? employerProfile.companyLocation.street : "");
+                setEmployerCity( employerProfile.companyLocation.city ? employerProfile.companyLocation.city : "");
+                setEmployerState (employerProfile.companyLocation.state ? employerProfile.companyLocation.state : "");
+                setEmployerCountry (employerProfile.companyLocation.country ? employerProfile.companyLocation.country : "");
+                setEmployerZipcode (employerProfile.companyLocation.zipcode ? employerProfile.companyLocation.zipcode : "");
+                dispatch(getCompanyProfile(mongoId));
+            }
+            else{
+                setEmployerFirstName( "" );
+                setEmployerLastName ("");
+                setEmployerRole ("");
+                setEmployerStreet ("");
+                setEmployerCity("");
+                setEmployerState ("");
+                setEmployerCountry ("");
+                setEmployerZipcode("");
+            }
+        }
+        else {
+            setEmployerFirstName( "" );
+            setEmployerLastName ("");
+            setEmployerRole ("");
+            setEmployerStreet ("");
+            setEmployerCity("");
+            setEmployerState ("");
+            setEmployerCountry ("");
+            setEmployerZipcode("");
+        }
+    },[employerProfile])
+
+    useEffect(() => {
+        if (companyProfile) {
+
+        }
+        else {
+
+        }
+    },[companyProfile])
+
+
+    console.log("Employer Profile now: " + JSON.stringify(employerProfile));
     const[companyName, setCompanyName] = useState("");
     const[companyWebsite, setCompanyWebsite] = useState("");
     const[companyType, setCompanyType] = useState("");
@@ -28,8 +83,8 @@ export default function Profile() {
     const[companyHeadquarters, setCompanyHeadquarters] = useState("");
     const[companyCeoName, setCompanyCeoName] = useState("");
     const[companyStreet, setCompanyStreet] = useState("");
-    const[companyUnit, setCompanyUnit] = useState("");
-    const[companyPincode, setCompanyPincode] = useState("");
+    const[companyCity, setCompanyCity] = useState("");
+    const[companyZipcode, setCompanyZipcode] = useState("");
     const[companyState, setCompanyState] = useState("");
     const[companyCountry, setCompanyCountry] = useState("");
     const[companyIndustry, setCompanyIndustry] = useState("");
@@ -40,20 +95,16 @@ export default function Profile() {
     const[employerLastName, setEmployerLastName] = useState("");
     const[employerRole, setEmployerRole] = useState("");
     const[employerStreet, setEmployerStreet] = useState("");
-    const[employerUnit, setEmployerUnit] = useState("");
-    const[employerPincode, setEmployerPincode] = useState("");
+    const[employerCity, setEmployerCity] = useState("");
     const[employerState, setEmployerState] = useState("");
     const[employerCountry, setEmployerCountry] = useState("");
+    const[employerZipcode, setEmployerZipcode] = useState("");
 
-    useEffect(() => {
-        const employerEmailId = "test@gmail.com";
-        dispatch(getEmployerProfile(employerEmailId));
-
-    }, [dispatch])
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const employerProfile = {
+        const companyProfile = {
             companyName ,
             companyWebsite ,
             companyType ,
@@ -62,23 +113,23 @@ export default function Profile() {
             companyHeadquarters ,
             companyCeoName ,
             companyStreet ,
-            companyUnit ,
-            companyPincode ,
+            companyCity ,
+            companyZipcode ,
             companyState ,
             companyCountry ,
             companyIndustry ,
             companyFounded ,
             companyMissionAndVision
         }
-        const companyProfile = {
+        const employerProfile = {
             employerFirstName,
             employerLastName, 
             employerRole,
             employerStreet, 
-            employerUnit, 
-            employerPincode, 
+            employerCity,
             employerState,
-            employerCountry 
+            employerCountry,
+            employerZipcode
         }
         console.log(companyProfile.employerCountry);
         dispatch(createEmployerAndCompanyProfile(employerProfile,companyProfile));
@@ -177,56 +228,6 @@ export default function Profile() {
                                 <Grid item xs={12}>
                                     <TextField
                                         variant="outlined"
-                                        label="Street Address"
-                                        style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyStreet(e.target.value) }}
-                                        value = { companyStreet }
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        variant="outlined"
-                                        label="Unit #"
-                                        style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyUnit(e.target.value) }}
-                                        value = { companyUnit }
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        variant="outlined"
-                                        label="Pincode"
-                                        style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyPincode(e.target.value) }}
-                                        value = { companyPincode }
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        variant="outlined"
-                                        label="State"
-                                        style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyState(e.target.value) }}
-                                        value = { companyState }
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        variant="outlined"
-                                        label="Country"
-                                        style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyCountry(e.target.value) }}
-                                        value = { companyCountry }
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        variant="outlined"
                                         label="Industry"
                                         style={{ width: '100%' }}
                                         onChange = {(e) =>{ setCompanyIndustry(e.target.value) }}
@@ -251,6 +252,56 @@ export default function Profile() {
                                         style={{ width: '100%' }}
                                         onChange = {(e) =>{ setCompanyMissionAndVision(e.target.value) }}
                                         value = { companyMissionAndVision }
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        variant="outlined"
+                                        label="Street Address"
+                                        style={{ width: '100%' }}
+                                        onChange = {(e) =>{ setCompanyStreet(e.target.value) }}
+                                        value = { companyStreet }
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        variant="outlined"
+                                        label="City"
+                                        style={{ width: '100%' }}
+                                        onChange = {(e) =>{ setCompanyCity(e.target.value) }}
+                                        value = { companyCity }
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        variant="outlined"
+                                        label="State"
+                                        style={{ width: '100%' }}
+                                        onChange = {(e) =>{ setCompanyState(e.target.value) }}
+                                        value = { companyState }
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        variant="outlined"
+                                        label="Country"
+                                        style={{ width: '100%' }}
+                                        onChange = {(e) =>{ setCompanyCountry(e.target.value) }}
+                                        value = { companyCountry }
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        variant="outlined"
+                                        label="Zipcode"
+                                        style={{ width: '100%' }}
+                                        onChange = {(e) =>{ setCompanyZipcode(e.target.value) }}
+                                        value = { companyZipcode }
                                         required
                                     />
                                 </Grid>
@@ -308,20 +359,10 @@ export default function Profile() {
                                 <Grid item xs={6}>
                                     <TextField
                                         variant="outlined"
-                                        label="Unit #"
+                                        label="City #"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setEmployerUnit(e.target.value) }}
-                                        value = { employerUnit }
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        variant="outlined"
-                                        label="Pincode"
-                                        style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setEmployerPincode(e.target.value) }}
-                                        value = { employerPincode }
+                                        onChange = {(e) =>{ setEmployerCity(e.target.value) }}
+                                        value = { employerCity }
                                         required
                                     />
                                 </Grid>
@@ -342,6 +383,16 @@ export default function Profile() {
                                         style={{ width: '100%' }}
                                         onChange = {(e) =>{ setEmployerCountry(e.target.value) }}
                                         value = { employerCountry }
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        variant="outlined"
+                                        label="Zipcode"
+                                        style={{ width: '100%' }}
+                                        onChange = {(e) =>{ setEmployerZipcode(e.target.value) }}
+                                        value = { employerZipcode }
                                         required
                                     />
                                 </Grid>
