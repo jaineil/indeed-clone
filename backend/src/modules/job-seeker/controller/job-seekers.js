@@ -1,7 +1,12 @@
 import JobSeekerDetails from "../../../db/models/mongo/jobSeekerDetails.js";
+import fs from 'fs';
+import multiparty from 'multiparty';
+import fileType from 'file-type';
+import uploadFile from '../../../db/config/s3_config.js';
 import { make_request } from "../../../../kafka/client.js";
 
 export class JobSeekerController {
+	
 	getprofile = async (req, res) => {
 		try {
 			const jobSeekerDetails = await JobSeekerDetails.findById(
@@ -19,7 +24,8 @@ export class JobSeekerController {
 		}
 	};
 
-	updateprofile = async (req, res) => {
+	updateprofile = async(req, res) => {
+
 		const {
 			jobseekerId,
 			firstName,
