@@ -10,4 +10,10 @@ jobseekerRouter.put("/job-seeker/update-profile", jobseekerController.updateprof
 jobseekerRouter.put("/job-seeker/unsave-job", jobseekerController.unsaveJob);
 jobseekerRouter.post("/job-seeker/upload-resume", jobseekerController.uploadResume);
 
+jobseekerRouter.get("/job-seeker/get-profile", jobseekerController.getprofile);
+jobseekerRouter.put(
+	"/job-seeker/update-profile",
+	jobseekerController.updateprofile
+);
+jobseekerRouter.post("/job-seeker/save-job", jobseekerController.saveJob);
 export default jobseekerRouter;

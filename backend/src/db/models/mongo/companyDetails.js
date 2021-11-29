@@ -11,9 +11,14 @@ const companyDetailsSchema = new Schema({
 	headquarters: { type: String },
 	industry: { type: String },
 	founded: { type: String },
-	missionAndVision: { type: String },
 	ceoName: { type: String },
 	averageRating: { type: Number },
+	description: {
+		about: String,
+		workCulture: String,
+		values: String,
+		missionAndVision: String,
+	},
 	companyLocation: {
 		city: { type: String },
 		state: { type: String },

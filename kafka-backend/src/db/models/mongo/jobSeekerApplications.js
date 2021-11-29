@@ -5,15 +5,15 @@ const Schema = mongoose.Schema;
 const jobSeekerApplicationsSchema = new Schema({
 	jobId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "jobs",
+		ref: "job",
 	},
 	jobSeekerId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "jobSeekerDetails",
+		ref: "jobSeekerDetail",
 	},
 	companyId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "companyDetails",
+		ref: "companyDetail",
 	},
 	companyName: { type: String },
 	applicationStatus: { type: String },
