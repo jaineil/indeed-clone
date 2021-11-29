@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const jobsSchema = new Schema({
 	companyId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "companyDetails",
+		ref: "companyDetail",
 	},
 	companyName: { type: String },
 	employerId: {

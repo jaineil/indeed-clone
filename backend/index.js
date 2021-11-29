@@ -8,10 +8,11 @@ import chatsRouter from "./src/modules/chat/router/chats.js";
 import userRouter from "./src/modules/user/router/users.js";
 import jobRouter from "./src/modules/job/router/jobs.js";
 import jobRecordRouter from "./src/modules/job-record/router/jobRecords.js";
-import jobseekerRouter from "./src/modules/job-seeker/router/job-seekers.js"
-import employerRouter from "./src/modules/employer/router/employers.js"
+import jobseekerRouter from "./src/modules/job-seeker/router/job-seekers.js";
+import employerRouter from "./src/modules/employer/router/employers.js";
 import photoRouter from "./src/modules/photo/router/photos.js";
 import searchRouter from "./src/modules/search/router/search.js";
+import jobApplicationRouter from "./src/modules/application/router/applications.js";
 
 mongoInit();
 
@@ -27,3 +28,4 @@ app.use(jobseekerRouter);
 app.use(employerRouter);
 app.use(photoRouter);
 app.use(searchRouter);
+app.use(jobApplicationRouter);

@@ -1,6 +1,7 @@
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
 import EmployerDetails from "../../../db/models/mongo/employerDetails.js";
 
+import { make_request } from "../../../../kafka/client.js";
 class CompanyController {
 	create = async (req, res) => {
 		try {
@@ -39,6 +40,17 @@ class CompanyController {
 		}
 	};
 
+	getCompany = async (req, res) => {
+		try {
+			const response = await CompanyDetails.findOne({
+				_id: req.query.companyId,
+			});
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	getAllCompanies = async (req, res) => {
 		try {
 			const response = await CompanyDetails.find();
@@ -64,6 +76,112 @@ class CompanyController {
 		} catch (err) {
 			console.error(err);
 		}
+	};
+
+	updateCompany = async (req, res) => {
+		try {
+			const {
+				companyId,
+				companyName,
+				websiteUrl,
+				companySize,
+				companyType,
+				revenue,
+				headquarters,
+				industry,
+				founded,
+				missionAndVision,
+				ceoName,
+				averageRating,
+				city,
+				state,
+				zipcode,
+				country,
+				featuredReviews = [],
+			} = req.body;
+			const companyLocation = {
+				city: city,
+				state: state,
+				zipcode: zipcode,
+				country: country,
+			};
+
+			const update = {
+				companyName,
+				websiteUrl,
+				companySize,
+				companyType,
+				revenue,
+				headquarters,
+				industry,
+				founded,
+				missionAndVision,
+				ceoName,
+				averageRating,
+				companyLocation,
+			};
+
+			const response = await CompanyDetails.findOneAndUpdate(
+				{
+					_id: companyId,
+				},
+				update
+			);
+
+			res.status(200).send({ message: "Company Updated" });
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	fetchCompanySnapshot = async (req, res) => {
+		console.log("Inside companies controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.params;
+		message.path = req.route.path;
+
+		make_request("company", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log(
+					"Fetched company snapshot details with kafka-backend"
+				);
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
+	};
+
+	fetchCompanyWhyJoinUs = async (req, res) => {
+		console.log("Inside companies controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.params;
+		message.path = req.route.path;
+
+		make_request("company", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log(
+					"Fetched company why-join-us details with kafka-backend"
+				);
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
 	};
 }
 
