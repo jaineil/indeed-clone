@@ -99,6 +99,7 @@ function SearchJobForm(props) {
         e.preventDefault()
         if(job === "" && location === ""){
             setError(true)
+
             return
         }
         dispatch(setCurrentPage(1))
@@ -114,7 +115,7 @@ function SearchJobForm(props) {
 
     return (
         <>
-           { error ? <Box>Query is Empty</Box> : <></> }
+           
             <form  onSubmit={handleSearch} className={classes.searchForm}>
                 <Grid container spacing={1}>
                     
@@ -135,6 +136,7 @@ function SearchJobForm(props) {
                     </Grid>
                 </Grid>
             </form>
+            { error ? <Box>Please enter Jobtitle or location</Box> : <></> }
        </> 
     );
 }
