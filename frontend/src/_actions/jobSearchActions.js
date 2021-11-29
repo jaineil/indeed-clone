@@ -25,7 +25,7 @@ export const setSearchCount = (payload) => {
 };
 
 
-export const getSearchData = (job = "", location = "", page = "1") => (dispatch) => {
+export const getJobSearchData = (job = "", location = "", page = "1") => (dispatch) => {
 
   
   //let url = `${endPointObj.url}/jobs?_page=${page}&_limit=5`;
