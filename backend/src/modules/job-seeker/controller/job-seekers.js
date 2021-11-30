@@ -67,21 +67,22 @@ export class JobSeekerController {
 
 	unsaveJob = async (req, res) => {
 		try{
-		const {jobseekerId, jobId} = req.body
-		const jobseeker = await JobSeekerDetails.updateOne({ jobseekerId : jobseekerId}, 
+		const {jobSeekerId, jobId} = req.body
+		const jobseeker = await JobSeekerDetails.updateOne({ jobseekerId : jobSeekerId}, 
 			{$pull: {savedJobs: {jobId: jobId}}}, 
 			{multi: true});
 
-		res.status(200).send(jobseeker);
+		res.status(200).send({message:"Job Unsaved"});
 		} catch (err){
 			console.error(err);
+			res.status(500).send({error: err})
 		}
 	}
 
 
 	uploadResume = async (req, res) => {
 		try {
-			const { jobseekerId, resumeName } = req.query;
+			const { jobSeekerId, resumeName } = req.query;
 			const form = new multiparty.Form();
 			//console.log(req);
 			form.parse(req, async (error, fields, files) => {
@@ -93,7 +94,7 @@ export class JobSeekerController {
 				const path = files.file[0].path;
 				const buffer = fs.readFileSync(path);
 				const type = await fileType.fromBuffer(buffer);
-				const fileName = `resume/${jobseekerId}/${resumeName}`;
+				const fileName = `resume/${jobSeekerId}/${resumeName}`;
 				const s3res = await uploadFile(buffer, fileName, type);
 				console.log("Success: ", s3res);
 				if (s3res) {
@@ -102,7 +103,7 @@ export class JobSeekerController {
 						url : s3res.Location,
 						name : resumeName
 					}
-					const jobseeker = await JobSeekerDetails.findById(jobseekerId);
+					const jobseeker = await JobSeekerDetails.findById(jobSeekerId);
 					console.log(jobseeker.resumes);
 					jobseeker.resumes.push(resume);
 					await jobseeker.save()
