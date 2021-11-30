@@ -16,12 +16,12 @@ reviewRouter.put(
 );
 
 reviewRouter.get(
-	"/employer/view-reviews",
+	"/employer/view-reviews/:companyId",
 	reviewController.viewReviewsAndRatings
 );
 
 reviewRouter.get(
-	"/admin/search-company-admin",
+	"/admin/search-company-admin/:companyName",
 	reviewController.searchCompanyAdmin
 );
 
@@ -35,6 +35,5 @@ reviewRouter.get("/admin/top-ceos", reviewController.topCEOs);
 reviewRouter.get("/admin/get-review-requests", reviewController.getRequests);
 
 reviewRouter.put("/admin/update-review", reviewController.updateRequest);
-
 
 export default reviewRouter;
