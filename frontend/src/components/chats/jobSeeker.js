@@ -20,52 +20,15 @@ const JobSeekerChats = () => {
 
 	const getMessagesOverview = async () => {
 		try {
-			// const response = await axios.get(
-			// 	`http://${endPointObj.url}/job-seeker/get-messages/${jobSeekerId}`
-			// );
-			// console.log(
-			// 	"Fetched response for getMessageOverview: ",
-			// 	response.data
-			// );
-			// const res = response.data.messages;
-			const res = [
-				{
-					employerId: "4",
-					employerName: "John Doe",
-					lastMessage: "Regarding your interview at Amazon",
-					timestamp: "",
-				},
-				{
-					employerId: "4",
-					employerName: "Patricia Smith",
-					lastMessage: "Congratulations! You have received an offer",
-					timestamp: "",
-				},
-				{
-					employerId: "4",
-					employerName: "John Doe",
-					lastMessage: "Regarding your interview at Amazon",
-					timestamp: "",
-				},
-				{
-					employerId: "4",
-					employerName: "John Doe",
-					lastMessage: "Regarding your interview at Amazon",
-					timestamp: "",
-				},
-				{
-					employerId: "4",
-					employerName: "John Doe",
-					lastMessage: "Regarding your interview at Amazon",
-					timestamp: "",
-				},
-				{
-					employerId: "4",
-					employerName: "John Doe",
-					lastMessage: "Regarding your interview at Amazon",
-					timestamp: "",
-				},
-			];
+			const response = await axios.get(
+				`${endPointObj.url}/job-seeker/get-messages/${jobSeekerId}`
+			);
+			console.log(
+				"Fetched response for getMessageOverview: ",
+				response.data
+			);
+			const res = response.data.response.messages;
+		
 			let dataSource = [];
 			for (let i = 0; i < res.length; i++) {
 				dataSource.push({
@@ -74,7 +37,7 @@ const JobSeekerChats = () => {
 					alt: "Employer",
 					title: res[i].employerName,
 					subtitle: res[i].lastMessage,
-					date: new Date(),
+					date: Date.parse(res[i].timestamp),
 					unread: 0,
 				});
 			}
@@ -85,38 +48,24 @@ const JobSeekerChats = () => {
 	};
 	const getChat = async (e) => {
 		try {
-			// const response = await axios.get(
-			// 	`http://${endPointObj.url}/employer/get-chats/${e.employerId}/${jobSeekerId}`
-			// );
-			// console.log("Response of getChat function: ", response.data);
-			// setChats(response.data.chats);
-			// const res = response.data.chats
-			const res = [
-				{
-					position: "right",
-					type: "text",
-					text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
-					date: new Date(),
-				},
-				{
-					position: "left",
-					type: "text",
-					text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
-					date: new Date(),
-				},
-				{
-					position: "right",
-					type: "text",
-					text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
-					date: new Date(),
-				},
-				{
-					position: "left",
-					type: "text",
-					text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
-					date: new Date(),
-				},
-			];
+			const response = await axios.get(
+				`${endPointObj.url}/employer/get-chats/${e.employerId}/${jobSeekerId}`
+			);
+			setChats(response.data.response.chats);
+			let res = []
+			let chats = response.data.response.chats
+			for (const chat of chats){
+				console.log(chat.timestamp)
+				const entry = {
+					position :  (chat.sender === localStorage.getItem("role")) ? "right" : "left",
+					text : chat.text,
+					type : "text",
+					date : Date.parse(chat.timestamp)
+				}
+
+				res.push(entry)
+			}
+			
 			setChats(res);
 		} catch (err) {
 			console.error(err);
