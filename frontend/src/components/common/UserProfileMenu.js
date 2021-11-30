@@ -11,7 +11,7 @@ import { IconButton, Typography } from '@material-ui/core';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-//import { logout } from '../../../Redux/Login/actions';
+import { logout } from '../../_actions/loginAction';
 
 const StyledMenu = withStyles({
   paper: {
@@ -60,6 +60,7 @@ export default function UserMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
 
   return (
     <div>
@@ -110,7 +111,7 @@ export default function UserMenu() {
         </StyledMenuItem>
         <StyledMenuItem onClick={()=>{
             handleClose()
-            //dispatch(logout())
+            dispatch(logout())
             }}>
           <ListItemIcon>
             <PowerSettingsNewIcon fontSize="small" />

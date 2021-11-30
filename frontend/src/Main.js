@@ -7,13 +7,17 @@ import jobs from './components/jobseeker/jobs/DisplayJobs';
 import companyHome from './components/jobseeker/company/CompanyHome';
 import CompanyJoinus from './components/jobseeker/company/CompanyJoinus';
 import CompanyReview from './components/jobseeker/company/CompanyReview';
+import CompanySalaries from './components/jobseeker/company/CompanySalaries';
+import AddCompanySalary from './components/jobseeker/company/AddCompanySalaries';
 
 import employerDashboard from './components/employer/LandingPage';
 import employerProfile from './components/employer/Profile';
 
 
 class Main extends Component {
+    
     render() {
+        
         return (
             <div>
                 <Route exact path="/" component={register} />
@@ -24,7 +28,8 @@ class Main extends Component {
                 <Route path="/companyhome" component={companyHome} />
                 <Route path="/joinus" component={CompanyJoinus} />
                 <Route path="/companyreview" component={CompanyReview} />
-
+                <Route path="/companysalary" component={CompanySalaries} />
+                <Route path="/addcompanysalary" component={AddCompanySalary} />
 
                 <Route path="/employer" component={employerDashboard} />
                 <Route path="/profile" component={employerProfile} />
