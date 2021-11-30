@@ -92,8 +92,32 @@ const JobSeekerChats = () => {
 			// setChats(response.data.chats);
 			// const res = response.data.chats
 			const res = [
-				//dummy data
+				{
+					position: "right",
+					type: "text",
+					text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
+					date: new Date(),
+				},
+				{
+					position: "left",
+					type: "text",
+					text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
+					date: new Date(),
+				},
+				{
+					position: "right",
+					type: "text",
+					text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
+					date: new Date(),
+				},
+				{
+					position: "left",
+					type: "text",
+					text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
+					date: new Date(),
+				},
 			];
+			setChats(res);
 		} catch (err) {
 			console.error(err);
 		}
