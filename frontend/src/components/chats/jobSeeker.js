@@ -1,9 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "react-chat-elements/dist/main.css";
-import { MessageList, ChatList } from "react-chat-elements";
+import { MessageList, ChatList, Input } from "react-chat-elements";
 import { useEffect, useState } from "react";
-import { Container, Button, Form, Row, Col, Card } from "react-bootstrap";
+import {
+	Container,
+	Button,
+	Form,
+	Row,
+	Col,
+	Card,
+	Image,
+} from "react-bootstrap";
 import Header from "../common/Header";
 import endPointObj from "../../endPointUrl";
 import axios from "axios";
@@ -152,12 +160,66 @@ const JobSeekerChats = () => {
 							className="h-100 d-inline-block py-5"
 							style={{ backgroundColor: "white" }}
 						>
-							<MessageList
-								className="message-list"
-								lockable={true}
-								toBottomHeight={"100%"}
-								dataSource={chat}
-							/>
+							{chat.length ? (
+								<>
+									<Row style={{ minHeight: "600px" }}>
+										<MessageList
+											className="message-list"
+											lockable={true}
+											toBottomHeight={"100%"}
+											dataSource={chat}
+										/>
+									</Row>
+									<Row className="border-top mt-1 pt-3">
+										<Input
+											placeholder="Type your message here .."
+											multiline={true}
+											rightButtons={
+												<Button variant="success">
+													Send
+												</Button>
+											}
+										/>
+									</Row>
+								</>
+							) : (
+								<Row style={{ minHeight: "600px" }}>
+									<Row>
+										<Image
+											src="https://uber-eats-prototype.s3.us-west-1.amazonaws.com/Screen%20Shot%202021-11-29%20at%208.23.28%20PM.png"
+											style={{
+												maxHeight: "200px",
+												maxWidth: "400px",
+												marginLeft: "250px",
+												marginRight: "250px",
+												marginTop: "150px",
+												marginBottom: "0px",
+											}}
+										></Image>
+										<p
+											style={{
+												justifyContent: "center",
+												marginLeft: "350px",
+												marginRight: "250px",
+											}}
+										>
+											<b>You may have messages</b> <br />
+											Select a conversation to read
+										</p>
+									</Row>
+									{/* <Row
+										style={{
+											justifyContent: "center",
+											marginTop: "0px",
+										}}
+									> */}
+
+									{/* </Row> */}
+									<Row
+										style={{ justifyContent: "center" }}
+									></Row>
+								</Row>
+							)}
 						</Container>
 					</Col>
 				</Row>
