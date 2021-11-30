@@ -2,7 +2,7 @@ import {  Box, Button, Grid, Typography} from '@material-ui/core';
 import React, { useState } from 'react';
 import {useDispatch, useSelector} from "react-redux"
 import { makeStyles } from '@material-ui/core/styles';
-import { getSearchData, setCurrentPage } from '../../../_actions/jobSearchActions';
+import { getJobSearchData, setCurrentPage } from '../../../_actions/jobSearchActions';
 import { useHistory } from 'react-router-dom';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import SearchInput from './SearchInput';

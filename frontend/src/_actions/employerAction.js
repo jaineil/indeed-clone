@@ -7,18 +7,46 @@ import {
     GET_COMPANY_PROFILE
 } from "./actionTypes";
 
-export const createEmployerAndCompanyProfile = (employerProfile,companyProfile) => async (dispatch) => {
+export const updateEmployerAndCreateCompanyProfile = (employerProfile,companyProfile) => async (dispatch) => {
     //dispatch(loginRequest());
 
-    const createEmployerProfile = axios.post(endPointObj.url+ "/createEmployerProfile", {
+    const updateEmployerProfile = axios.post(endPointObj.url+ "/employer/update-profile/", {
         employerProfile
       });
-    const createCompanyProfile = axios.post(endPointObj.url+ "/createCompanyProfile", {
+    const updateCompanyProfile = axios.post(endPointObj.url+ "/employer/updateCompany/", {
         companyProfile
       });
 
     try {
-        const [employerResponse, companyResponse] = await axios.all([ createEmployerProfile, createCompanyProfile ]);
+        const [employerResponse, companyResponse] = await axios.all([ updateEmployerProfile, updateCompanyProfile ]);
+        console.log("Employer Response: " + employerResponse);
+        console.log("Company Response: " + companyResponse);
+        dispatch({
+            type: CREATE_EMPLOYER_AND_COMPANY_PROFILE,
+            payload : null
+        })
+    }
+    catch (err) {
+        console.log(err.message);
+        dispatch({
+            type: CREATE_EMPLOYER_AND_COMPANY_PROFILE,
+            payload : null
+        })
+    }
+  };
+
+  export const updateEmployerAndUpdateCompanyProfile = (employerProfile,companyProfile) => async (dispatch) => {
+    //dispatch(loginRequest());
+
+    const updateEmployerProfile = axios.post(endPointObj.url+ "/employer/update-profile/", {
+        employerProfile
+      });
+    const updateCompanyProfile = axios.post(endPointObj.url+ "/employer/updateCompany/", {
+        companyProfile
+      });
+
+    try {
+        const [employerResponse, companyResponse] = await axios.all([ updateEmployerProfile, updateCompanyProfile ]);
         console.log("Employer Response: " + employerResponse);
         console.log("Company Response: " + companyResponse);
         dispatch({

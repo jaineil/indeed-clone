@@ -7,7 +7,9 @@ const initState = {
 
 export const employerReducer = (state=initState,{type,payload})=>{
     switch (type){
-        case CREATE_EMPLOYER_AND_COMPANY_PROFILE: return {
+        case CREATE_EMPLOYER_AND_COMPANY_PROFILE: 
+        console.log(payload);
+        return {
             ...state,
             employerProfile: payload.employerProfile,
             companyProfile: payload.companyProfile

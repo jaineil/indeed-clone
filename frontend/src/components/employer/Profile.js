@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useStyles } from './Styles';
 import Navbar from './Navbar';
+import axios from "axios";
+import endPointObj from '../../endPointUrl.js';
 
 import {
     Box,
@@ -13,126 +15,238 @@ import {
     TextField
 } from '@material-ui/core';
 
-import { useDispatch,useSelector } from 'react-redux';
-import { createEmployerAndCompanyProfile, getEmployerProfile, getCompanyProfile } from '../../_actions/employerAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateEmployerAndUpdateCompanyProfile, updateEmployerAndCreateCompanyProfile , getEmployerProfile, getCompanyProfile } from '../../_actions/employerAction';
 import { Link, Redirect } from 'react-router-dom';
 
 export default function Profile() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const mongoId = "61a1899070aa0513ab04bdb0";
+    const mongoId = "61a2935f773d3378523d18f7";
+    let employerProfile = null;
+    let companyProfile = null;
+    // const mongoId = localStorage.getItem('userId'); TBA by Vineet Batthina
     useEffect(() => {
-        dispatch(getEmployerProfile(mongoId));
-    },[])
+        employerProfile = JSON.parse(localStorage.getItem('employerProfile'));
+        companyProfile = JSON.parse(localStorage.getItem('companyProfile'));
+    }, [])
 
-    const employerProfile = useSelector( (state) => state.employer.employerProfile);
-    const companyProfile = useSelector( (state) => state.employer.companyProfile);
+    console.log(JSON.stringify(employerProfile));
+    console.log(JSON.stringify(companyProfile));
 
     useEffect(() => {
         if (employerProfile) {
-            if(employerProfile.firstName && employerProfile.lastName){
-                setEmployerFirstName( employerProfile.firstName);
-                setEmployerLastName (employerProfile.lastName);
-                setEmployerRole (employerProfile.role ? employerProfile.role : "");
-                setEmployerStreet (employerProfile.companyLocation.street ? employerProfile.companyLocation.street : "");
-                setEmployerCity( employerProfile.companyLocation.city ? employerProfile.companyLocation.city : "");
-                setEmployerState (employerProfile.companyLocation.state ? employerProfile.companyLocation.state : "");
-                setEmployerCountry (employerProfile.companyLocation.country ? employerProfile.companyLocation.country : "");
-                setEmployerZipcode (employerProfile.companyLocation.zipcode ? employerProfile.companyLocation.zipcode : "");
-                dispatch(getCompanyProfile(mongoId));
+            if (employerProfile.firstName && employerProfile.lastName) {
+                setEmployerFirstName(employerProfile.firstName);
+                setEmployerLastName(employerProfile.lastName);
+                setEmployerRole(employerProfile.role ? employerProfile.role : "");
+                setEmployerStreet(employerProfile.companyLocation.street ? employerProfile.companyLocation.street : "");
+                setEmployerCity(employerProfile.companyLocation.city ? employerProfile.companyLocation.city : "");
+                setEmployerState(employerProfile.companyLocation.state ? employerProfile.companyLocation.state : "");
+                setEmployerCountry(employerProfile.companyLocation.country ? employerProfile.companyLocation.country : "");
+                setEmployerZipcode(employerProfile.companyLocation.zipcode ? employerProfile.companyLocation.zipcode : "");
             }
-            else{
-                setEmployerFirstName( "" );
-                setEmployerLastName ("");
-                setEmployerRole ("");
-                setEmployerStreet ("");
+            else {
+                setEmployerFirstName("");
+                setEmployerLastName("");
+                setEmployerRole("");
+                setEmployerStreet("");
                 setEmployerCity("");
-                setEmployerState ("");
-                setEmployerCountry ("");
+                setEmployerState("");
+                setEmployerCountry("");
                 setEmployerZipcode("");
             }
         }
         else {
-            setEmployerFirstName( "" );
-            setEmployerLastName ("");
-            setEmployerRole ("");
-            setEmployerStreet ("");
+            setEmployerFirstName("");
+            setEmployerLastName("");
+            setEmployerRole("");
+            setEmployerStreet("");
             setEmployerCity("");
-            setEmployerState ("");
-            setEmployerCountry ("");
+            setEmployerState("");
+            setEmployerCountry("");
             setEmployerZipcode("");
         }
-    },[employerProfile])
+    }, [employerProfile])
 
     useEffect(() => {
         if (companyProfile) {
+            setCompanyName(companyProfile.companyName);
+            setCompanyWebsite(companyProfile.websiteUrl);
+            setCompanyRevenue(companyProfile.revenue);
+            setCompanySize(companyProfile.companySize);
+            setCompanyHeadquarters(companyProfile.headquarters);
+            setCompanyCeoName(companyProfile.ceoName);
+            setCompanyType(companyProfile.companyType);
+            setCompanyStreet(companyProfile.companyLocation.street ? companyProfile.companyLocation.street : '');
+            setCompanyCity(companyProfile.companyLocation.city);
+            setCompanyZipcode(companyProfile.companyLocation.zipcode);
+            setCompanyState(companyProfile.companyLocation.state);
+            setCompanyCountry(companyProfile.companyLocation.country);
 
+            setCompanyIndustry(companyProfile.industry);
+            setCompanyFounded(companyProfile.founded);
+            setCompanyMissionAndVision(companyProfile.missionAndVision);
         }
         else {
-
+            setEmployerFirstName("");
+            setEmployerLastName("");
+            setEmployerRole("");
+            setEmployerStreet("");
+            setEmployerCity("");
+            setEmployerState("");
+            setEmployerCountry("");
+            setEmployerZipcode("");
         }
-    },[companyProfile])
+    }, [companyProfile])
+
+    const [companyName, setCompanyName] = useState("");
+    const [companyWebsite, setCompanyWebsite] = useState("");
+    const [companyType, setCompanyType] = useState("");
+    const [companyRevenue, setCompanyRevenue] = useState("");
+    const [companySize, setCompanySize] = useState("");
+    const [companyHeadquarters, setCompanyHeadquarters] = useState("");
+    const [companyCeoName, setCompanyCeoName] = useState("");
+    const [companyStreet, setCompanyStreet] = useState("");
+    const [companyCity, setCompanyCity] = useState("");
+    const [companyZipcode, setCompanyZipcode] = useState("");
+    const [companyState, setCompanyState] = useState("");
+    const [companyCountry, setCompanyCountry] = useState("");
+    const [companyIndustry, setCompanyIndustry] = useState("");
+    const [companyFounded, setCompanyFounded] = useState("");
+    const [companyMissionAndVision, setCompanyMissionAndVision] = useState("");
+
+    const [employerFirstName, setEmployerFirstName] = useState("");
+    const [employerLastName, setEmployerLastName] = useState("");
+    const [employerRole, setEmployerRole] = useState("");
+    const [employerStreet, setEmployerStreet] = useState("");
+    const [employerCity, setEmployerCity] = useState("");
+    const [employerState, setEmployerState] = useState("");
+    const [employerCountry, setEmployerCountry] = useState("");
+    const [employerZipcode, setEmployerZipcode] = useState("");
 
 
-    console.log("Employer Profile now: " + JSON.stringify(employerProfile));
-    const[companyName, setCompanyName] = useState("");
-    const[companyWebsite, setCompanyWebsite] = useState("");
-    const[companyType, setCompanyType] = useState("");
-    const[companyRevenue, setCompanyRevenue] = useState("");
-    const[companySize, setCompanySize] = useState("");
-    const[companyHeadquarters, setCompanyHeadquarters] = useState("");
-    const[companyCeoName, setCompanyCeoName] = useState("");
-    const[companyStreet, setCompanyStreet] = useState("");
-    const[companyCity, setCompanyCity] = useState("");
-    const[companyZipcode, setCompanyZipcode] = useState("");
-    const[companyState, setCompanyState] = useState("");
-    const[companyCountry, setCompanyCountry] = useState("");
-    const[companyIndustry, setCompanyIndustry] = useState("");
-    const[companyFounded, setCompanyFounded] = useState("");
-    const[companyMissionAndVision, setCompanyMissionAndVision] = useState("");
 
-    const[employerFirstName, setEmployerFirstName] = useState("");
-    const[employerLastName, setEmployerLastName] = useState("");
-    const[employerRole, setEmployerRole] = useState("");
-    const[employerStreet, setEmployerStreet] = useState("");
-    const[employerCity, setEmployerCity] = useState("");
-    const[employerState, setEmployerState] = useState("");
-    const[employerCountry, setEmployerCountry] = useState("");
-    const[employerZipcode, setEmployerZipcode] = useState("");
-
-    
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const companyProfile = {
-            companyName ,
-            companyWebsite ,
-            companyType ,
-            companyRevenue ,
-            companySize ,
-            companyHeadquarters ,
-            companyCeoName ,
-            companyStreet ,
-            companyCity ,
-            companyZipcode ,
-            companyState ,
-            companyCountry ,
-            companyIndustry ,
-            companyFounded ,
+            companyName,
+            companyWebsite,
+            companyType,
+            companyRevenue,
+            companySize,
+            companyHeadquarters,
+            companyCeoName,
+            companyStreet,
+            companyCity,
+            companyZipcode,
+            companyState,
+            companyCountry,
+            companyIndustry,
+            companyFounded,
             companyMissionAndVision
         }
         const employerProfile = {
-            employerFirstName,
-            employerLastName, 
-            employerRole,
-            employerStreet, 
-            employerCity,
-            employerState,
-            employerCountry,
-            employerZipcode
+            "employerId" : "61a1899070aa0513ab04bdb0", //TBD
+            "firstName" : employerFirstName,
+            "lastName" : employerLastName,
+            "role": employerRole,
+            "street": employerStreet,
+            "apt": "something", //Needed? TBD
+            "city": employerCity,
+            "state": employerState,
+            "country": employerCountry,
+            "zip": employerZipcode, //TBD change according to backend
+            "contactNumber" : "something" //Needed ? TBD change according to backend
         }
-        console.log(companyProfile.employerCountry);
-        dispatch(createEmployerAndCompanyProfile(employerProfile,companyProfile));
+        console.log(companyProfile);
+        console.log(employerProfile);
+        if(companyProfile){
+            // const updateEmployerProfile = axios.post(endPointObj.url+ "/employer/update-profile/", {
+            //     employerProfile
+            //   });
+            // const updateCompanyProfile = axios.post(endPointObj.url+ "/employer/updateCompany/", {
+            //     companyProfile
+            //   });
+        
+            // try {
+            //     const [employerResponse, companyResponse] = await axios.all([ updateEmployerProfile, updateCompanyProfile ]);
+            //     console.log("Employer Response: " + employerResponse);
+            //     console.log("Company Response: " + companyResponse);
+            // }
+            // catch (err) {
+            //     console.log(err.message);
+            // }
+
+            console.log(employerProfile);
+
+            try{
+                const employerReponse = await axios.put(endPointObj.url+ "/employer/update-profile", {
+                    employerId : "61a1899070aa0513ab04bdb0", //TBD
+                    firstName : employerFirstName,
+                    lastName : employerLastName,
+                    role: employerRole,
+                    street : employerStreet,
+                    apt : "something", //Needed? TBD
+                    city : employerCity,
+                    state : employerState,
+                    country : employerCountry,
+                    zip : employerZipcode, //TBD change according to backend
+                    contactNumber : "something" //Needed ? TBD change according to backend
+                });
+                console.log(JSON.stringify(employerReponse));
+            }
+            catch(e){
+                console.log(e.message);
+            }
+
+            // try {
+            //     const saveJobResponse = await axios.post(endPointObj.url+ "/employer/postJob", {
+            //         companyId : "61a2f3ec6b3a62effbe5f222",
+            //         employerId : "61a05844336330b63c02effd", //Needed?
+            //         companyName: companyName,
+            //         jobTitle : jobTitle,
+            //         industry : industry,
+            //         jobLocation: {
+            //             street : streetAddress,
+            //             city : city,
+            //             state : state,
+            //             country : country,
+            //             zipcode : zipcode
+            //         },
+            //         jobType : jobType,
+            //         remote : (workType === "Remote") ? true : false,
+            //         jobDescription : {
+            //             description: jobDescription,
+            //             responsibilities: responsibilities,
+            //             requirements: requirements,
+            //             whyUs: whyUs
+            //         },
+            //         salary : salary
+            //     });
+            //     console.log("Employer Response: " + JSON.stringify(saveJobResponse));
+            // }
+            // catch (err) {
+            //     console.log(err.message);
+            // }
+        }
+        else{
+            const updateEmployerProfile = axios.post(endPointObj.url+ "/employer/update-profile/", {
+                employerProfile
+              });
+            const updateCompanyProfile = axios.post(endPointObj.url+ "/employer/updateCompany/", {
+                companyProfile
+              });
+        
+            try {
+                const [employerResponse, companyResponse] = await axios.all([ updateEmployerProfile, updateCompanyProfile ]);
+                console.log("Employer Response: " + employerResponse);
+                console.log("Company Response: " + companyResponse);
+            }
+            catch (err) {
+                console.log(err.message);
+            }
+        }
     }
 
 
@@ -160,8 +274,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Name"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyName(e.target.value) }}
-                                        value = { companyName }
+                                        onChange={(e) => { setCompanyName(e.target.value) }}
+                                        value={companyName}
                                         required
                                     />
                                 </Grid>
@@ -170,8 +284,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Website"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyWebsite(e.target.value) }}
-                                        value = { companyWebsite }
+                                        onChange={(e) => { setCompanyWebsite(e.target.value) }}
+                                        value={companyWebsite}
                                         required
                                     />
                                 </Grid>
@@ -180,8 +294,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Type"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyType(e.target.value) }}
-                                        value = { companyType }
+                                        onChange={(e) => { setCompanyType(e.target.value) }}
+                                        value={companyType}
                                         required
                                     />
                                 </Grid>
@@ -190,8 +304,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Revenue"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyRevenue(e.target.value) }}
-                                        value = { companyRevenue }
+                                        onChange={(e) => { setCompanyRevenue(e.target.value) }}
+                                        value={companyRevenue}
                                         required
                                     />
                                 </Grid>
@@ -200,8 +314,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Size"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanySize(e.target.value) }}
-                                        value = { companySize }
+                                        onChange={(e) => { setCompanySize(e.target.value) }}
+                                        value={companySize}
                                         required
                                     />
                                 </Grid>
@@ -210,8 +324,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Headquarters"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyHeadquarters(e.target.value) }}
-                                        value = { companyHeadquarters }
+                                        onChange={(e) => { setCompanyHeadquarters(e.target.value) }}
+                                        value={companyHeadquarters}
                                         required
                                     />
                                 </Grid>
@@ -220,8 +334,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="CEO Name"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyCeoName(e.target.value) }}
-                                        value = { companyCeoName }
+                                        onChange={(e) => { setCompanyCeoName(e.target.value) }}
+                                        value={companyCeoName}
                                         required
                                     />
                                 </Grid>
@@ -230,8 +344,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Industry"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyIndustry(e.target.value) }}
-                                        value = { companyIndustry }
+                                        onChange={(e) => { setCompanyIndustry(e.target.value) }}
+                                        value={companyIndustry}
                                         required
                                     />
                                 </Grid>
@@ -240,8 +354,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Founded"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyFounded(e.target.value) }}
-                                        value = { companyFounded }
+                                        onChange={(e) => { setCompanyFounded(e.target.value) }}
+                                        value={companyFounded}
                                         required
                                     />
                                 </Grid>
@@ -250,8 +364,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Mission and Vision"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyMissionAndVision(e.target.value) }}
-                                        value = { companyMissionAndVision }
+                                        onChange={(e) => { setCompanyMissionAndVision(e.target.value) }}
+                                        value={companyMissionAndVision}
                                         required
                                     />
                                 </Grid>
@@ -260,8 +374,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Street Address"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyStreet(e.target.value) }}
-                                        value = { companyStreet }
+                                        onChange={(e) => { setCompanyStreet(e.target.value) }}
+                                        value={companyStreet}
                                         required
                                     />
                                 </Grid>
@@ -270,8 +384,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="City"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyCity(e.target.value) }}
-                                        value = { companyCity }
+                                        onChange={(e) => { setCompanyCity(e.target.value) }}
+                                        value={companyCity}
                                         required
                                     />
                                 </Grid>
@@ -280,8 +394,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="State"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyState(e.target.value) }}
-                                        value = { companyState }
+                                        onChange={(e) => { setCompanyState(e.target.value) }}
+                                        value={companyState}
                                         required
                                     />
                                 </Grid>
@@ -290,8 +404,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Country"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyCountry(e.target.value) }}
-                                        value = { companyCountry }
+                                        onChange={(e) => { setCompanyCountry(e.target.value) }}
+                                        value={companyCountry}
                                         required
                                     />
                                 </Grid>
@@ -300,8 +414,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Zipcode"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setCompanyZipcode(e.target.value) }}
-                                        value = { companyZipcode }
+                                        onChange={(e) => { setCompanyZipcode(e.target.value) }}
+                                        value={companyZipcode}
                                         required
                                     />
                                 </Grid>
@@ -321,8 +435,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="First Name"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setEmployerFirstName(e.target.value) }}
-                                        value = { employerFirstName }
+                                        onChange={(e) => { setEmployerFirstName(e.target.value) }}
+                                        value={employerFirstName}
                                         required
                                     />
                                 </Grid>
@@ -331,8 +445,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Last Name"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setEmployerLastName(e.target.value) }}
-                                        value = { employerLastName }
+                                        onChange={(e) => { setEmployerLastName(e.target.value) }}
+                                        value={employerLastName}
                                         required
                                     />
                                 </Grid>
@@ -341,8 +455,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Role in Company"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setEmployerRole(e.target.value) }}
-                                        value = { employerRole }
+                                        onChange={(e) => { setEmployerRole(e.target.value) }}
+                                        value={employerRole}
                                         required
                                     />
                                 </Grid>
@@ -351,8 +465,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Street Address"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setEmployerStreet(e.target.value) }}
-                                        value = { employerStreet }
+                                        onChange={(e) => { setEmployerStreet(e.target.value) }}
+                                        value={employerStreet}
                                         required
                                     />
                                 </Grid>
@@ -361,8 +475,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="City #"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setEmployerCity(e.target.value) }}
-                                        value = { employerCity }
+                                        onChange={(e) => { setEmployerCity(e.target.value) }}
+                                        value={employerCity}
                                         required
                                     />
                                 </Grid>
@@ -371,8 +485,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="State"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setEmployerState(e.target.value) }}
-                                        value = { employerState }
+                                        onChange={(e) => { setEmployerState(e.target.value) }}
+                                        value={employerState}
                                         required
                                     />
                                 </Grid>
@@ -381,8 +495,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Country"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setEmployerCountry(e.target.value) }}
-                                        value = { employerCountry }
+                                        onChange={(e) => { setEmployerCountry(e.target.value) }}
+                                        value={employerCountry}
                                         required
                                     />
                                 </Grid>
@@ -391,8 +505,8 @@ export default function Profile() {
                                         variant="outlined"
                                         label="Zipcode"
                                         style={{ width: '100%' }}
-                                        onChange = {(e) =>{ setEmployerZipcode(e.target.value) }}
-                                        value = { employerZipcode }
+                                        onChange={(e) => { setEmployerZipcode(e.target.value) }}
+                                        value={employerZipcode}
                                         required
                                     />
                                 </Grid>

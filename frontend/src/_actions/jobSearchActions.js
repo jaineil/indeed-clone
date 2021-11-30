@@ -166,28 +166,28 @@ export const getJobSearchData = (job = "", location = "", page = "1") => (dispat
   dispatch(searchSuccess(jobsData));
   dispatch(setSearchCount(jobsData.length)); 
 
-  axios(config).then((res) => {
-      dispatch(searchSuccess(res.data));
-    }).then(() => {
-      let url = `${endPointObj.url}/jobs`;
+  // axios(config).then((res) => {
+  //     dispatch(searchSuccess(res.data));
+  //   }).then(() => {
+  //     let url = `${endPointObj.url}/jobs`;
 
-      if (location !== "" && job !== "") {
-        url = `${endPointObj.url}/jobs?location_like=${location}&jobTitle_like=${job}`;
-      } else if (location !== "") {
-        url = `${endPointObj.url}/jobs?location_like=${location}`;
-      } else if (job !== "") {
-        url = `${endPointObj.url}/jobs?jobTitle_like=${job}`;
-      }
-      axios({
-        method: "GET",
-        url: url,
-      }).then((res) => {
-        //Count result length for search job
-        dispatch(setSearchCount(res.data.length));
-      });
-    })
-    .catch((err) => {
-      console.log("error", err);
-    });
+  //     if (location !== "" && job !== "") {
+  //       url = `${endPointObj.url}/jobs?location_like=${location}&jobTitle_like=${job}`;
+  //     } else if (location !== "") {
+  //       url = `${endPointObj.url}/jobs?location_like=${location}`;
+  //     } else if (job !== "") {
+  //       url = `${endPointObj.url}/jobs?jobTitle_like=${job}`;
+  //     }
+  //     axios({
+  //       method: "GET",
+  //       url: url,
+  //     }).then((res) => {
+  //       //Count result length for search job
+  //       dispatch(setSearchCount(res.data.length));
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     console.log("error", err);
+  //   });
 };
   
