@@ -126,4 +126,15 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: "#103a7d",
     },
   },
+  resultContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "10px",
+  },
+  flexSpaceBetween: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
 }));
