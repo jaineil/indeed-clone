@@ -106,7 +106,8 @@ export function Login() {
         dispatch(makeLoginRequest({emailId:email,pass:password}))
     }
     console.log("login user data", user);
-    localStorage.setItem("userId",user.userId);
+    localStorage.setItem("userId",user.mongoId);
+    localStorage.setItem("role",user.userPersona);
     localStorage.setItem("userEmailId",user.emailId);
 
     console.log("localstorage login user data", localStorage.getItem("userEmailId"));
@@ -167,7 +168,7 @@ export function Login() {
                     </Grid>
                 </Grid>
             </Box>
-        </Container> :<Redirect to="/home" />
+        </Container> : (user.userPersona === "JOB_SEEKER") ? <Redirect to="/home" /> : ((user.userPersona === "EMPLOYER")) ? <Redirect to="/employer" /> : <Redirect to="/admin" />
     )   
 }
 export default Login;

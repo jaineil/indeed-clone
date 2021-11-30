@@ -26,7 +26,7 @@ class JobController {
 	getJobList = async (req, res) => {
 		try {
 			const response = await Jobs.find({
-				employerId: req.body.employerId,
+				employerId: req.params.employerId,
 			});
 			res.status(200).send({
 				jobList: response,
@@ -39,7 +39,7 @@ class JobController {
 	showJobsByCompany = async (req, res) => {
 		try {
 			const response = await Jobs.find({
-				companyId: req.body.companyId,
+				companyId: req.params.companyId,
 			});
 			res.status(200).send({
 				jobList: response,

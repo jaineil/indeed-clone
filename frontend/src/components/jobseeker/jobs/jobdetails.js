@@ -1,6 +1,6 @@
 var jobdetails = [
     {
-    "companyId": "1",
+    "companyId": "619f3868ef6dff3633f6d959",
     "companyName": "Amazon",
     "jobTitle": "Software Development Engineer",
     "averageRating": 4.3,
