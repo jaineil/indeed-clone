@@ -7,9 +7,6 @@ import EditSharpIcon from "@material-ui/icons/EditSharp";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import theme from "../../common/MenuTheme";
 import {
-  Box,
-  Container,
-  Grid,
   Typography,
   Button,
   Card,
@@ -18,11 +15,19 @@ import {
   CardActions,
 } from "@material-ui/core";
 
-import { useDispatch } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfile, updateProfile } from "../../../_actions/jobseekerActions";
+import {
+  firstNameSelector,
+  lastNameSelector,
+  contactNumberSelector,
+  resumesSelector,
+} from "../../../_reducers/jobseekerReducer";
 
-const FullName = (props) => {
-  const userProfile = props.userProfile;
+// Full Name Header
+const FullName = () => {
+  const firstName = useSelector(firstNameSelector);
+  const lastName = useSelector(lastNameSelector);
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div
@@ -53,7 +58,7 @@ const FullName = (props) => {
               fontSize: "1.375rem",
             }}
           >
-            S
+            {firstName.slice(0, 1)}
           </div>
           <div
             className="first-letter"
@@ -63,11 +68,11 @@ const FullName = (props) => {
               fontSize: "1.375rem",
             }}
           >
-            S
+            {lastName.slice(0, 1)}
           </div>
         </div>
         <Typography variant="h4" component="div" style={{ paddingTop: "10px" }}>
-          {"Your Name" || userProfile.firstName}
+          {firstName + " " + lastName || "Your Name"}
         </Typography>
       </div>
     </div>
@@ -75,93 +80,197 @@ const FullName = (props) => {
 };
 
 // Upload Resume block
-const Resume = (props) => {
+const Resume = () => {
   const classes = useStyles();
+  const resumes = useSelector(resumesSelector);
+  console.log("Resume: ", resumes);
+  const uploadResume = (e) => {
+    e.preventDefault();
+    alert("Resume Uploaded Successfully!");
+  };
   return (
     <>
       <Card variant="outlined">
-        <CardContent>
-          <Typography variant="h5" component="div">
-            Get Started
-          </Typography>
-        </CardContent>
-        <CardActions style={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            type="submit"
-            className={classes.uploadResume}
-          >
-            <ListItemIcon>
-              <CloudUploadIcon fontSize="medium" />
-            </ListItemIcon>
-            Upload a Resume
-          </Button>
-        </CardActions>
-        <CardContent>
-          <Typography variant="body2">
-            By continuing, you agree to create a public resume and agree to
-            receiving job opportunities from employers.
-          </Typography>
-        </CardContent>
+        {resumes.length === 0 ? (
+          <>
+            <CardContent>
+              <Typography
+                variant="body1"
+                component="div"
+                style={{ fontSize: "1.375rem", fontWeight: "bold" }}
+              >
+                Get Started
+              </Typography>
+            </CardContent>
+            <CardActions style={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                variant="contained"
+                type="submit"
+                className={classes.uploadResume}
+                onClick={uploadResume}
+              >
+                <ListItemIcon>
+                  <CloudUploadIcon fontSize="medium" />
+                </ListItemIcon>
+                Upload a Resume
+              </Button>
+            </CardActions>
+            <CardContent>
+              <Typography variant="body2">
+                By continuing, you agree to create a public resume and agree to
+                receiving job opportunities from employers.
+              </Typography>
+            </CardContent>
+          </>
+        ) : (
+          <>
+            <CardContent>
+              <Typography
+                variant="body1"
+                component="div"
+                style={{ fontSize: "1.375rem", fontWeight: "bold" }}
+              >
+                Resume
+              </Typography>
+            </CardContent>
+            <CardActions style={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                variant="contained"
+                type="submit"
+                className={classes.uploadResume}
+                onClick={uploadResume}
+              >
+                <ListItemIcon>
+                  <CloudUploadIcon fontSize="medium" />
+                </ListItemIcon>
+                Download Resume
+              </Button>
+              <Button
+                variant="contained"
+                type="submit"
+                className={classes.uploadResume}
+                onClick={uploadResume}
+              >
+                <ListItemIcon>
+                  <CloudUploadIcon fontSize="medium" />
+                </ListItemIcon>
+                Delete Resume
+              </Button>
+            </CardActions>
+          </>
+        )}
       </Card>
     </>
   );
 };
+
 // Contact Details Block
 const ContactInformation = (props) => {
   const classes = useStyles();
+  const jobseekerId = useSelector((state) => state.jobseekerProfile._id);
   const [editProfile, setEditStatus] = useState(false);
+  const [firstName, setFirstName] = useState(useSelector(firstNameSelector));
+  const [lastName, setLastName] = useState(useSelector(lastNameSelector));
+  const [contactNumber, setContactNumber] = useState(
+    useSelector(contactNumberSelector)
+  );
+  const dispatch = useDispatch();
+  const handleSumbit = (e) => {
+    e.preventDefault();
+    const payload = {
+      jobseekerId,
+      firstName,
+      lastName,
+      contactNumber,
+    };
+    dispatch(updateProfile(payload));
+    setEditStatus(false);
+  };
   return (
     <>
       <Card variant="outlined">
-        <CardContent className={classes.flexSpaceBetween}>
-          <Typography variant="h5" component="div">
+        <CardContent
+          className={classes.flexSpaceBetween}
+          style={{ paddingBottom: "0", marginBottom: "0px" }}
+        >
+          <Typography
+            variant="body1"
+            component="div"
+            style={{ fontSize: "1.375rem", fontWeight: "bold" }}
+          >
             Contact Information
           </Typography>
-          <EditSharpIcon
-            fontSize="medium"
-            onClick={(e) => {
-              e.preventDefault();
-              setEditStatus(true);
-            }}
-          />
+          {!editProfile ? (
+            <EditSharpIcon
+              fontSize="medium"
+              onClick={(e) => {
+                e.preventDefault();
+                setEditStatus(true);
+              }}
+            />
+          ) : (
+            <div></div>
+          )}
         </CardContent>
         {!editProfile ? (
           <CardContent>
-            <Typography variant="body2">
+            {firstName !== "" && lastName !== "" ? (
+              <>
+                <Typography variant="body2" style={{ marginBottom: "10px" }}>
+                  {firstName + " " + lastName}
+                </Typography>
+              </>
+            ) : (
+              <div></div>
+            )}
+            <Typography variant="body2" style={{ marginBottom: "10px" }}>
               {localStorage.getItem("userEmailId")}
             </Typography>
+            {contactNumber !== "" ? (
+              <>
+                <Typography variant="body2" style={{ marginBottom: "10px" }}>
+                  {contactNumber}
+                </Typography>
+              </>
+            ) : (
+              <Typography
+                variant="body2"
+                className={classes.addPhoneNumber}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setEditStatus(true);
+                }}
+              >
+                Add phone number
+              </Typography>
+            )}
           </CardContent>
         ) : (
           <div style={{ padding: "20px" }}>
             <Typography variant="body2">* Required Fields</Typography>
             <br />
-            <form>
-              <Typography style={{ marginTop: "10px" }} variant="body2">
-                First Name
-              </Typography>
+            <form onSubmit={handleSumbit}>
               <TextField
                 variant="outlined"
                 label="First Name"
                 style={{ width: "100%", marginTop: "10px" }}
-                // onChange={(e) => {
-                //   setCompanyName(e.target.value);
-                // }}
-                // value={companyName}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setFirstName(e.target.value);
+                }}
+                value={firstName}
                 required
               />
               <br />
-              <Typography style={{ marginTop: "10px" }} variant="body2">
-                Last Name
-              </Typography>
               <TextField
                 variant="outlined"
                 label="Last Name"
                 style={{ width: "100%", marginTop: "10px" }}
-                // onChange={(e) => {
-                //   setCompanyName(e.target.value);
-                // }}
-                // value={companyName}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setLastName(e.target.value);
+                }}
+                value={lastName}
                 required
               />
               <br />
@@ -175,27 +284,18 @@ const ContactInformation = (props) => {
                 {localStorage.getItem("userEmailId")}
               </Typography>
               <br />
-              <Typography style={{ marginTop: "10px" }} variant="body2">
-                Phone Number (Optional)
-              </Typography>
               <TextField
                 variant="outlined"
+                label="Phone Number (Optional)"
                 style={{ width: "100%", marginTop: "10px" }}
-                // onChange={(e) => {
-                //   setCompanyName(e.target.value);
-                // }}
-                // value={companyName}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setContactNumber(e.target.value);
+                }}
+                value={contactNumber}
               />
               <br />
-              <Button
-                variant="contained"
-                // type="submit"
-                className={classes.saveButton}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setEditStatus(false);
-                }}
-              >
+              <Button type="submit" className={classes.saveButton}>
                 Save
               </Button>
               <Button
@@ -217,9 +317,11 @@ const ContactInformation = (props) => {
 };
 
 const JobSeekerProfile = () => {
-  const [userProfile, setProfile] = useState();
-
-  useEffect(() => {}, []);
+  const dispatch = useDispatch();
+  const mongoId = useSelector((state) => state.login.user.mongoId);
+  useEffect(() => {
+    dispatch(getProfile(mongoId));
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <Header />

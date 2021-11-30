@@ -43,6 +43,14 @@ export const useStyles = makeStyles((theme) => ({
       color: "#103a7d",
     },
   },
+  addPhoneNumber: {
+    color: "#595959",
+    cursor: "pointer",
+    fontWeight: "bold",
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
   flexSpaceBetween: {
     display: "flex",
     justifyContent: "space-between",
