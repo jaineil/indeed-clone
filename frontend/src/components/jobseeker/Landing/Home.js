@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Home() {
     const styleClasses = useStyles();
-    const { isAuth,user } = useSelector(state => state.login);
+    const { isAuth, user } = useSelector(state => state.login);
     console.log("isauth home", isAuth);
     console.log("Login user data: home", user);
     return (
@@ -41,14 +41,14 @@ function Home() {
                     <Link className={styleClasses.link} to="/postresume" >
                         {` Post your resume `}
                     </Link>
-                        {`It only takes a few seconds`} <br/><br/>
+                    {`It only takes a few seconds`} <br /><br />
                     {`Employers:`}
                     <Link className={styleClasses.link} to="/postjob" >
                         {` Post a job `}
                     </Link>
                 </div>
             </Container>
-            <hr/>
+            <hr />
             <RecentJobSearch />
         </ThemeProvider>
     );
