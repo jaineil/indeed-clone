@@ -11,15 +11,25 @@ const companyDetailsSchema = new Schema({
 	headquarters: { type: String },
 	industry: { type: String },
 	founded: { type: String },
-	missionAndVision: { type: String },
 	ceoName: { type: String },
-	averageRating: { type: String },
+	averageRating: { type: Number },
+	description: {
+		about: String,
+		workCulture: String,
+		values: String,
+		missionAndVision: String,
+	},
 	companyLocation: {
 		city: { type: String },
 		state: { type: String },
 		zipcode: { type: String },
 		country: { type: String },
 	},
+	featuredReviews: [
+		{
+			reviewId: { type: mongoose.Schema.Types.ObjectId, ref: "review" },
+		},
+	],
 });
 
 const CompanyDetails = mongoose.model("companyDetail", companyDetailsSchema);

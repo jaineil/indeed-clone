@@ -105,6 +105,10 @@ export function Login() {
         e.preventDefault();
         dispatch(makeLoginRequest({email,password}))
     }
+    console.log("login user data", user);
+    localStorage.setItem("userId",user.mongoId);
+    localStorage.setItem("role",user.userPersona);
+    localStorage.setItem("userEmailId",user.emailId);
 
 
     return (
@@ -159,7 +163,7 @@ export function Login() {
                     </Grid>
                 </Grid>
             </Box>
-        </Container> : <Redirect to="/home" />
-    )
+        </Container> : (user.userPersona === "JOB_SEEKER") ? <Redirect to="/home" /> : ((user.userPersona === "EMPLOYER")) ? <Redirect to="/employer" /> : <Redirect to="/admin" />
+    )   
 }
 export default Login;

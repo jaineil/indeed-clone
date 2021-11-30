@@ -12,6 +12,9 @@ const handleSearchRequest = async (req, callback) => {
 				req.body
 			);
 			break;
+		case "/job-seeker/search-jobs":
+			results = await searchController.searchJobs(req.body);
+			break;
 		case "/job-seeker/search-for-companies":
 			results = await searchController.searchCompanies(req.body);
 			break;
