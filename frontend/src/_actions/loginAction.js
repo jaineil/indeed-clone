@@ -46,9 +46,7 @@ export const makeLoginRequest = ({ emailId, pass }) => (dispatch) => {
         .then(response => {
           console.log("login response", response.data[0]);
           dispatch(loginSuccess(response.data[0]))
-          localStorage.setItem("userId",response.data[0].mongoId);
-          localStorage.setItem("role",response.data[0].userPersona);
-          localStorage.setItem("userEmailId",response.data[0].emailId);
+          
       })
         .catch(error => {
             if(error.response && error.response.data) {

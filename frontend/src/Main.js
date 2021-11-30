@@ -9,10 +9,11 @@ import CompanyJoinus from './components/jobseeker/company/CompanyJoinus';
 import CompanyReview from './components/jobseeker/company/CompanyReview';
 import CompanySalaries from './components/jobseeker/company/CompanySalaries';
 import AddCompanySalary from './components/jobseeker/company/AddCompanySalaries';
+import jobseekerprofile from "./components/jobseeker/profile/JobSeekerProfile";
+import findSalaries from "./components/jobseeker/salaries/FindSalaries";
 
 import employerDashboard from './components/employer/LandingPage';
 import employerProfile from './components/employer/Profile';
-
 
 class Main extends Component {
     
@@ -30,6 +31,8 @@ class Main extends Component {
                 <Route path="/companyreview" component={CompanyReview} />
                 <Route path="/companysalary" component={CompanySalaries} />
                 <Route path="/addcompanysalary" component={AddCompanySalary} />
+                <Route path="/jobseekerprofile" component={jobseekerprofile} />
+                <Route path="/career/salaries" component={findSalaries} />
 
                 <Route path="/employer" component={employerDashboard} />
                 <Route path="/profile" component={employerProfile} />
