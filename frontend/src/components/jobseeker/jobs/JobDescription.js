@@ -74,7 +74,7 @@ function JobDescription({jobData}) {
 
 
     //fetchjobdetails
-    console.log("Company details - jobdescription", jobDetails);
+    console.log("Job details - jobdescription", jobDetails);
 
     // const handleApply=()=>{    
     //     applied_job[jobId] = {
@@ -95,6 +95,8 @@ function JobDescription({jobData}) {
                 {jobTitle}
             </Typography>
             <Box style={{marginBottom:'5px'}}>
+                {/* Setting up current company id in locastorage to make it access to company homepage. */}
+                {localStorage.setItem("currentcompanyid", jobDetails[0].companyId)}
                 <Link to="/companyHome" style = {{textDecoration: "none", color: "#000000"}}>{companyName}</Link>
             </Box>
             <Box style={{marginBottom:'5px'}}>
