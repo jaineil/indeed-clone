@@ -16,6 +16,21 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: "#ffffff",
     },
   },
+  deleteResume: {
+    borderRadius: "30px",
+    padding: "10px",
+    boxShadow: "none",
+    border: "3px solid red",
+    width: "50%",
+    backgroundColor: "#ffffff",
+    color: "red",
+    fontStyle: "Open Sans",
+    fontWeight: "bold",
+    height: "150%",
+    "&:hover": {
+      backgroundColor: "#ffffff",
+    },
+  },
   saveButton: {
     borderRadius: "30px",
     boxShadow: "none",

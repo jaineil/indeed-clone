@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useStyles } from "./Styles";
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
@@ -23,6 +24,7 @@ import {
   contactNumberSelector,
   resumesSelector,
 } from "../../../_reducers/jobseekerReducer";
+import endPointObj from "../../../endPointUrl";
 
 // Full Name Header
 const FullName = () => {
@@ -80,17 +82,42 @@ const FullName = () => {
 };
 
 // Upload Resume block
-const Resume = () => {
+const Resume = ({ mongoId }) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const resumes = useSelector(resumesSelector);
   console.log("Resume: ", resumes);
+  const hiddenFileInput = React.useRef(null);
   const uploadResume = (e) => {
     e.preventDefault();
-    alert("Resume Uploaded Successfully!");
+    hiddenFileInput.current.click();
+  };
+  const handleChange = (e) => {
+    e.preventDefault();
+    const fileUploaded = e.target.files[0];
+    console.log("Resume: ", fileUploaded.name);
+    const formData = new FormData();
+    formData.append("file", fileUploaded);
+    axios
+      .post(
+        `${endPointObj.url}/job-seeker/upload-resume?jobseekerId=${mongoId}&resumeName=${fileUploaded.name}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) dispatch(getProfile(mongoId));
+      })
+      .catch((err) => {
+        console.log("Error while uploading Resume: ", err);
+      });
   };
   return (
     <>
-      <Card variant="outlined">
+      <Card variant="outlined" style={{ width: "600px" }}>
         {resumes.length === 0 ? (
           <>
             <CardContent>
@@ -114,6 +141,14 @@ const Resume = () => {
                 </ListItemIcon>
                 Upload a Resume
               </Button>
+              <input
+                type="file"
+                id="resume"
+                name="resume"
+                style={{ display: "none" }}
+                ref={hiddenFileInput}
+                onChange={handleChange}
+              />
             </CardActions>
             <CardContent>
               <Typography variant="body2">
@@ -132,29 +167,35 @@ const Resume = () => {
               >
                 Resume
               </Typography>
+              <Typography
+                variant="body1"
+                component="a"
+                href={resumes[0].url}
+                target="_blank"
+                style={{
+                  fontSize: "1.2rem",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                }}
+              >
+                {resumes[0].name}
+              </Typography>
             </CardContent>
+
             <CardActions style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant="contained"
-                type="submit"
+                type="button"
                 className={classes.uploadResume}
-                onClick={uploadResume}
               >
-                <ListItemIcon>
-                  <CloudUploadIcon fontSize="medium" />
-                </ListItemIcon>
-                Download Resume
+                Download
               </Button>
               <Button
                 variant="contained"
-                type="submit"
-                className={classes.uploadResume}
-                onClick={uploadResume}
+                type="button"
+                className={classes.deleteResume}
               >
-                <ListItemIcon>
-                  <CloudUploadIcon fontSize="medium" />
-                </ListItemIcon>
-                Delete Resume
+                Delete
               </Button>
             </CardActions>
           </>
@@ -321,7 +362,7 @@ const JobSeekerProfile = () => {
   const mongoId = useSelector((state) => state.login.user.mongoId);
   useEffect(() => {
     dispatch(getProfile(mongoId));
-  }, []);
+  }, [dispatch, mongoId]);
   return (
     <ThemeProvider theme={theme}>
       <Header />
@@ -336,7 +377,7 @@ const JobSeekerProfile = () => {
         }}
       >
         <div className="profile">
-          <Resume />
+          <Resume mongoId={mongoId} />
           <br />
           <ContactInformation />
         </div>
