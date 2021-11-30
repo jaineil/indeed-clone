@@ -9,4 +9,9 @@ jobApplicationRouter.post(
 	jobApplicationController.apply
 );
 
+jobApplicationRouter.get(
+	"/employer/get-job-applicant-resume-cover-letter/:applicationId",
+	jobApplicationController.getApplicantResumeCoverLetter
+);
+
 export default jobApplicationRouter;

@@ -1,4 +1,5 @@
 import { make_request } from "../../../../kafka/client.js";
+import JobSeekerApplications from "../../../db/models/mongo/jobSeekerApplications.js";
 
 export class JobApplicationController {
 	apply = async (req, res) => {
@@ -24,6 +25,18 @@ export class JobApplicationController {
 				res.end();
 			}
 		});
+	};
+
+	getApplicantResumeCoverLetter = async (req, res) => {
+		try {
+			const response = await JobSeekerApplications.findById(
+				req.params.applicationId
+			);
+			res.send(response);
+		} catch (err) {
+			console.error(err);
+			res.send({ error: err });
+		}
 	};
 }
 
