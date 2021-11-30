@@ -15,18 +15,17 @@ import theme from "../../common/MenuTheme";
 import { useStyles } from "./Styles";
 
 import salariesImg from "../../../images/job-seeker/salaries.png";
+import axios from "axios";
+import endPointObj from "../../../endPointUrl";
 
-const SearchJobs = () => {
+const SearchJobs = ({
+  jobTitle,
+  setJobTitle,
+  location,
+  setLocation,
+  handleSubmit,
+}) => {
   const classes = useStyles();
-  const [jobTitle, setJobTitle] = useState("");
-  const [location, setLocation] = useState("");
-  const handleSumbit = (e) => {
-    e.preventDefault();
-    console.log("Search Criteria: ", jobTitle, location);
-    alert("Job Search");
-    setJobTitle("");
-    setLocation("");
-  };
   return (
     <div className={classes.searchParentContainer}>
       <div className={classes.searchImgContainer}>
@@ -53,7 +52,7 @@ const SearchJobs = () => {
           </div>
           <div className={classes.blueBorder}></div>
           <div className={classes.searchInputWrapper}>
-            <form className={classes.searchForm} onSubmit={handleSumbit}>
+            <form className={classes.searchForm} onSubmit={handleSubmit}>
               <div className={classes.inputWrapper}>
                 <div>
                   <div>
@@ -112,11 +111,37 @@ const CompanyCard = () => {};
 
 const FindSalaries = () => {
   const classes = useStyles();
+  const [jobTitle, setJobTitle] = useState("");
+  const [location, setLocation] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Search Criteria: ", jobTitle, location);
+    axios
+      .get(endPointObj.url + "/job-seeker/update-profile")
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("Job Seeker : " + res);
+        } else {
+        }
+      })
+      .catch((err) => {
+        console.log("Err in Update Profile: ", err);
+      });
+    alert("Job Search");
+    setJobTitle("");
+    setLocation("");
+  };
   return (
     <ThemeProvider theme={theme}>
       <Header />
       <hr style={{ marginBottom: "0" }} />
-      <SearchJobs />
+      <SearchJobs
+        jobTitle={jobTitle}
+        setJobTitle={setJobTitle}
+        location={location}
+        setLocation={setLocation}
+        handleSubmit={handleSubmit}
+      />
     </ThemeProvider>
   );
 };
