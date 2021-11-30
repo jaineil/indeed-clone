@@ -23,6 +23,9 @@ const JobSeekerChats = () => {
 	);
 	const [messagesOverview, setMessagesOverview] = useState();
 	const [chat, setChats] = useState([]);
+	const [employerId, setEmployerId] = useState("");
+	const [chatId, setChatId] = useState("");
+	const [newMessage, setNewMessage] = useState("");
 
 	console.log("Messages overview: ", messagesOverview);
 
@@ -126,6 +129,30 @@ const JobSeekerChats = () => {
 				},
 			];
 			setChats(res);
+			setChatId(e.chatId);
+			setEmployerId(e.employerId);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+	const sendMessage = async () => {
+		try {
+			const payload = {
+				employerId: employerId,
+				jobSeekerId: jobSeekerId,
+				chatId: chatId,
+				message: newMessage,
+				sender: "JOB_SEEKER",
+			};
+			const response = await axios.post(
+				`http://${endPointObj.url}/employer/send-message`,
+				payload
+			);
+			console.log("Response for sendMessage function: ", response);
+			getChat({
+				employerId: employerId,
+				chatId: chatId,
+			});
 		} catch (err) {
 			console.error(err);
 		}
@@ -174,8 +201,14 @@ const JobSeekerChats = () => {
 										<Input
 											placeholder="Type your message here .."
 											multiline={true}
+											onChange={(e) =>
+												console.log(e.target.value)
+											}
 											rightButtons={
-												<Button variant="success">
+												<Button
+													variant="success"
+													onClick={sendMessage}
+												>
 													Send
 												</Button>
 											}
