@@ -5,9 +5,103 @@ import { MessageList, ChatList } from "react-chat-elements";
 import { useEffect, useState } from "react";
 import { Container, Button, Form, Row, Col, Card } from "react-bootstrap";
 import Header from "../common/Header";
+import endPointObj from "../../endPointUrl";
+import axios from "axios";
 
 const JobSeekerChats = () => {
 	const [activeChat, setActiveChat] = useState("");
+	const [jobSeekerId, setJobSeekerId] = useState(
+		localStorage.getItem("userId")
+	);
+	const [messagesOverview, setMessagesOverview] = useState();
+	const [chat, setChats] = useState([]);
+
+	console.log("Messages overview: ", messagesOverview);
+
+	const getMessagesOverview = async () => {
+		try {
+			// const response = await axios.get(
+			// 	`http://${endPointObj.url}/job-seeker/get-messages/${jobSeekerId}`
+			// );
+			// console.log(
+			// 	"Fetched response for getMessageOverview: ",
+			// 	response.data
+			// );
+			// const res = response.data.messages;
+			const res = [
+				{
+					employerId: "4",
+					employerName: "John Doe",
+					lastMessage: "Regarding your interview at Amazon",
+					timestamp: "",
+				},
+				{
+					employerId: "4",
+					employerName: "Patricia Smith",
+					lastMessage: "Congratulations! You have received an offer",
+					timestamp: "",
+				},
+				{
+					employerId: "4",
+					employerName: "John Doe",
+					lastMessage: "Regarding your interview at Amazon",
+					timestamp: "",
+				},
+				{
+					employerId: "4",
+					employerName: "John Doe",
+					lastMessage: "Regarding your interview at Amazon",
+					timestamp: "",
+				},
+				{
+					employerId: "4",
+					employerName: "John Doe",
+					lastMessage: "Regarding your interview at Amazon",
+					timestamp: "",
+				},
+				{
+					employerId: "4",
+					employerName: "John Doe",
+					lastMessage: "Regarding your interview at Amazon",
+					timestamp: "",
+				},
+			];
+			let dataSource = [];
+			for (let i = 0; i < res.length; i++) {
+				dataSource.push({
+					...res[i],
+					avatar: "",
+					alt: "Employer",
+					title: res[i].employerName,
+					subtitle: res[i].lastMessage,
+					date: new Date(),
+					unread: 0,
+				});
+			}
+			setMessagesOverview(dataSource);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+	const getChat = async (e) => {
+		try {
+			// const response = await axios.get(
+			// 	`http://${endPointObj.url}/employer/get-chats/${e.employerId}/${jobSeekerId}`
+			// );
+			// console.log("Response of getChat function: ", response.data);
+			// setChats(response.data.chats);
+			// const res = response.data.chats
+			const res = [
+				//dummy data
+			];
+		} catch (err) {
+			console.error(err);
+		}
+	};
+	useEffect(() => {
+		console.log("Rendering");
+		getMessagesOverview();
+	}, []);
 	return (
 		<>
 			<Header />
@@ -24,56 +118,8 @@ const JobSeekerChats = () => {
 						>
 							<ChatList
 								className="chat-list"
-								dataSource={[
-									{
-										avatar: "https://facebook.github.io/react/img/logo.svg",
-										alt: "Reactjs",
-										title: "Facebook",
-										subtitle: "What are you doing?",
-										date: new Date(),
-										unread: 0,
-									},
-									{
-										avatar: "https://facebook.github.io/react/img/logo.svg",
-										alt: "Reactjs",
-										title: "Facebook",
-										subtitle: "What are you doing?",
-										date: new Date(),
-										unread: 0,
-									},
-									{
-										avatar: "https://facebook.github.io/react/img/logo.svg",
-										alt: "Reactjs",
-										title: "Facebook",
-										subtitle: "What are you doing?",
-										date: new Date(),
-										unread: 0,
-									},
-									{
-										avatar: "https://facebook.github.io/react/img/logo.svg",
-										alt: "Reactjs",
-										title: "Facebook",
-										subtitle: "What are you doing?",
-										date: new Date(),
-										unread: 0,
-									},
-									{
-										avatar: "https://facebook.github.io/react/img/logo.svg",
-										alt: "Reactjs",
-										title: "Facebook",
-										subtitle: "What are you doing?",
-										date: new Date(),
-										unread: 0,
-									},
-									{
-										avatar: "https://facebook.github.io/react/img/logo.svg",
-										alt: "Reactjs",
-										title: "Facebook",
-										subtitle: "What are you doing?",
-										date: new Date(),
-										unread: 0,
-									},
-								]}
+								onClick={(e) => getChat(e)}
+								dataSource={messagesOverview}
 							/>
 						</Container>
 					</Col>
@@ -86,38 +132,7 @@ const JobSeekerChats = () => {
 								className="message-list"
 								lockable={true}
 								toBottomHeight={"100%"}
-								dataSource={[
-									{
-										position: "left",
-										type: "text",
-										text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
-										date: new Date(),
-									},
-									{
-										position: "right",
-										type: "text",
-										text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
-										date: new Date(),
-									},
-									{
-										position: "left",
-										type: "text",
-										text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
-										date: new Date(),
-									},
-									{
-										position: "right",
-										type: "text",
-										text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
-										date: new Date(),
-									},
-									{
-										position: "left",
-										type: "text",
-										text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
-										date: new Date(),
-									},
-								]}
+								dataSource={chat}
 							/>
 						</Container>
 					</Col>
