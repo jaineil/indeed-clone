@@ -1,3 +1,4 @@
+import { make_request } from "../../../../kafka/client.js";
 import Jobs from "../../../db/models/mongo/jobs.js";
 
 class JobController {
@@ -46,6 +47,29 @@ class JobController {
 		} catch (err) {
 			console.error(err);
 		}
+	};
+
+	fetchJobDetails = async (req, res) => {
+		console.log("Inside jobs controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.params;
+		message.path = req.route.path;
+
+		make_request("job", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log("Fetched job-details with kafka-backend");
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
 	};
 }
 

@@ -128,8 +128,8 @@ function DisplayJobs(props) {
     }
 
     //Need to work on it
-    const handleSave = ({jobId,city,companyName,roleName})=>{
-        console.log("Inside handle save job", jobId, city, companyName, roleName);
+    const handleSave = ({jobId,city,companyName,jobTitle})=>{
+        console.log("Inside handle save job", jobId, city, companyName, jobTitle);
         localStorage.setItem("saveJobByUserId",jobId); 
         console.log("saveJobByUserId: displayjob", localStorage.getItem("saveJobByUserId"));
         dispatch(saveJob({jobId: jobId,user_id:userId}));
@@ -165,20 +165,20 @@ function DisplayJobs(props) {
                                             <Grid className={classes.card} item key={job.jobId} lg={12} md={12} sm={12} xs={12} >
                                                 <Box onClick={() => getJobDescription(job)} >
                                                     <Typography className={classes.job_title}>
-                                                        {job.roleName}
+                                                        {job.jobTitle}
                                                     </Typography>
                                                     <Typography className={classes.job_subTitle}>
                                                         {job.companyName}
                                                     </Typography>
                                                     <Typography className={classes.job_subTitle}>
-                                                        {job.city}
+                                                        {job.city}, {job.state}
                                                     </Typography>
                                                     <Typography className={classes.job_subTitle}>
-                                                        $ {Number(job.salaryDetails).toLocaleString('en-IN')}
+                                                        $ {job.salary}
                                                     </Typography>
-                                                    <div className={classes.job_snippet} >
+                                                    <div className={classes.job_snippet} style={{color: '#6f6f6f'}}>
                                                         {
-                                                            limitWords(job.jobDescription)
+                                                            job.jobDescription
                                                         }
                                                     </div>
 

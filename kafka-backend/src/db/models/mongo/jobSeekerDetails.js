@@ -32,12 +32,12 @@ const jobSeekerSchema = new Schema({
 		{
 			jobId: {
 				type: mongoose.Schema.Types.ObjectId,
-				ref: "jobDetails",
+				ref: "jobDetail",
 			},
 			jobTitle: { type: String },
 			companyId: {
 				type: mongoose.Schema.Types.ObjectId,
-				ref: "companyDetails",
+				ref: "companyDetail",
 			},
 			companyName: { type: String },
 		},
