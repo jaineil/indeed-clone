@@ -28,7 +28,7 @@ const JobSeekerChats = () => {
 	const [newMessage, setNewMessage] = useState("");
 
 	console.log("Messages overview: ", messagesOverview);
-
+	
 	const getMessagesOverview = async () => {
 		try {
 			const response = await axios.get(
@@ -86,6 +86,7 @@ const JobSeekerChats = () => {
 	};
 	const sendMessage = async () => {
 		try {
+		
 			const payload = {
 				employerId: employerId,
 				jobSeekerId: jobSeekerId,
@@ -93,8 +94,9 @@ const JobSeekerChats = () => {
 				message: newMessage,
 				sender: "JOB_SEEKER",
 			};
+
 			const response = await axios.post(
-				`http://${endPointObj.url}/employer/send-message`,
+				`${endPointObj.url}/employer/send-message`,
 				payload
 			);
 			console.log("Response for sendMessage function: ", response);
@@ -151,7 +153,7 @@ const JobSeekerChats = () => {
 											placeholder="Type your message here .."
 											multiline={true}
 											onChange={(e) =>
-												console.log(e.target.value)
+												setNewMessage(e.target.value)
 											}
 											rightButtons={
 												<Button
