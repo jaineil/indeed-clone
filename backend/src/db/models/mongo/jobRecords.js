@@ -6,7 +6,7 @@ const jobRecordsSchema = new Schema({
 	jobSeekerId: { type: String },
 	companyId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "companyDetails",
+		ref: "companyDetail",
 	},
 	companyName: { type: String },
 	isCurrentEmployee: { type: Boolean },

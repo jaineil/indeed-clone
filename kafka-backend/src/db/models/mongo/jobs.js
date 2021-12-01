@@ -26,11 +26,11 @@ const jobsSchema = new Schema({
 
 	jobDescription: {
 		description: { type: String },
-		responsibilites: { type: String },
+		responsibilities: { type: String },
 		requirements: { type: String },
 		whyUs: { type: String },
 	},
-
+	remote: { type: Boolean },
 	jobType: { type: String },
 	salary: { type: Number },
 });

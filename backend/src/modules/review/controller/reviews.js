@@ -16,12 +16,14 @@ class ReviewController {
 					jobSeekerId: req.body.jobSeekerId,
 					companyId: req.body.companyId,
 					companyName: companyDetails.companyName,
-					overallCompanyRatingByReviewer: req.body.overallRating,
+					overallCompanyRatingByReviewer: parseInt(
+						req.body.overallRating
+					),
 					reviewTitle: req.body.reviewTitle,
 					reviewBody: req.body.reviewBody,
 					pros: req.body.pros,
 					cons: req.body.cons,
-					ceoApprovalRating: req.body.ceoApprovalRating,
+					ceoApprovalRating: parseInt(req.body.ceoApprovalRating),
 					interviewTips: req.body.interviewPrepTips,
 					companyLocation: companyDetails.companyLocation,
 					categoricalRating: req.body.categoricalRating,
@@ -177,15 +179,12 @@ class ReviewController {
 	updateRequest = async (req, res) => {
 		try {
 			const { reviewId, companyId, status } = req.body;
-			if (status === 'APPROVED'){
-
-			
+			if (status === "APPROVED") {
 				await CompanyDetails.findOneAndUpdate(
 					{
 						_id: companyId,
-
 					},
-					{ $inc: { reviewCount : 1} }
+					{ $inc: { reviewCount: 1 } }
 				);
 			}
 			const response = await Review.findOneAndUpdate(
