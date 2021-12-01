@@ -7,9 +7,9 @@ import { useSelector } from "react-redux";
 import "./App.css";
 
 function App() {
-  window.onbeforeunload = function() {
-    localStorage.clear();
-  }  
+  // window.onbeforeunload = function() {
+  //   localStorage.clear();
+  // }  
   return (
     <ThemeProvider theme={theme}>
       <Main />
