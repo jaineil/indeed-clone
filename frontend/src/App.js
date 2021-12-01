@@ -5,7 +5,7 @@ import Main from "./Main.js";
 import Header from "./components/common/Header";
 import { useSelector } from "react-redux";
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   // window.onbeforeunload = function() {

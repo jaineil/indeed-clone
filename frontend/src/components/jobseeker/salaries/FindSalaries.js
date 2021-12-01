@@ -189,11 +189,14 @@ const CompanyCard = ({ jobTitle, location, topCompanies }) => {
                       component="div"
                       style={{ fontSize: "1.2rem", fontWeight: "bold" }}
                     >
+                      {/* {localStorage.setItem(
+                        "currentcompanyid",
+                        jobDetails[0].companyId
+                      )} */}
                       <Link
                         to={{
-                          pathname: "/company/profile",
+                          pathname: "/companyHome",
                         }}
-                        className="black hover-black"
                         style={{ textDecoration: "none" }}
                       >{`${company.companyName}`}</Link>
                     </Typography>

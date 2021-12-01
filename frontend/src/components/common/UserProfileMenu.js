@@ -107,7 +107,7 @@ export default function UserMenu() {
         <StyledMenuItem
           onClick={() => {
             handleClose();
-            history.push("/myreviews");
+            history.push("/reviews");
           }}
         >
           <ListItemIcon>

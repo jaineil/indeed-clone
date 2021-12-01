@@ -11,40 +11,39 @@ import CompanySalaries from "./components/jobseeker/company/CompanySalaries";
 import AddCompanySalary from "./components/jobseeker/company/AddCompanySalaries";
 import jobseekerprofile from "./components/jobseeker/profile/JobSeekerProfile";
 import findSalaries from "./components/jobseeker/salaries/FindSalaries";
-
 import employerDashboard from "./components/employer/LandingPage";
 import employerProfile from "./components/employer/Profile";
 
 import myJobs from "./components/jobseeker/activity/myJobs/MyJobs";
-// import myReviews from "./components/jobseeker/activity/myReviews/MyReviews";
+import myReviews from "./components/jobseeker/activity/myReviews/MyReviews";
 
 import JobSeekerChats from "./components/chats/jobSeeker";
 import EmployerChats from "./components/chats/employer";
 class Main extends Component {
-	render() {
-		return (
-			<div>
-				<Route exact path="/" component={register} />
-				<Route path="/login" component={login} />
-				<Route path="/register" component={register} />
-				<Route path="/home" component={home} />
-				<Route path="/displayjobs" component={jobs} />
-				<Route path="/employer" component={employerDashboard} />
-				<Route path="/profile" component={employerProfile} />
-				<Route path="/jobSeekerChats" component={JobSeekerChats} />
-				<Route path="/employerChats" component={EmployerChats} />
-				<Route path="/companyhome" component={companyHome} />
-				<Route path="/joinus" component={CompanyJoinus} />
-				<Route path="/companyreview" component={CompanyReview} />
-				<Route path="/companysalary" component={CompanySalaries} />
-				<Route path="/addcompanysalary" component={AddCompanySalary} />
-				<Route path="/jobseekerprofile" component={jobseekerprofile} />
-				<Route path="/career/salaries" component={findSalaries} />
-        		<Route path="/savedjobs" component={myJobs} />
-        		{/* <Route path="/reviews" component={myReviews} /> */}
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div>
+        <Route exact path="/" component={register} />
+        <Route path="/login" component={login} />
+        <Route path="/register" component={register} />
+        <Route path="/home" component={home} />
+        <Route path="/displayjobs" component={jobs} />
+        <Route path="/employer" component={employerDashboard} />
+        <Route path="/profile" component={employerProfile} />
+        <Route path="/jobSeekerChats" component={JobSeekerChats} />
+        <Route path="/employerChats" component={EmployerChats} />
+        <Route path="/companyhome" component={companyHome} />
+        <Route path="/joinus" component={CompanyJoinus} />
+        <Route path="/companyreview" component={CompanyReview} />
+        <Route path="/companysalary" component={CompanySalaries} />
+        <Route path="/addcompanysalary" component={AddCompanySalary} />
+        <Route path="/jobseekerprofile" component={jobseekerprofile} />
+        <Route path="/career/salaries" component={findSalaries} />
+        <Route path="/savedjobs" component={myJobs} />
+        <Route path="/reviews" component={myReviews} />
+      </div>
+    );
+  }
 }
 
 export default Main;

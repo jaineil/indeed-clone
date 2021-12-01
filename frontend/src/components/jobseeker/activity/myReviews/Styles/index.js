@@ -1,73 +1,36 @@
 import { makeStyles } from "@material-ui/core";
 
 export const useStyles = makeStyles((theme) => ({
-  uploadResume: {
-    borderRadius: "30px",
-    padding: "10px",
-    boxShadow: "none",
-    border: "3px solid #085ff7",
-    width: "50%",
-    backgroundColor: "#ffffff",
-    color: "#2557a7",
-    fontStyle: "Open Sans",
-    fontWeight: "bold",
-    height: "150%",
-    "&:hover": {
-      backgroundColor: "#ffffff",
-    },
+  reviewsParent: {
+    paddingLeft: "300px",
+    paddingRight: "300px",
   },
-  deleteResume: {
-    borderRadius: "30px",
-    padding: "10px",
-    boxShadow: "none",
-    border: "3px solid red",
-    width: "50%",
-    backgroundColor: "#ffffff",
-    color: "red",
-    fontStyle: "Open Sans",
-    fontWeight: "bold",
-    height: "150%",
-    "&:hover": {
-      backgroundColor: "#ffffff",
-    },
+  headerWrapper: {
+    width: "600px",
   },
-  saveButton: {
-    borderRadius: "30px",
-    boxShadow: "none",
-    margin: "15px",
-    backgroundColor: "#2557a7",
-    color: "#ffffff",
-    fontStyle: "Open Sans",
-    fontWeight: "bold",
-    height: "150%",
-    "&:hover": {
-      backgroundColor: "#103a7d",
-    },
-  },
-  cancelButton: {
-    boxShadow: "none",
-    margin: "15px",
-    backgroundColor: "#ffffff",
-    color: "#2557a7",
-    fontStyle: "Open Sans",
-    fontWeight: "bold",
-    height: "150%",
-    "&:hover": {
-      backgroundColor: "#ffffff",
-      boxShadow: "none",
-      color: "#103a7d",
-    },
-  },
-  addPhoneNumber: {
-    color: "#595959",
+  pointer: {
     cursor: "pointer",
     fontWeight: "bold",
-    "&:hover": {
-      textDecoration: "underline",
-    },
   },
-  flexSpaceBetween: {
+  tabContent: {
+    padding: "20px",
+  },
+  flex: {
     display: "flex",
+  },
+  spaceBetween: {
     justifyContent: "space-between",
+  },
+  center: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  column: {
+    flexDirection: "column",
+  },
+  bottomBorder: {
+    borderBottom: "1px solid #085ff7",
+    marginBottom: "5px",
+    paddingBottom: "10px",
   },
 }));
