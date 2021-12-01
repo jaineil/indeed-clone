@@ -68,11 +68,18 @@ export class JobSeekerController {
 	unsaveJob = async (req, res) => {
 		try{
 		const {jobSeekerId, jobId} = req.body
-		const jobseeker = await JobSeekerDetails.updateOne({ jobseekerId : jobSeekerId}, 
+		const jobseeker = await JobSeekerDetails.updateOne({ _id : jobSeekerId}, 
 			{$pull: {savedJobs: {jobId: jobId}}}, 
 			{multi: true});
+			if (jobseeker.modifiedCount> 0)
+			{
+				console.log(jobseeker);
+				res.status(200).send({message:"Job Unsaved"});
+			}
+			else{
+				res.status(400).send({message:"Cannot unsave job"});
 
-		res.status(200).send({message:"Job Unsaved"});
+			}
 		} catch (err){
 			console.error(err);
 			res.status(500).send({error: err})
@@ -120,33 +127,26 @@ export class JobSeekerController {
 		}
 	}
 
-	uploadS3 = async (req, res) => {
-		const rest_id = req.params.rest_id;
-		const form = new multiparty.Form();
-		form.parse(req, async (error, fields, files) => {
-		try {
-			console.log(form.file)
-			const path = files.file[0].path;
-			const buffer = fs.readFileSync(path);
-			const type = await fileType.fromBuffer(buffer);
-			const fileName = `restaurantImages/${rest_id}`;
-			const s3res = await uploadFile(buffer, fileName, type);
-			console.log("Success: ", s3res);
-			if (s3res) {
-			  const data = {
-				rest_id: rest_id,
-				url: s3res.Location
-			  }
+	deleteResume = async (req, res) => {
+		try{
+			const {jobSeekerId, resumeId, resumeName} = req.body
+			const jobseeker = await JobSeekerDetails.updateOne({ _id : jobSeekerId}, 
+				{$pull: {resumes: {_id: resumeId, name: resumeName}}}, 
+				{multi: true});
+			
+			if (jobseeker.modifiedCount> 0)
+			{
+				console.log(jobseeker);
+				res.status(200).send({message:"Resume Deleted"});
 			}
-			else {
-			  rest.status(400).json({ msg: "Image was not uploaded!" })
+			else{
+				res.status(400).send({message:"Cannot delete resume"});
+
 			}
-		} catch (err) {
-			console.log("Upload Error: ", err);
-			return res.status(500).send(err);
+		} catch (err){
+			console.error(err);
+			res.status(500).send({error: err})
 		}
-		
-		});
 	}
 		
 

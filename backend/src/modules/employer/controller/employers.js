@@ -3,9 +3,9 @@ export class EmployerController {
 	
     getprofile = async (req, res) => {
 		try {
-			const employerDetails = await EmployerDetails.findById(
-				req.query.employerId
-			);
+			
+            const employerDetails = await EmployerDetails.findOne({_id: req.query.employerId}).populate('companyId');
+
 			if (!employerDetails) {
 				res.status(404).send({
 					message: "Could not find employer profile",
