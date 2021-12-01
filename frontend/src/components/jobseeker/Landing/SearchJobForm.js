@@ -112,11 +112,6 @@ function SearchJobForm(props) {
     }
 
 
-
-    // const handelSubmit = (e)=>{
-    //     e.preventDefault();
-    //     history.push(`/jobs/q=${job}&l=${location}`)
-    // }
     return (
         <>
 

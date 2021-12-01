@@ -3,22 +3,21 @@ import endPointObj from '../endPointUrl.js';
 
 import {
     CREATE_EMPLOYER_AND_COMPANY_PROFILE,
-    GET_EMPLOYER_PROFILE,
-    GET_COMPANY_PROFILE
+    GET_EMPLOYER_PROFILE
 } from "./actionTypes";
 
-export const updateEmployerAndCreateCompanyProfile = (employerProfile,companyProfile) => async (dispatch) => {
+export const createEmployerAndCompanyProfile = (employerProfile,companyProfile) => async (dispatch) => {
     //dispatch(loginRequest());
 
-    const updateEmployerProfile = axios.post(endPointObj.url+ "/employer/update-profile/", {
+    const createEmployerProfile = axios.post(endPointObj.url+ "/createEmployerProfile", {
         employerProfile
       });
-    const updateCompanyProfile = axios.post(endPointObj.url+ "/employer/updateCompany/", {
+    const createCompanyProfile = axios.post(endPointObj.url+ "/createCompanyProfile", {
         companyProfile
       });
 
     try {
-        const [employerResponse, companyResponse] = await axios.all([ updateEmployerProfile, updateCompanyProfile ]);
+        const [employerResponse, companyResponse] = await axios.all([ createEmployerProfile, createCompanyProfile ]);
         console.log("Employer Response: " + employerResponse);
         console.log("Company Response: " + companyResponse);
         dispatch({
@@ -35,53 +34,17 @@ export const updateEmployerAndCreateCompanyProfile = (employerProfile,companyPro
     }
   };
 
-  export const updateEmployerAndUpdateCompanyProfile = (employerProfile,companyProfile) => async (dispatch) => {
+  export const getEmployerProfile = (emailId) => async (dispatch) => {
     //dispatch(loginRequest());
 
-    const updateEmployerProfile = axios.post(endPointObj.url+ "/employer/update-profile/", {
-        employerProfile
-      });
-    const updateCompanyProfile = axios.post(endPointObj.url+ "/employer/updateCompany/", {
-        companyProfile
-      });
-
     try {
-        const [employerResponse, companyResponse] = await axios.all([ updateEmployerProfile, updateCompanyProfile ]);
-        console.log("Employer Response: " + employerResponse);
-        console.log("Company Response: " + companyResponse);
+        const employer = await axios.get(endPointObj.url+ "/getEmployerProfile/" + emailId);
+
+        console.log("Employer : " + employer);
         dispatch({
-            type: CREATE_EMPLOYER_AND_COMPANY_PROFILE,
+            type: GET_EMPLOYER_PROFILE,
             payload : null
         })
-    }
-    catch (err) {
-        console.log(err.message);
-        dispatch({
-            type: CREATE_EMPLOYER_AND_COMPANY_PROFILE,
-            payload : null
-        })
-    }
-  };
-
-  export const getEmployerProfile = (mongoId) => async (dispatch) => {
-
-    try {
-        const employer = await axios.get(endPointObj.url+ "/employer/get-profile?employerId=" + mongoId);
-
-        console.log("Returned an Employer from backend: " + JSON.stringify(employer.data));
-        if(employer.data){
-            dispatch({
-                type: GET_EMPLOYER_PROFILE,
-                payload : employer.data
-            })
-        }
-        else{
-            dispatch({
-                type: GET_EMPLOYER_PROFILE,
-                payload : null
-            })
-        }
-       
     }
     catch (err) {
         console.log(err.message);

@@ -1,14 +1,14 @@
 import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT } from "../_actions/actionTypes"
 
-const initState = {
+const initialState = {
     isAuth:false,
     isLoading:false,
     isError:false,
     errorMsg:"",
-    loggedUser:null
-}
+    user:""
+}    
 
-export const loginReducer = (state=initState,{type,payload})=>{
+export const loginReducer = (state=initialState,{type,payload})=>{
     switch (type){
         case LOGIN_REQUEST: 
             return {
