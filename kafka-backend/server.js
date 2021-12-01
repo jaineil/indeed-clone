@@ -8,6 +8,7 @@ import handleJobRequest from "./services/jobs.js";
 import handleCompanyRequest from "./services/companies.js";
 import handleJobSeekerRequest from "./services/jobSeekers.js";
 import handleJobApplicationRequest from "./services/applications.js";
+import handleReviewRequest from "./services/reviews.js";
 
 try {
 	mongoose.connect(mongoUri, {
@@ -61,3 +62,4 @@ handleTopicRequest("job", handleJobRequest);
 handleTopicRequest("company", handleCompanyRequest);
 handleTopicRequest("job-seeker", handleJobSeekerRequest);
 handleTopicRequest("job-application", handleJobApplicationRequest);
+handleTopicRequest("review", handleReviewRequest);

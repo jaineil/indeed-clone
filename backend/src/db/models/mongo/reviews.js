@@ -10,6 +10,7 @@ const reviewsSchema = new Schema({
 	companyId: { type: mongoose.Schema.Types.ObjectId, ref: "companyDetails" },
 	companyName: { type: String },
 	overallCompanyRatingByReviewer: { type: Number },
+	reviewerRole: { type: String },
 	reviewTitle: { type: String },
 	reviewBody: { type: String },
 	pros: {
