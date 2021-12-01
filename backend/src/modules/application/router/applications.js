@@ -18,4 +18,9 @@ jobApplicationRouter.get(
 	"/employer/get-job-applicants",
 	jobApplicationController.getListOfApplicantsForJob
 );
+
+jobApplicationRouter.get(
+	"/employer/get-number-of-job-applicants",
+	jobApplicationController.getNumberOfApplicantsForJob
+);
 export default jobApplicationRouter;

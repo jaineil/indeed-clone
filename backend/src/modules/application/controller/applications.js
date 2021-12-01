@@ -72,6 +72,61 @@ export class JobApplicationController {
 			res.send({ error: err });
 		}
 	};
+
+	getNumberOfApplicantsForJob = async (req, res) => {
+		try {
+			const numberOfApplicants = await JobSeekerApplications.aggregate([
+				{
+					$match: {
+						jobId: new mongoose.mongo.ObjectId(req.query.jobId),
+					},
+				},
+				{
+					$count: "numberOfApplicants",
+				},
+			]);
+			const numberHired = await JobSeekerApplications.aggregate([
+				{
+					$match: {
+						jobId: new mongoose.mongo.ObjectId(req.query.jobId),
+						applicationStatus: "HIRED",
+					},
+				},
+				{
+					$count: "numberHired",
+				},
+			]);
+			const numberRejected = await JobSeekerApplications.aggregate([
+				{
+					$match: {
+						jobId: new mongoose.mongo.ObjectId(req.query.jobId),
+						applicationStatus: "REJECTED",
+					},
+				},
+				{
+					$count: "numberRejected",
+				},
+			]);
+			console.log(numberOfApplicants);
+			console.log(numberHired);
+			console.log(numberRejected);
+			const response = {
+				numberOfApplicants: numberOfApplicants.length
+					? numberOfApplicants[0].numberOfApplicants
+					: 0,
+				numberHired: numberHired.length
+					? numberHired[0].numberHired
+					: 0,
+				numberRejected: numberRejected.length
+					? numberRejected[0].numberRejected
+					: 0,
+			};
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+			res.send({ error: err });
+		}
+	};
 }
 
 export default JobApplicationController;
