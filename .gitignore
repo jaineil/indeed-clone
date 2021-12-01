@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/backend/package-lock.json
+/frontend/package-lock.json
+/kafka-backend/package-lock.json
+/backend/package-lock.json

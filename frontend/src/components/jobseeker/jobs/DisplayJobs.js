@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import { Box, Container, Grid, Typography } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Pagination from '@material-ui/lab/Pagination';
-import classNames from 'classnames'
 import { makeStyles } from '@material-ui/core/styles';
 import SearchJobForm from '../Landing/SearchJobForm';
 import { getJobSearchData, searchSuccess, setCurrentPage } from '../../../_actions/jobSearchActions';
@@ -14,7 +11,7 @@ import Header from "../../common/Header";
 import theme from "../../common/MenuTheme";
 import { ThemeProvider } from "@material-ui/core";
 import JwPagination from 'jw-react-pagination';
-import {saveJob} from '../../../_actions/saveJobAction';
+import { saveJob } from '../../../_actions/saveJobAction';
 
 const useStyles = makeStyles(theme => ({
     jobContainer: {
@@ -98,24 +95,10 @@ function DisplayJobs(props) {
     let [page, setPage] = useState(Number(pageNo))
     let [pageOfItems, setPageOfItems] = useState([])
 
-    const limitWords = (snippet) => {
 
-        let str = "";
-
-        for (let i = 0; i < 200 && !str[i]; i++) {
-            if (!snippet[i])
-                break;
-            str += snippet[i]
-
-        }
-        str += '........'
-        return str
-    }
 
     let [jobData, setJobData] = useState(null)
     const dispatch = useDispatch()
-    const history = useHistory()
-
 
     useEffect(() => {
         dispatch(getJobSearchData(job, location, page))
@@ -128,11 +111,11 @@ function DisplayJobs(props) {
     }
 
     //Need to work on it
-    const handleSave = ({jobId,city,companyName,jobTitle})=>{
+    const handleSave = ({ jobId, city, companyName, jobTitle }) => {
         console.log("Inside handle save job", jobId, city, companyName, jobTitle);
-        localStorage.setItem("saveJobByUserId",jobId); 
+        localStorage.setItem("saveJobByUserId", jobId);
         console.log("saveJobByUserId: displayjob", localStorage.getItem("saveJobByUserId"));
-        dispatch(saveJob({jobId: jobId,user_id:userId}));
+        dispatch(saveJob({ jobId: jobId, user_id: userId }));
     }
 
     // const removeFromSaved = ({jobId})=>{
@@ -176,18 +159,18 @@ function DisplayJobs(props) {
                                                     <Typography className={classes.job_subTitle}>
                                                         $ {job.salary}
                                                     </Typography>
-                                                    <div className={classes.job_snippet} style={{color: '#6f6f6f'}}>
+                                                    <div className={classes.job_snippet} style={{ color: '#6f6f6f' }}>
                                                         {
                                                             job.jobDescription
                                                         }
                                                     </div>
 
                                                 </Box>
-                                                <JobMenu 
-                                                    job={job} 
+                                                <JobMenu
+                                                    job={job}
                                                     handleSave={handleSave}
-                                                    //removeFromSaved={removeFromSaved}
-                                                    />
+                                                //removeFromSaved={removeFromSaved}
+                                                />
                                             </Grid>)
                                     }
 
