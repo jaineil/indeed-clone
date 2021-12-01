@@ -5,9 +5,9 @@ const Schema = mongoose.Schema;
 const reviewsSchema = new Schema({
 	jobSeekerId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "jobSeekerDetails",
+		ref: "jobSeekerDetail",
 	},
-	companyId: { type: mongoose.Schema.Types.ObjectId, ref: "companyDetails" },
+	companyId: { type: mongoose.Schema.Types.ObjectId, ref: "companyDetail" },
 	companyName: { type: String },
 	overallCompanyRatingByReviewer: { type: Number },
 	reviewerRole: { type: String },

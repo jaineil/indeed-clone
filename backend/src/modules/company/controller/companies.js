@@ -16,11 +16,13 @@ class CompanyController {
 				founded: req.body.founded,
 				missionAndVision: req.body.missionAndVision,
 				ceoName: req.body.ceoName,
-				averageRating: req.body.averageRating,
+				averageRating: parseInt(req.body.averageRating),
 				companyLocation: req.body.companyLocation,
 			});
 			const response = await newCompany.save();
-			await EmployerDetails.findByIdAndUpdate(req.body.employerId, {companyId: response._id.valueOf()});
+			await EmployerDetails.findByIdAndUpdate(req.body.employerId, {
+				companyId: response._id.valueOf(),
+			});
 
 			res.status(200).send(response);
 		} catch (err) {
