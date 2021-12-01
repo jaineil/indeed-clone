@@ -77,14 +77,6 @@ export default function UserMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-<<<<<<< HEAD:frontend/src/components/common/UserMenu.js
-        <Typography variant={'h5'} style={{fontSize:'20px',marginLeft:'15px'}}>
-            {loggedUser.email}
-        </Typography>
-        <StyledMenuItem onClick={()=>{
-            handleClose()
-            history.push('/savedjobs')}}>
-=======
         <Typography
           variant={"h5"}
           style={{ fontSize: "20px", marginLeft: "15px" }}
@@ -108,22 +100,17 @@ export default function UserMenu() {
             history.push("/savedjobs");
           }}
         >
->>>>>>> 623a78d93b6bba7053be76963d467e2b66270510:frontend/src/components/common/UserProfileMenu.js
           <ListItemIcon>
             <FavoriteIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="My Jobs" />
         </StyledMenuItem>
-<<<<<<< HEAD:frontend/src/components/common/UserMenu.js
-        <StyledMenuItem>
-=======
         <StyledMenuItem
           onClick={() => {
             handleClose();
             history.push("/myreviews");
           }}
         >
->>>>>>> 623a78d93b6bba7053be76963d467e2b66270510:frontend/src/components/common/UserProfileMenu.js
           <ListItemIcon>
             <RateReviewIcon fontSize="small" />
           </ListItemIcon>

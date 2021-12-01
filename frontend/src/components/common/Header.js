@@ -2,15 +2,6 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-<<<<<<< HEAD
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import ForumIcon from '@material-ui/icons/Forum';
-import { NavLink } from 'react-router-dom';
-import { Box, Container } from '@material-ui/core';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import UserMenu from './UserMenu';
-=======
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import ForumIcon from "@material-ui/icons/Forum";
@@ -19,17 +10,12 @@ import { Box, Container } from "@material-ui/core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import UserMenu from "./UserProfileMenu";
 import { BorderBottomOutlined } from "@material-ui/icons";
->>>>>>> 623a78d93b6bba7053be76963d467e2b66270510
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-<<<<<<< HEAD
-    backgroundColor:'#fff',
-=======
     backgroundColor: "#fff",
     boxSizing: "border-box",
->>>>>>> 623a78d93b6bba7053be76963d467e2b66270510
   },
   toolbar: {
     minHeight: "45px",
@@ -37,15 +23,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "space-between",
   },
-<<<<<<< HEAD
-  logo:{
-    height:'20px'
-=======
   logo: {
     marginTop: "6px",
     height: "25px",
     width: "100px",
->>>>>>> 623a78d93b6bba7053be76963d467e2b66270510
   },
   title: {
     flexGrow: 1,
@@ -92,55 +73,6 @@ export default function Header() {
   const classes = useStyles();
 
   return (
-<<<<<<< HEAD
-    <div className={classes.root}>
-      <AppBar elevation={0} color={'secondary'} position="static">
-        <Toolbar className={classes.toolbar} >
-            <Container className={classes.header_container} disableGutters maxWidth={false}>
-                <Box className={classes.header_left}>
-                    <img className={classes.logo} src="/Images/logo.svg" alt=""/>
-                    <Box className={classes.link} display={{ xs: 'none', sm: 'block', md: 'block' }}>
-                        <Typography component={NavLink} variant='h6' to='/' >
-                            Find Jobs
-                        </Typography>
-                        <Typography component={NavLink} variant='h6' to='/companies' >
-                            Company Reviews
-                        </Typography>
-                        <Typography component={NavLink} variant='h6' to='/carrer/salary' >
-                            Find Salary
-                        </Typography>
-                    </Box>
-                </Box>
-                <Box className={classes.header_right} >
-
-                        <IconButton
-                        edge="start"
-                        
-                        color="inherit"
-                        aria-label="open drawer"
-                        >
-                        <ForumIcon />
-                        </IconButton>
-
-                        <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        >
-                            <NotificationsIcon />
-                        </IconButton>
-
-                        
-                            <UserMenu/>
-                        
-
-                        <Typography style={{display:'flex',alignItems:'center'}} component={NavLink} variant='h6' to='/postjob' >
-                            Employers/jobs
-                        </Typography>
-                    
-                </Box>
-            </Container>
-=======
     <div className={styleClasses.root}>
       <AppBar elevation={0} color={"secondary"} position="static">
         <Toolbar className={styleClasses.toolbar}>
@@ -205,7 +137,6 @@ export default function Header() {
               </Typography>
             </Box>
           </Container>
->>>>>>> 623a78d93b6bba7053be76963d467e2b66270510
         </Toolbar>
       </AppBar>
     </div>
