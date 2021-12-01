@@ -33,7 +33,6 @@ const FullName = () => {
   const firstName = useSelector(firstNameSelector);
   const lastName = useSelector(lastNameSelector);
   const fullName = firstName + " " + lastName;
-  console.log("Fullname: ", fullName);
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div
@@ -90,14 +89,12 @@ const Resume = ({ mongoId }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const resumes = useSelector(resumesSelector);
-  console.log("Resume: ", resumes);
-  const hiddenFileInput = React.useRef(null);
 
+  const hiddenFileInput = React.useRef(null);
   const uploadResume = (e) => {
     e.preventDefault();
     hiddenFileInput.current.click();
   };
-
   const handleChange = (e) => {
     e.preventDefault();
     const fileUploaded = e.target.files[0];
@@ -242,7 +239,10 @@ const Resume = ({ mongoId }) => {
 // Contact Details Block
 const ContactInformation = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   const jobseekerId = useSelector((state) => state.jobseekerProfile._id);
+
   const [editProfile, setEditStatus] = useState(false);
   const [firstName, setFirstName] = useState(useSelector(firstNameSelector));
   const [lastName, setLastName] = useState(useSelector(lastNameSelector));
@@ -251,7 +251,7 @@ const ContactInformation = () => {
   );
   const [city, setCity] = useState(useSelector(citySelector));
   const [state, setState] = useState(useSelector(stateSelector));
-  const dispatch = useDispatch();
+
   const handleSumbit = (e) => {
     e.preventDefault();
     const payload = {
@@ -425,7 +425,6 @@ const ContactInformation = () => {
 const JobSeekerProfile = () => {
   const dispatch = useDispatch();
   const mongoId = useSelector((state) => state.login.user.mongoId);
-  console.log("Mongo Id: ", mongoId);
   useEffect(() => {
     dispatch(getProfile(mongoId), []);
   });
