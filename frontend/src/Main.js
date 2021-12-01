@@ -18,6 +18,30 @@ import employerProfile from "./components/employer/Profile";
 import JobSeekerChats from "./components/chats/jobSeeker";
 import EmployerChats from "./components/chats/employer";
 class Main extends Component {
+    render() {
+        return (
+            <div>
+                <Route exact path="/" component={register} />
+                <Route path="/login" component={login} />
+                <Route path="/register" component={register} />
+                <Route path="/home" component={home} />
+                <Route path="/displayjobs" component={jobs} />
+                <Route path="/companyhome" component={companyHome} />
+                <Route path="/joinus" component={CompanyJoinus} />
+                <Route path="/companyreview" component={CompanyReview} />
+
+
+                <Route path="/employer" component={employerDashboard} />
+                <Route path="/profile" component={employerProfile} />
+                <Route path="/postJob" component={postJob} />
+                <Route path="/candidates" component={candidates} />
+                <Route path="/jobs" component={employerDashboard} />
+                <Route path="/viewApplication" component={viewApplication} />
+                <Route path="/reports" component={report} />
+
+            </div>
+        );
+    }
 	render() {
 		return (
 			<div>

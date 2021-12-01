@@ -13,10 +13,10 @@ const loginRequest = () => {
   };
 };
 
-const loginSuccess = (payload) => {
+const loginSuccess = (currentUser) => {
   return {
     type: LOGIN_SUCCESS,
-    payload: payload,
+    payload: currentUser,
   };
 };
 
@@ -34,13 +34,27 @@ export const logout = () => {
   };
 };
 
-export const makeLoginRequest = ({ emailId, pass }) => (dispatch) => {
-  console.log()
+export const makeLoginRequest = ({ email, password }) => (dispatch) => {
   dispatch(loginRequest());
 
-  let data = {
-    emailId: emailId,
-    pass: pass
+  axios.get(endPointObj.url+ "/users")
+    .then((res) => {
+      dispatch(authenticateUser(email, password, res.data));
+    })
+    .catch((err) => dispatch(loginFailure("Somthing went wrong")));
+};
+
+const authenticateUser = (email, password, usersData) => (dispatch) => {
+  for (let i = 0; i < usersData.length; i++) {
+    if (usersData[i].email === email && usersData[i].password === password) {
+      dispatch(loginSuccess(usersData[i]));
+      return;
+    } else {
+      if (usersData[i].email === email && usersData[i].password !== password) {
+        dispatch(loginFailure("Wrong password"));
+        return;
+      }
+    }
   }
   axios.post(endPointObj.url + '/user/login', data)
         .then(response => {

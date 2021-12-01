@@ -189,5 +189,5 @@ export const getJobSearchData = (job = "", location = "", page = "1") => (dispat
   //   .catch((err) => {
   //     console.log("error", err);
   //   });
-}
+};
   

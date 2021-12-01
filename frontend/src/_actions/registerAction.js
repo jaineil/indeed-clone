@@ -5,7 +5,6 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
-  USER_ALREADY_EXISTS
 } from "./actionTypes";
 
 const registerRequest = () => {
@@ -26,46 +25,26 @@ const registerRequest = () => {
       payload: errorMsg,
     };
   };
-
-  const userAlreadyExists = (errorMsg) => {
-    return {
-      type: USER_ALREADY_EXISTS,
-      payload: errorMsg,
-    };
-  };
   
-  export const userRegistration = ({ emailId, pass, userPersona }) => (dispatch) => {
-    console.log("Inside user registration dispatch request", emailId,pass, userPersona);
+  export const makeRegisterRequest = ({ emailId, pass, userPersona }) => (dispatch) => {
     dispatch(registerRequest());
-    let data = {
-      emailId: emailId 
-    } 
-    axios.post(endPointObj.url + '/user/getuser', data)
+    axios.get(endPointObj.url + '/getUser')
       .then((res) => {
-        console.log("get user data", res.data);
-        if (res.data.length > 0) {
-          console.log("FAIL");
-          dispatch(userAlreadyExists("User with the email already exists!"));
-          return;  
-        } else {
-          console.log("SUCCESS");
-          dispatch(registerNewUser({ emailId, pass, userPersona }));
-        }
-        
+        dispatch(checkUserExists(emailId, pass, userPersona, res.data));
       })
       .catch((err) => dispatch(registerFailure("Something went wrong")));
   };
   
-  // const checkUserExists = (emailId, pass, userPersona, usersData) => (dispatch) => {
-  //   for (let i = 0; i < usersData.length; i++) {
-  //     if (usersData[i].emailId === emailId) {
-  //       dispatch(registerFailure("user with the email id already exists"));
-  //       return;
-  //     }
-  //   }
+  const checkUserExists = (emailId, pass, userPersona, usersData) => (dispatch) => {
+    for (let i = 0; i < usersData.length; i++) {
+      if (usersData[i].emailId === emailId) {
+        dispatch(registerFailure("user with the email id already exists"));
+        return;
+      }
+    }
   
-  //   dispatch(registerNewUser({ emailId, pass, userPersona }));
-  // };
+    dispatch(registerNewUser({ emailId, pass, userPersona }));
+  };
   
   const registerNewUser = ({ emailId, pass, userPersona }) => (dispatch) => {
     let data = {
@@ -74,7 +53,7 @@ const registerRequest = () => {
       userPersona: userPersona  
     }
     axios
-      .post(endPointObj.url + '/user/signup', data)
+      .post(endPointObj.url + '/signup/jobseeker', data)
       .then((res) => dispatch(registerSuccess()));
   };
   

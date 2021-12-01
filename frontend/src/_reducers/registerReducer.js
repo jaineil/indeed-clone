@@ -1,11 +1,10 @@
-import {  REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, USER_ALREADY_EXISTS } from "../_actions/actionTypes";
+import {  REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS } from "../_actions/actionTypes";
 
 const initState = {
     isLoading:false,
     isError:false,
     errorMsg:"",
     success:false,
-    userAlreadyExistsMsg:"",
 }
 
 export const registerReducer = (state=initState,{type,payload})=>{
@@ -24,18 +23,6 @@ export const registerReducer = (state=initState,{type,payload})=>{
             isError:true,
             isLoading:false,
             errorMsg:payload
-        }
-        case REGISTER_FAILURE: return {
-            ...state,
-            isError:true,
-            isLoading:false,
-            errorMsg:payload
-        }
-        case USER_ALREADY_EXISTS: return {
-            ...state,
-            isError:true,
-            isLoading:false,
-            userAlreadyExistsMsg:payload
         }
         default: return state
     }

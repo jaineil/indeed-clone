@@ -6,7 +6,6 @@ import bcrypt from 'bcrypt';
 export class UserController {
 	login = async (req, res) => {
 		try {
-                console.log("Inside backend login", req.body);
                 let sql = "SELECT * FROM users WHERE emailId = ?";
                 const emailId = req.body.emailId;
                 const pass = req.body.pass;
@@ -14,7 +13,6 @@ export class UserController {
                 conn.query(sql, [emailId], function (err, result) {
                     if (err) throw err;
                     else if(result.length==0){
-                        console.log("hii");
                         res.status(404).send({
                         message: "User not found" });
                     }
@@ -25,7 +23,7 @@ export class UserController {
                         else{
                             res.status(400).send({
                                 message: "Invalid Credentials"
-                            });
+                            })
                         }
                     }
                 });
@@ -71,7 +69,10 @@ export class UserController {
                         res.send({message: "User Created"});
                     }
                 }
-            );   
+            );
+        
+        
+           
         }catch (err) { console.error(err); }
     };
 
