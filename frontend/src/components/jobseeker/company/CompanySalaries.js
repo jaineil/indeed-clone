@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import endPointObj from '../../../endPointUrl.js';
 import StarIcon from '@material-ui/icons/Star';
-import { Grid, 
+import {
+    Grid,
     Container,
     makeStyles,
     Typography,
     Button,
-    withStyles
 } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import companyDetails from './companyDetails';
@@ -16,8 +16,8 @@ import CompanyHeader from './CompanyHeader';
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
-import {AddCompanySalary} from "./AddCompanySalaries";
-import {ReviewCard} from './ReviewCard';
+import { AddCompanySalaryModal } from "./AddCompanySalaryModal";
+import { ReviewCard } from './ReviewCard';
 
 
 const useStyle = makeStyles((theme) => ({
@@ -41,22 +41,22 @@ const useStyle = makeStyles((theme) => ({
         lineHeight: "1.5",
         padding: "0.35rem 0.75rem"
     },
-    link:{
-        
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius:'10px',
-        height:'53px',
-        padding:'0 25px',
-        fontSize:'15px',
-        color:theme.palette.primary.main,
-        border:`1px solid ${theme.palette.primary.main}`,
-        backgroundColor:'white',
-        '&:hover':{
-            color:theme.palette.primary.main,
-            backgroundColor:'white',
-            border:`1px solid ${theme.palette.primary.main}`
+    link: {
+
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '10px',
+        height: '53px',
+        padding: '0 25px',
+        fontSize: '15px',
+        color: theme.palette.primary.main,
+        border: `1px solid ${theme.palette.primary.main}`,
+        backgroundColor: 'white',
+        '&:hover': {
+            color: theme.palette.primary.main,
+            backgroundColor: 'white',
+            border: `1px solid ${theme.palette.primary.main}`
 
         }
     }
@@ -65,74 +65,90 @@ const useStyle = makeStyles((theme) => ({
 export function CompanyReview(props) {
     const classes = useStyle();
     const [reviews, setReviews] = useState([]);
-    const query = new URLSearchParams(props.location.search);
-    const id =query.get('id')
-    const dispatch = useDispatch()
-    const {isAuth} = useSelector(state=>state.login);
+    const { isAuth } = useSelector(state => state.login);
     const companyId = localStorage.getItem("currentcompanyid");
+    const [open, setOpen] = useState(false);
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
-    useEffect(()=>{
-        console.log("Inside get company reviews");
-        axios.get(endPointObj.url + '/job-seeker/company-details/reviews/'+ companyId)
-        .then(response => {
-            console.log("Get company reviews response", response.data);
-            setReviews(response.data);
-        })
-        .catch(err => {
-            if (err.response && err.response.data) {
-                console.log("Error", err.response);
-            }
-        });  
-    },[])
+    useEffect(() => {
+        console.log("Inside get company salaries");
+        // axios.get(endPointObj.url + '/job-seeker/company-details/reviews/' + companyId)
+        //     .then(response => {
+        //         console.log("Get company reviews response", response.data);
+        //         setReviews(response.data);
+        //     })
+        //     .catch(err => {
+        //         if (err.response && err.response.data) {
+        //             console.log("Error", err.response);
+        //         }
+        //     });
+    }, [])
 
-    //Call Company snapshot API
     //fetch company id by localstorage
+    //Call fetch company details API
     console.log("Company details: ", companyDetails);
 
-
-    const redirectAddCompanySalary=() =>{
-        console.log("redirectAddCompanySalary");
-        window.location.href = '/addcompanysalary';
+    const handleOpen = (id) => {
+        setOpen(true);
     }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    const handleApply = () => {
+        setOpen(false);
+        forceUpdate();
+    }
+
 
     return (
 
-         isAuth ? (companyDetails ?
-        <ThemeProvider theme={theme}> 
-            <Header /><hr/>   
-        <Container maxwidth = "xl">
-            
-            <Grid item style = {{marginTop: "20px", marginBottom: "30px"}}>
-                <Grid>
-                    <Typography variant = "h5"><b>Average Salaries at {companyDetails[0].companyName}</b></Typography>
-                     
-                    <Button className={classes.link} onClick={redirectAddCompanySalary}
-                    style={{marginBottom:'30px', marginLeft:'800px', marginTop: '-35px'}}>
-                        <b>Add a Salary</b>   
-                    </Button>
-                    
-                </Grid>
-            </Grid>
+        isAuth ? (companyDetails ?
+            <ThemeProvider theme={theme}>
+                <Header /><hr />
+                <CompanyHeader /><hr /><br />
+                <Container maxwidth="xl">
 
-            <Grid container spacing={10}>
-                {
-                    reviews.map((item) => {
-                        return (
-                            <ReviewCard 
-                                key = {item.id}
-                                rating = {item.rating}
-                                job_position = {item.job_position}
-                                date = {item.date}
-                                title = {item.title}
-                                description = {item.description}
+                    <Grid item style={{ marginTop: "20px", marginBottom: "30px" }}>
+                        <Grid>
+                            <Button className={classes.link} onClick={() => handleOpen(companyId)}
+                                style={{ marginBottom: '30px', marginLeft: '800px', marginTop: '-35px' }}>
+                                <b>Add a Salary</b>
+                            </Button>
+                            <AddCompanySalaryModal
+                                open={open}
+                                handleClose={() => handleClose()}
+                                companyId={companyId}
+                                handleApply={() => handleApply()}
                             />
-                        )
-                    })
-                }
-            </Grid> 
-        </Container>
-        </ThemeProvider>
-        : <></>) :  <Redirect to="/login" /> 
+                        </Grid>
+                    </Grid>
+
+
+                    {/* This needs to be done */}
+                    <Grid item style={{ marginTop: "30px", marginBottom: "50px" }}>
+                        <Typography variant="h4"><b>Average Salaries at {companyDetails[0].companyName}</b></Typography>
+                    </Grid>
+                    <Grid container spacing={10}>
+                        {
+                            reviews.map((item) => {
+                                return (
+                                    <ReviewCard
+                                        key={item.id}
+                                        rating={item.rating}
+                                        job_position={item.job_position}
+                                        date={item.date}
+                                        title={item.title}
+                                        description={item.description}
+                                    />
+                                )
+                            })
+                        }
+                    </Grid>
+                </Container>
+            </ThemeProvider>
+            : <></>) : <Redirect to="/login" />
     )
 }
 export default CompanyReview;

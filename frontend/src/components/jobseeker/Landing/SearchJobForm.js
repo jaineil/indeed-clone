@@ -84,7 +84,7 @@ function SearchJobForm(props) {
     const dispatch = useDispatch()
     const classes = useStyles();
     const [job, setJob] = useState('');
-    const [location, setLocation] = useState('');
+    const [location, setLocation] = useState('San Jose');
     const jobOptions = ['Software Developer', 'Software development engineer', 'Data scientist', 'Data Engineer', 'Software Tester'];
     const locationOptions = ['San Jose', 'San Francisco', 'New York', 'Seattle'];
     const history = useHistory()
@@ -104,7 +104,7 @@ function SearchJobForm(props) {
         dispatch(setCurrentPage(1))
 
         //Get job search data
-        dispatch(getJobSearchData(job === "" ? "" : job, location === "" ? "" : location));
+        dispatch(getJobSearchData(job === "" ? undefined : job, location === undefined ? "" : location));
         console.log("Inside search job form: searchedJobs", searchedJobs);
 
         history.push(`/displayjobs?q=${job}&location=${location}&page=1`)
