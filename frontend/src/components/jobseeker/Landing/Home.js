@@ -24,18 +24,28 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 function Home() {
-    const classes = useStyles();
-    
+    const styleClasses = useStyles();
+    const { isAuth, user } = useSelector(state => state.login);
+    console.log("isauth home", isAuth);
+    console.log("Login user data: home", user);
     return (
-        <Container className={classes.container}>
-            <SearchJobForm />
-            <div className={classes.linkContainer}>
-                {`Employers:`}
-                <Link className={classes.link} to="/postjob" >
-                    {` Post a job `} 
-                </Link>
-            </div>
-            <hr/>
+        <ThemeProvider theme={theme}>
+            <Header />
+            <hr />
+            <Container className={styleClasses.container}>
+                <SearchJobForm />
+                <div className={styleClasses.linkContainer}>
+                    <Link className={styleClasses.link} to="/postresume" >
+                        {` Post your resume `}
+                    </Link>
+                    {`It only takes a few seconds`} <br /><br />
+                    {`Employers:`}
+                    <Link className={styleClasses.link} to="/postjob" >
+                        {` Post a job `}
+                    </Link>
+                </div>
+            </Container>
+            <hr />
             <RecentJobSearch />
         </Container>
     );

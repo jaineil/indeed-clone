@@ -124,14 +124,15 @@ export class ChatController {
 				jobSeekerId: jobSeekerId,
 			}).slice("messages", -1);
 
-			console.log(JSON.stringify(response));
+			console.log("chat response",JSON.stringify(response));
 
 			for (const k of response) {
 				const messageOverview = {
 					employerId: k.employerId,
 					employerName: k.employerName,
 					lastMessage: k.messages[0].messageText,
-					timestamp: k.timestamp,
+					timestamp: k.messages[0].timestamp,
+					chatId: k._id
 				};
 
 				res.push(messageOverview);
@@ -162,11 +163,13 @@ export class ChatController {
 			console.log(JSON.stringify(response));
 
 			for (const k of response) {
+				console.log(k)
 				const messageOverview = {
 					jobSeekerId: k.jobSeekerId,
 					jobSeekerName: k.jobSeekerName,
 					lastMessage: k.messages[0].messageText,
-					timestamp: k.timestamp,
+					timestamp: k.messages[0].timestamp,
+					chatId: k._id
 				};
 
 				res.push(messageOverview);

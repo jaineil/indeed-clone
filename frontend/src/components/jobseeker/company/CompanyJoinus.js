@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-//import { getCompanyReviews } from '../../Redux/CompanyReviews/action';
 import axios from "axios";
 import StarIcon from '@material-ui/icons/Star';
-import { Grid, 
+import {
+    Grid,
     Container,
     makeStyles,
     Typography,
@@ -47,47 +47,48 @@ export function CompanyJoinus(props) {
     const classes = useStyle();
     const [reviews, setReviews] = useState([]);
     const query = new URLSearchParams(props.location.search);
-    const id =query.get('id')
+    const id = query.get('id')
     const dispatch = useDispatch()
-    const {isAuth} = useSelector(state=>state.login)
-    
-    //Call Company snapshot API
+    const { isAuth } = useSelector(state => state.login)
+
     //fetch company id by localstorage
+
+    //call get company details api
     console.log("Company details: ", companyDetails);
 
     return (
 
-         isAuth ? (companyDetails ?
-        <ThemeProvider theme={theme}> 
-            <Header /><hr/>
-            <CompanyHeader /><hr/>   
-        <Container maxwidth = "xl">
-            
-            <Grid item style = {{marginTop: "20px", marginBottom: "40px"}}>
-                <Typography variant = "h5"><b>About the Company</b></Typography>
-            </Grid> 
-            
-            <Grid item style = {{marginTop: "20px", marginBottom: "50px"}}>
-                <Typography><p>about the company</p></Typography>
-            </Grid>
+        isAuth ? (companyDetails ?
+            <ThemeProvider theme={theme}>
+                <Header /><hr />
+                <CompanyHeader /><hr />
+                <Container maxwidth="xl">
 
-            <Grid item style = {{marginTop: "20px", marginBottom: "30px"}}>
-                <Typography variant = "h5"><b>Work culture</b></Typography>
-            </Grid> 
-            
-            <Grid item style = {{marginTop: "20px", marginBottom: "50px"}}>
-                <Typography><p>Work culture</p></Typography>
-            </Grid>
+                    <Grid item style={{ marginTop: "20px", marginBottom: "40px" }}>
+                        <Typography variant="h5"><b>About the Company</b></Typography>
+                    </Grid>
 
-            <Grid item style = {{marginTop: "20px", marginBottom: "50px"}}>
-                <Typography variant = "h5"><b>Company values</b></Typography>
-            </Grid>
-            <Grid item style = {{marginTop: "20px", marginBottom: "50px"}}>
-                <Typography><p>Company values</p></Typography>
-            </Grid>
-        </Container>
-        </ThemeProvider>
-        : <></>) :  <Redirect to="/login" /> 
+                    <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
+                        <Typography><p>about the company</p></Typography>
+                    </Grid>
+
+                    <Grid item style={{ marginTop: "20px", marginBottom: "30px" }}>
+                        <Typography variant="h5"><b>Work culture</b></Typography>
+                    </Grid>
+
+                    <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
+                        <Typography><p>Work culture</p></Typography>
+                    </Grid>
+
+                    <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
+                        <Typography variant="h5"><b>Company values</b></Typography>
+                    </Grid>
+                    <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
+                        <Typography><p>Company values</p></Typography>
+                    </Grid>
+                </Container>
+            </ThemeProvider>
+            : <></>) : <Redirect to="/login" />
     )
 }
 export default CompanyJoinus;

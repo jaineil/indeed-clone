@@ -10,26 +10,31 @@ const initState = {
 
 export const loginReducer = (state=initState,{type,payload})=>{
     switch (type){
-        case LOGIN_REQUEST: return {
-            ...state,
-            isLoading:true
-        };
-        case LOGIN_SUCCESS: return {
-            ...state,
-            isAuth:true,
-            isLoading:false,
-            loggedUser:payload
-        };
-        case LOGIN_FAILURE: return {
-            ...state,
-            isError:true,
-            isLoading:false,
-            errorMsg:payload
-        };
-        case LOGOUT: return {
-            ...state,
-            isAuth:false
-        }
+        case LOGIN_REQUEST: 
+            return {
+                ...state,
+                isLoading:true
+            };
+        case LOGIN_SUCCESS: 
+            return {
+                ...state,
+                isAuth:true,
+                isLoading:false,
+                user:payload
+            };
+        case LOGIN_FAILURE: 
+            return {
+                ...state,
+                isError:true,
+                isLoading:false,
+                errorMsg:payload
+            };
+        case LOGOUT: 
+            localStorage.clear();
+            return {
+                ...state,
+                isAuth:false
+            }
         default: return state
     }
 }

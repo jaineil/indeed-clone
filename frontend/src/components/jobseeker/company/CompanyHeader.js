@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from "axios";
 import StarIcon from '@material-ui/icons/Star';
-import { Grid, 
+import {
+    Grid,
     Container,
     makeStyles,
     Typography,
-    Button,
-    withStyles
 } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import companyDetails from './companyDetails';
 import { Link } from 'react-router-dom';
-import { NoEncryption } from '@material-ui/icons';
 
 
 const useStyle = makeStyles((theme) => ({
@@ -43,49 +41,48 @@ const useStyle = makeStyles((theme) => ({
 
 export default function CompanyHeader(props) {
     const classes = useStyle();
-    const {isAuth} = useSelector(state=>state.login)
+    const { isAuth } = useSelector(state => state.login)
     console.log("Company image", companyDetails[0].homeImage);
     return (
-    isAuth ? (companyDetails ?
-        <Container maxwidth = "xl">
-            <Grid container style = {{justifyContent:"space-between", alignItems: "center", marginBottom: "40px"}}>
-                <Grid container item lg={6} md={7} sm={8}>
-                    <Grid item className = {classes.imgCont} >
-                        {/* Need to add company image */}
-                        <img src={companyDetails[0].homeImage} alt="Company home page" width="500px" height="200px"/>
+        isAuth ? (companyDetails ?
+            <Container maxwidth="xl">
+                <Grid container style={{ justifyContent: "space-between", alignItems: "center", marginBottom: "40px" }}>
+                    <Grid container item lg={6} md={7} sm={8}>
+                        <Grid item className={classes.imgCont} >
+                            {/* Need to add company image */}
+                            <img src={companyDetails[0].homeImage} alt="Company home page" width="500px" height="200px" />
+                        </Grid>
+                        <Grid item style={{ paddingTop: "40px", paddingLeft: "200px" }}>
+                            <Typography variant="h5" >{companyDetails[0].companyName}</Typography>
+                            <Typography variant="h6" >
+                                {companyDetails[0].featuresReviews.overallStars}
+                                <StarIcon style={{ color: "#9d2b6b", paddingRight: "10px" }} />
+                            </Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item style = {{paddingTop: "40px", paddingLeft: "200px"}}>
-                        <Typography variant="h5" >{companyDetails[0].companyName}</Typography>
-                        <Typography variant="h6" >
-                            {companyDetails[0].featuresReviews.overallStars}
-                            <StarIcon style = {{color: "#9d2b6b", paddingRight: "10px"}}/>
-                        </Typography>
+                </Grid>
+                <Grid container style={{ height: "40px", paddingLeft: "200px" }}>
+                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/companyhome">
+                        SnapShot
+                    </Grid>
+                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/joinus">
+                        Why Join Us
+                    </Grid>
+                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/companyreview">
+                        Reviews
+                    </Grid>
+                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/companysalary">
+                        Salaries
+                    </Grid>
+                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/joinus">
+                        Photos
+                    </Grid>
+                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/joinus">
+                        Jobs
                     </Grid>
                 </Grid>
-            </Grid>
-            <Grid container style = {{height: "40px", paddingLeft: "200px"}}>
-                <Grid item className = {classes.optionTab} style= {{textDecoration: "none"}}component={Link} to="/companyhome">
-                    SnapShot
-                </Grid>
-                <Grid item className = {classes.optionTab} style= {{textDecoration: "none"}}component={Link} to="/joinus">
-                    Why Join Us
-                </Grid>
-                <Grid item className = {classes.optionTab} style= {{textDecoration: "none"}}component={Link} to="/companyreview">
-                     Reviews
-                </Grid>
-                <Grid item className = {classes.optionTab} style= {{textDecoration: "none"}}component={Link} to="/joinus">
-                     Salaries
-                </Grid>
-                <Grid item className = {classes.optionTab} style= {{textDecoration: "none"}}component={Link} to="/joinus">
-                     Photos
-                </Grid>
-                <Grid item className = {classes.optionTab} style= {{textDecoration: "none"}}component={Link} to="/joinus">
-                    Jobs
-                </Grid>
-            </Grid>
-            
-        </Container>
-        : <></>) :  <Redirect to="/login" /> 
-    )
 
+            </Container>
+            : <></>) : <Redirect to="/login" />
+    )
 }

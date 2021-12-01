@@ -62,13 +62,13 @@ class ReviewController {
 	viewReviewsAndRatings = async (req, res) => {
 		try {
 			const companyDetails = await CompanyDetails.findById(
-				req.body.companyId
+				req.params.companyId
 			);
 			const featuredReviews = companyDetails.featuredReviews.map((x) =>
 				x.reviewId.toString()
 			);
 			const companyReviews = await Review.find({
-				companyId: req.body.companyId,
+				companyId: req.params.companyId,
 			});
 			let response = [];
 			for (let i = 0; i < companyReviews.length; i++) {
@@ -93,7 +93,7 @@ class ReviewController {
 	searchCompanyAdmin = async (req, res) => {
 		try {
 			const response = await Review.find({
-				companyName: req.body.companyName,
+				companyName: req.params.companyName,
 			});
 			res.status(200).send(response);
 		} catch (err) {
@@ -158,50 +158,51 @@ class ReviewController {
 		}
 	};
 
-
-
 	getRequests = async (req, res) => {
-
 		try {
-			let reviews = []
-			if (req.query.filter){
+			let reviews = [];
+			if (req.query.filter) {
 				reviews = await Review.find({
-					isReviewApprovedByAdmin : req.query.filter
+					isReviewApprovedByAdmin: req.query.filter,
 				});
-			}
-			else {
+			} else {
 				reviews = await Review.find({});
 			}
 			res.status(200).send(reviews);
-
 		} catch (err) {
 			console.error(err);
 		}
 	};
 
 	updateRequest = async (req, res) => {
-
 		try {
-				const {reviewId, companyId, status} = req.body
+			const { reviewId, companyId, status } = req.body;
+			if (status === 'APPROVED'){
 
-				const response = await Review.findOneAndUpdate(
+			
+				await CompanyDetails.findOneAndUpdate(
 					{
-						companyId: companyId,
-						_id: reviewId,
+						_id: companyId,
+
 					},
-					{
-						isReviewApprovedByAdmin: status
-					}
+					{ $inc: { reviewCount : 1} }
 				);
+			}
+			const response = await Review.findOneAndUpdate(
+				{
+					companyId: companyId,
+					_id: reviewId,
+				},
+				{
+					isReviewApprovedByAdmin: status,
+				}
+			);
 
-				res.status(200).send({message : "Review Status Updated"});
-
+			res.status(200).send({ message: "Review Status Updated" });
 		} catch (err) {
 			console.error(err);
 		}
 	};
-	
-
 }
 
 export default ReviewController;

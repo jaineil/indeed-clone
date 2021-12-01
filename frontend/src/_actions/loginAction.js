@@ -28,6 +28,7 @@ const loginFailure = (errorMsg) => {
 };
 
 export const logout = () => {
+  window.localStorage.clear();
   return {
     type: LOGOUT,
   };
@@ -55,6 +56,16 @@ const authenticateUser = (email, password, usersData) => (dispatch) => {
       }
     }
   }
-
-  dispatch(loginFailure("User Does Not Exist"));
+  axios.post(endPointObj.url + '/user/login', data)
+        .then(response => {
+          console.log("login response", response.data[0]);
+          dispatch(loginSuccess(response.data[0]))
+          
+      })
+        .catch(error => {
+            if(error.response && error.response.data) {
+              console.log("error",error.response);
+              dispatch(loginFailure(error.response.data.message)); 
+            }
+        });
 };

@@ -105,12 +105,12 @@ export function Login() {
         e.preventDefault();
         dispatch(makeLoginRequest({email,password}))
     }
-    console.log("login user data", user);
-    localStorage.setItem("userId",user.mongoId);
-    localStorage.setItem("role",user.userPersona);
-    localStorage.setItem("userEmailId",user.emailId);
-
-
+    localStorage.setItem("userEmailId", user.emailId);
+    localStorage.setItem("role", user.userPersona);
+    localStorage.setItem("userId", user.mongoId);
+    console.log("login user data : userId", localStorage.getItem("userEmailId"));
+    console.log("login user data : user role", localStorage.getItem("role"));
+    console.log("localstorage login user data", localStorage.getItem("userId"));
     return (
         !isAuth ?
         <Container className = {classes.loginContainer} maxWidth = "xl">
@@ -163,7 +163,7 @@ export function Login() {
                     </Grid>
                 </Grid>
             </Box>
-        </Container> : (user.userPersona === "JOB_SEEKER") ? <Redirect to="/home" /> : ((user.userPersona === "EMPLOYER")) ? <Redirect to="/employer" /> : <Redirect to="/admin" />
+        </Container> : (user.userPersona === "jobseeker") ? <Redirect to="/home" /> : ((user.userPersona === "EMPLOYER")) ? <Redirect to="/employer" /> : <Redirect to="/admin" />
     )   
 }
 export default Login;
