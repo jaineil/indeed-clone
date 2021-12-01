@@ -1,5 +1,6 @@
 import { make_request } from "../../../../kafka/client.js";
 import JobSeekerApplications from "../../../db/models/mongo/jobSeekerApplications.js";
+import mongoose from "mongoose";
 
 export class JobApplicationController {
 	apply = async (req, res) => {
@@ -33,6 +34,39 @@ export class JobApplicationController {
 				req.params.applicationId
 			);
 			res.send(response);
+		} catch (err) {
+			console.error(err);
+			res.send({ error: err });
+		}
+	};
+
+	getListOfApplicantsForJob = async (req, res) => {
+		try {
+			let filters = {
+				jobId: new mongoose.mongo.ObjectId(req.query.jobId),
+			};
+			if (
+				["HIRED", "REJECTED"].includes(req.query.status.toUpperCase())
+			) {
+				filters["applicationStatus"] = req.query.status;
+			}
+			const response = await JobSeekerApplications.aggregate([
+				{
+					$lookup: {
+						from: "jobseekerdetails",
+						localField: "jobSeekerId",
+						foreignField: "_id",
+						as: "jobSeekerDetails",
+					},
+				},
+				{
+					$unwind: "$jobSeekerDetails",
+				},
+				{
+					$match: filters,
+				},
+			]);
+			res.status(200).send(response);
 		} catch (err) {
 			console.error(err);
 			res.send({ error: err });

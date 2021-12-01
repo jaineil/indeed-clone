@@ -14,4 +14,8 @@ jobApplicationRouter.get(
 	jobApplicationController.getApplicantResumeCoverLetter
 );
 
+jobApplicationRouter.get(
+	"/employer/get-job-applicants",
+	jobApplicationController.getListOfApplicantsForJob
+);
 export default jobApplicationRouter;
