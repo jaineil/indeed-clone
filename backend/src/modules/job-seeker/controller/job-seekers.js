@@ -32,17 +32,13 @@ export class JobSeekerController {
 			jobseekerId,
 			firstName,
 			lastName,
-			profilePicture = "",
-			resumes = [],
-			coverLetters = [],
 			contactNumber,
 			street,
 			apt,
 			city,
 			state,
 			country,
-			zip,
-			savedJobs = [],
+			zip
 		} = req.body;
 
 		const address = {
