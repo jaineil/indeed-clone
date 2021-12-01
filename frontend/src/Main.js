@@ -14,9 +14,12 @@ import findSalaries from "./components/jobseeker/salaries/FindSalaries";
 
 import employerDashboard from "./components/employer/LandingPage";
 import employerProfile from "./components/employer/Profile";
+import employerCandidates from "./components/employer/Candidates";
 
 import JobSeekerChats from "./components/chats/jobSeeker";
 import EmployerChats from "./components/chats/employer";
+import employerReport from "./components/employer/Report";
+
 class Main extends Component {
 	render() {
 		return (
@@ -37,6 +40,9 @@ class Main extends Component {
 				<Route path="/addcompanysalary" component={AddCompanySalary} />
 				<Route path="/jobseekerprofile" component={jobseekerprofile} />
 				<Route path="/career/salaries" component={findSalaries} />
+				<Route path="/candidates" component={employerCandidates} />
+				<Route path="/jobs" component={employerDashboard} />
+				<Route path="/reports" component={employerReport} />
 			</div>
 		);
 	}
