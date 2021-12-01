@@ -8,14 +8,11 @@ import "./App.css";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  // window.onbeforeunload = function() {
-  //   localStorage.clear();
-  // }
-  return (
-    <ThemeProvider theme={theme}>
-      <Main />
-    </ThemeProvider>
-  );
+	return (
+		<ThemeProvider theme={theme}>
+			<Main />
+		</ThemeProvider>
+	);
 }
 
 export default App;
