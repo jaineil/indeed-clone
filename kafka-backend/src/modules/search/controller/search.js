@@ -42,71 +42,118 @@ export class SearchController {
 		const searchQuery = data.searchQuery;
 		const location = data.location;
 		let results = [];
-		try {
+
+		if (searchQuery) {
+			try {
+				const jobs = await Jobs.find({
+					$and: [
+						{
+							$or: [
+								{
+									"jobLocation.city": {
+										$regex: location,
+										$options: "i",
+									},
+								},
+								{
+									"jobLocation.state": {
+										$regex: location,
+										$options: "i",
+									},
+								},
+								{
+									"jobLocation.zipcode": {
+										$regex: location,
+										$options: "i",
+									},
+								},
+							],
+						},
+						{
+							$or: [
+								{
+									jobTitle: {
+										$regex: searchQuery,
+										$options: "i",
+									},
+								},
+								{
+									companyName: {
+										$regex: searchQuery,
+										$options: "i",
+									},
+								},
+							],
+						},
+					],
+				})
+					.populate("companyId")
+					.exec();
+
+				jobs.map((job) => {
+					if (
+						job.jobTitle.toLowerCase() === searchQuery.toLowerCase()
+					) {
+						results.push({
+							jobTitle: job.jobTitle,
+							companyName: job.companyName,
+							rating: job.companyId.averageRating,
+							city: job.jobLocation.city,
+							state: job.jobLocation.state,
+							salary: job.salary,
+							description: job.jobDescription.description,
+						});
+					}
+				});
+				console.log(JSON.stringify(results));
+
+				return this.responseGenerator(200, results);
+			} catch (err) {
+				console.error("Error when searching for jobs ", err);
+				return this.responseGenerator(
+					404,
+					"Error when searching for jobs"
+				);
+			}
+		} else {
 			const jobs = await Jobs.find({
-				$and: [
+				$or: [
 					{
-						$or: [
-							{
-								"jobLocation.city": {
-									$regex: location,
-									$options: "i",
-								},
-							},
-							{
-								"jobLocation.state": {
-									$regex: location,
-									$options: "i",
-								},
-							},
-							{
-								"jobLocation.zipcode": {
-									$regex: location,
-									$options: "i",
-								},
-							},
-						],
+						"jobLocation.city": {
+							$regex: location,
+							$options: "i",
+						},
 					},
 					{
-						$or: [
-							{
-								jobTitle: {
-									$regex: searchQuery,
-									$options: "i",
-								},
-							},
-							{
-								companyName: {
-									$regex: searchQuery,
-									$options: "i",
-								},
-							},
-						],
+						"jobLocation.state": {
+							$regex: location,
+							$options: "i",
+						},
+					},
+					{
+						"jobLocation.zipcode": {
+							$regex: location,
+							$options: "i",
+						},
 					},
 				],
 			})
 				.populate("companyId")
 				.exec();
 
-			jobs.map((job) => {
-				if (job.jobTitle.toLowerCase() === searchQuery.toLowerCase()) {
-					results.push({
-						jobTitle: job.jobTitle,
-						companyName: job.companyName,
-						rating: job.companyId.averageRating,
-						city: job.jobLocation.city,
-						state: job.jobLocation.state,
-						salary: job.salary,
-						description: job.jobDescription.description,
-					});
-				}
-			});
+			jobs.map((job) =>
+				results.push({
+					jobTitle: job.jobTitle,
+					companyName: job.companyName,
+					rating: job.companyId.averageRating,
+					city: job.jobLocation.city,
+					state: job.jobLocation.state,
+					salary: job.salary,
+					description: job.jobDescription.description,
+				})
+			);
 			console.log(JSON.stringify(results));
-
 			return this.responseGenerator(200, results);
-		} catch (err) {
-			console.error("Error when searching for jobs ", err);
-			return this.responseGenerator(404, "Error when searching for jobs");
 		}
 	};
 

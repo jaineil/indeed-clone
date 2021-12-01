@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const employerDetailsSchema = new Schema({
 	userId: { type: Number }, // SQL user id
-	companyId : {
+	companyId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "companyDetail",
 	},
@@ -13,15 +13,17 @@ const employerDetailsSchema = new Schema({
 	emailId: { type: String },
 	companyName: { type: String },
 	role: { type: String },
-	contactNumber: {type: String},
+	contactNumber: { type: String },
 	companyLocation: {
+		type: {
 			street: { type: String },
 			city: { type: String },
 			state: { type: String },
 			country: { type: String },
 			zipcode: { type: String },
 		},
-	});
+	},
+});
 
 const EmployerDetails = mongoose.model("employerDetail", employerDetailsSchema);
 

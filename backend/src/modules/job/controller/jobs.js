@@ -14,7 +14,7 @@ class JobController {
 				jobDescription: req.body.jobDescription,
 				jobType: req.body.jobType,
 				remote: req.body.remote,
-				salary: req.body.salary,
+				salary: parseInt(req.body.salary),
 			});
 			const response = await newJob.save();
 			res.status(200).send(response);

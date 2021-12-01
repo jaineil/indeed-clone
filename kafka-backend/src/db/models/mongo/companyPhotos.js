@@ -9,7 +9,7 @@ const companyPhotosSchema = new Schema({
 		ref: "companyDetail",
 	},
 	companyPhotoUrl: { type: String },
-	isPhotoApprovedByAdmin: { type: String },
+	isPhotoApprovedByAdmin: { type: String, default: "PENDING" },
 });
 
 const CompanyPhotos = mongoose.model("companyPhoto", companyPhotosSchema);
