@@ -10,6 +10,7 @@ const reviewsSchema = new Schema({
 	companyId: { type: mongoose.Schema.Types.ObjectId, ref: "companyDetail" },
 	companyName: { type: String },
 	overallCompanyRatingByReviewer: { type: Number },
+	reviewerRole: { type: String },
 	reviewTitle: { type: String },
 	reviewBody: { type: String },
 	pros: {
@@ -25,7 +26,7 @@ const reviewsSchema = new Schema({
 		type: [String],
 		default: [],
 	},
-	postedOn: { type: String },
+	postedOn: { type: Date, default: Date.now },
 	companyLocation: {
 		type: {
 			street: { type: String },
@@ -35,8 +36,8 @@ const reviewsSchema = new Schema({
 			zipcode: { type: String },
 		},
 	},
-	reviewHelpfulCount: { type: Number },
-	reviewNotHelpfulCount: { type: Number },
+	reviewHelpfulCount: { type: Number, default: 0 },
+	reviewNotHelpfulCount: { type: Number, default: 0 },
 	categoricalRating: {
 		// each is 1 to 5 int-type rating scale
 		type: {
@@ -47,7 +48,7 @@ const reviewsSchema = new Schema({
 			jobCulture: { type: Number },
 		},
 	},
-	isReviewApprovedByAdmin: { type: String }, // enum: PENDING/APPROVED/REJECTED
+	isReviewApprovedByAdmin: { type: String, default: "PENDING" }, // enum: PENDING/APPROVED/REJECTED
 });
 
 const Reviews = mongoose.model("review", reviewsSchema);

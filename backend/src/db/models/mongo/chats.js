@@ -5,12 +5,12 @@ const Schema = mongoose.Schema;
 const chatsSchema = new Schema({
 	employerId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "employerDetails",
+		ref: "employerDetail",
 	},
 	employerName: { type: String },
 	jobSeekerId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "jobSeekerDetails",
+		ref: "jobSeekerDetail",
 	},
 	jobSeekerName: { type: String },
 	messages: [

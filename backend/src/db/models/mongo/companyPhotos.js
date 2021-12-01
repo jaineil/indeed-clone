@@ -6,7 +6,7 @@ const companyPhotosSchema = new Schema({
 	userId: { type: String },
 	companyId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "companyDetails",
+		ref: "companyDetail",
 	},
 	companyPhotoUrl: { type: String },
 	isPhotoApprovedByAdmin: { type: String, default: "PENDING" },

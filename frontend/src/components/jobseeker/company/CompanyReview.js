@@ -115,8 +115,6 @@ export function CompanyReview(props) {
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "30px" }}>
                         <Grid>
-                            <Typography variant="h5"><b>{companyDetails[0].companyName} Employee Reviews</b></Typography>
-                            {ignored ? null : null}
                             <Button className={classes.link} onClick={() => handleOpen(companyId)}
                                 style={{ marginBottom: '30px', marginLeft: '800px', marginTop: '-35px' }}>
                                 <b>Review this company</b>

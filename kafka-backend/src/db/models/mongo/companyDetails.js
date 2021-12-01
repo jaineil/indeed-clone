@@ -25,6 +25,8 @@ const companyDetailsSchema = new Schema({
 		zipcode: { type: String },
 		country: { type: String },
 	},
+	reviewCount: { type: Number, default: 0 },
+
 	featuredReviews: [
 		{
 			reviewId: { type: mongoose.Schema.Types.ObjectId, ref: "review" },
