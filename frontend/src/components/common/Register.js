@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
-import { Container,Grid,OutlinedInput,Typography , Button} from '@material-ui/core';
-import {  IconButton, Snackbar } from '@material-ui/core';
+import {   } from '@material-ui/core';
 import CloseIcon from "@material-ui/icons/Close";
-import { Box, makeStyles, withStyles,FormHelperText,FormControlLabel} from '@material-ui/core';
+import { Box, makeStyles, withStyles,FormHelperText,FormControlLabel, 
+        Container,Grid,OutlinedInput,Typography , 
+        Button, IconButton, Snackbar} from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { makeRegisterRequest } from '../../_actions/registerAction';
+import { userRegistration } from '../../_actions/registerAction';
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 
 const useStyles = makeStyles(() => ({
     registrationContainer: {
         backgroundColor: "#f2f2f2",
-        display: "flex",
+        display: "flex", 
         flexDirection: "column",
         alignItems: "center",
-        height: "800px",        
+        height: "120vh"       
     },
     registrationBox: {
         width: "450px",
@@ -41,7 +42,7 @@ const useStyles = makeStyles(() => ({
         fontFamily: "Helvetica Neue,Helvetica,Arial,Liberation Sans,Roboto,Noto,sans-serif",
         color: "#4b4b4b"
     },
-    outlinedInput: {
+    borderlinedInput: {
         border: "1px solid #cccccc",
         height: "48px",
         width: "400px",
@@ -69,10 +70,11 @@ export function Register() {
     const classes = useStyles();
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
+    const[role, setRole] = useState("");
     const dispatch = useDispatch();
     const [snackBarOpen,setSnackBarOpen] = useState(false)
     
-    const {success,isError,errorMsg} = useSelector(state=>state.register)
+    const {success,isError,errorMsg,userAlreadyExistsMsg} = useSelector(state=>state.register)
     
     const onEmailChange = (e) => {
         setEmail(e.target.value)
@@ -81,19 +83,22 @@ export function Register() {
     const onPasswordChange = (e) => {
         setPassword(e.target.value)
     }
+    const onRoleChange = (e) => {
+        setRole(e.target.value)
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(makeRegisterRequest({email,password}))
-        
+        //Dispatch role also (TBD)
+        dispatch(userRegistration({emailId:email ,pass: password,userPersona:role}))   
     }
-
+    console.log("role", role);
 
     return (
         
         <Container className = {classes.registrationContainer} maxWidth = "xl">
             {
-                success ? alert('User registered successfully') : <></>
+                success ? <Redirect to="/login" /> : <></>
             }
             {isError ? 
                 <Box>
@@ -119,26 +124,40 @@ export function Register() {
                     <Grid item>
                         <form onSubmit = { handleSubmit }>
                             <FormHelperText className = {classes.formhelperText}>Email Address</FormHelperText>
-                            <OutlinedInput  className = {classes.outlinedInput} onChange = { onEmailChange } value = { email } required type = "text" variant="outlined"/><br/>
+                            <OutlinedInput  className = {classes.borderlinedInput} onChange = { onEmailChange } value = { email } required type = "email" variant="outlined"/><br/>
                             <FormHelperText className = {classes.formhelperText}>Password</FormHelperText>
-                            <OutlinedInput  className = {classes.outlinedInput} onChange = { onPasswordChange } value = { password } required type = "password" variant="outlined"/>
+                            <OutlinedInput  className = {classes.borderlinedInput} onChange = { onPasswordChange } value = { password } required type = "password" variant="outlined"/>
                             <FormHelperText className = {classes.formhelperText}>Your role</FormHelperText>
                             <Typography align = "left" variant = "caption" style = {{ flexDirection : "column", alignContent: "center", margin: "20px 0", color: "#aba6a6"}}>
                                 Let us know how you'll be using our products</Typography>
-                            <RadioGroup name="role" value="role" onChange={ onEmailChange }>
-                            <FormControlLabel className={classes.formhelperText} value="1" control={<Radio />} label="Employeer"
-                            style = {{ border: "1px solid #cccccc",
-                            height: "48px",
-                            width: "400px",
-                            margin: "10px 0",
-                            borderRadius:10 }}/> 
-                            <FormControlLabel className={classes.formhelperText} value="2" control={<Radio />} label="Job seeker" 
-                            style = {{ border: "1px solid #cccccc",
-                            height: "48px",
-                            width: "400px",
-                            margin: "10px 0",
-                            borderRadius:10 }}/>
+                            <RadioGroup name="role" value={role} onChange={ onRoleChange }>
+                                <FormControlLabel className={classes.formhelperText} value="employeer" control={<Radio />} label="Employeer" type = "radio"
+                                style = {{ border: "1px solid #cccccc",
+                                height: "48px",
+                                width: "400px",
+                                margin: "10px 0",
+                                borderRadius:10 }}/> 
+                                <FormControlLabel className={classes.formhelperText} value="jobseeker" control={<Radio />} label="Job seeker" 
+                                style = {{ border: "1px solid #cccccc",
+                                height: "48px",
+                                width: "400px",
+                                margin: "10px 0",
+                                borderRadius:10 }}/>
+                                <FormControlLabel className={classes.formhelperText} value="admin" control={<Radio />} label="Admin" 
+                                style = {{ border: "1px solid #cccccc",
+                                height: "48px",
+                                width: "400px",
+                                margin: "10px 0",
+                                borderRadius:10 }}/>
                             </RadioGroup>
+                            <br/>
+                            { console.log("userAlreadyExistsMsg",userAlreadyExistsMsg) }
+                            {
+                             userAlreadyExistsMsg ? 
+                                <Box style={{cursor: "pointer",color: "#bb0707", fontSize: "15px"}}>
+                                    <b>{userAlreadyExistsMsg}</b>
+                                </Box> :<></>
+                            }
                             <br/>
                             <SignInButton type = "submit" className = {classes.createAccountButton} variant = "contained">
                                 Create Account
