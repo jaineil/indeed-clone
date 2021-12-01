@@ -8,12 +8,15 @@ import companyHome from './components/jobseeker/company/CompanyHome';
 import CompanyJoinus from './components/jobseeker/company/CompanyJoinus';
 import CompanyReview from './components/jobseeker/company/CompanyReview';
 import CompanySalaries from './components/jobseeker/company/CompanySalaries';
+import {AddCompanySalaryModal} from "./components/jobseeker/company/AddCompanySalaryModal";
 import jobseekerprofile from "./components/jobseeker/profile/JobSeekerProfile";
 import findSalaries from "./components/jobseeker/salaries/FindSalaries";
 
-import employerDashboard from './components/employer/LandingPage';
-import employerProfile from './components/employer/Profile';
+import employerDashboard from "./components/employer/LandingPage";
+import employerProfile from "./components/employer/Profile";
 
+import JobSeekerChats from "./components/chats/jobSeeker";
+import EmployerChats from "./components/chats/employer";
 class Main extends Component {
     
     render() {
@@ -31,6 +34,10 @@ class Main extends Component {
                 <Route path="/companysalary" component={CompanySalaries} />
                 <Route path="/jobseekerprofile" component={jobseekerprofile} />
                 <Route path="/career/salaries" component={findSalaries} />
+				<Route path="/addcompanysalary" component={AddCompanySalaryModal} />
+
+				<Route path="/jobSeekerChats" component={JobSeekerChats} />
+				<Route path="/employerChats" component={EmployerChats} />
 
                 <Route path="/employer" component={employerDashboard} />
                 <Route path="/profile" component={employerProfile} />
@@ -39,4 +46,5 @@ class Main extends Component {
         );
     }
 }
+
 export default Main;
