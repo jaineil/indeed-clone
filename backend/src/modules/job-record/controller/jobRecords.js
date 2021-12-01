@@ -13,7 +13,22 @@ class JobRecordController {
 				jobLocation: req.body.jobLocation,
 				annualSalary: req.body.annualSalary,
 				yearsOfExperience: req.body.yearsOfExperience,
-				benefits: req.body.benefits,
+				benefits: {
+					paidTimeOff:
+						req.body.benefits.paidTimeOff === "on" ? true : false,
+					healthInsurance:
+						req.body.benefits.healthInsurance === "on"
+							? true
+							: false,
+					lifeInsurance:
+						req.body.benefits.lifeInsurance === "on" ? true : false,
+					dentalOrVisionInsurance:
+						req.body.benefits.dentalOrVisionInsurance === "on"
+							? true
+							: false,
+					retirement401k:
+						req.body.benefits.retirement === "on" ? true : false,
+				},
 			});
 			const response = await newJobRecord.save();
 			res.status(200).send(response);
