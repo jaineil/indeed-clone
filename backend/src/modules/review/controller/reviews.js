@@ -177,7 +177,17 @@ class ReviewController {
 	updateRequest = async (req, res) => {
 		try {
 			const { reviewId, companyId, status } = req.body;
+			if (status === 'APPROVED'){
 
+			
+				await CompanyDetails.findOneAndUpdate(
+					{
+						_id: companyId,
+
+					},
+					{ $inc: { reviewCount : 1} }
+				);
+			}
 			const response = await Review.findOneAndUpdate(
 				{
 					companyId: companyId,
