@@ -4,6 +4,8 @@ import Navbar from './Navbar';
 
 import JobsTable from './RenderTable';
 import { DataGrid } from '@mui/x-data-grid';
+import axios from "axios";
+import endPointObj from '../../endPointUrl.js';
 
 import {
     Box,
@@ -25,9 +27,12 @@ const showApplicant = (applicantId) => {
 
 export default function Report(props) {
 
+    const [applicants,setApplicants] = useState([]);
     useEffect(async ()=>{
         try {
             let rows = [];
+
+            const jobId = '';
 
             const applications = await axios.get(endPointObj.url + "/employer/get-number-of-job-applicants?jobId=" + jobId);
 
