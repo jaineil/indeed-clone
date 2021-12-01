@@ -91,32 +91,3 @@ export const updateEmployerAndCreateCompanyProfile = (employerProfile,companyPro
         })
     }
   };
-
-  export const getCompanyProfile = (mongoId) => async (dispatch) => {
-
-    try {
-        const company = await axios.get(endPointObj.url+ "/employer/get-profile?employerId=" + mongoId);
-
-        console.log("Returned an Employer from backend: " + JSON.stringify(company.data));
-        if(company.data){
-            dispatch({
-                type: GET_COMPANY_PROFILE,
-                payload : company.data
-            })
-        }
-        else{
-            dispatch({
-                type: GET_COMPANY_PROFILE,
-                payload : null
-            })
-        }
-       
-    }
-    catch (err) {
-        console.log(err.message);
-        dispatch({
-            type: GET_COMPANY_PROFILE,
-            payload : null
-        })
-    }
-  };

@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { updateEmployerAndUpdateCompanyProfile, updateEmployerAndCreateCompanyProfile , getEmployerProfile, getCompanyProfile } from '../../_actions/employerAction';
+import { updateEmployerAndUpdateCompanyProfile, updateEmployerAndCreateCompanyProfile, getEmployerProfile, getCompanyProfile } from '../../_actions/employerAction';
 import { Link, Redirect } from 'react-router-dom';
 
 export default function Profile() {
@@ -35,6 +35,7 @@ export default function Profile() {
     console.log(JSON.stringify(companyProfile));
 
     useEffect(() => {
+        console.log("employerProfile in useEffect is : " + JSON.stringify(employerProfile));
         if (employerProfile) {
             if (employerProfile.firstName && employerProfile.lastName) {
                 setEmployerFirstName(employerProfile.firstName);
@@ -130,118 +131,143 @@ export default function Profile() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const companyProfile = {
+            companyId: '61a2f3ec6b3a62effbe5f222',
             companyName,
-            companyWebsite,
+            websiteUrl: companyWebsite,
             companyType,
-            companyRevenue,
+            revenue: companyRevenue,
             companySize,
-            companyHeadquarters,
-            companyCeoName,
+            headquarters: companyHeadquarters,
+            ceoName: companyCeoName,
             companyStreet,
-            companyCity,
-            companyZipcode,
-            companyState,
-            companyCountry,
-            companyIndustry,
-            companyFounded,
-            companyMissionAndVision
+            city: companyCity,
+            zipcode: companyZipcode,
+            state: companyState,
+            country: companyCountry,
+            industry: companyIndustry,
+            founded: companyFounded,
+            missionAndVision: companyMissionAndVision
         }
+
         const employerProfile = {
-            "employerId" : "61a1899070aa0513ab04bdb0", //TBD
-            "firstName" : employerFirstName,
-            "lastName" : employerLastName,
-            "role": employerRole,
-            "street": employerStreet,
-            "apt": "something", //Needed? TBD
-            "city": employerCity,
-            "state": employerState,
-            "country": employerCountry,
-            "zip": employerZipcode, //TBD change according to backend
-            "contactNumber" : "something" //Needed ? TBD change according to backend
+            employerId: "61a2935f773d3378523d18f7", //TBD
+            firstName: employerFirstName,
+            lastName: employerLastName,
+            role: employerRole,
+            street: employerStreet,
+            apt: "something", //Needed? TBD
+            city: employerCity,
+            state: employerState,
+            country: employerCountry,
+            zip: employerZipcode, //TBD change according to backend
+            contactNumber: "something" //Needed ? TBD change according to backend
         }
         console.log(companyProfile);
         console.log(employerProfile);
-        if(companyProfile){
-            // const updateEmployerProfile = axios.post(endPointObj.url+ "/employer/update-profile/", {
-            //     employerProfile
-            //   });
-            // const updateCompanyProfile = axios.post(endPointObj.url+ "/employer/updateCompany/", {
-            //     companyProfile
-            //   });
-        
-            // try {
-            //     const [employerResponse, companyResponse] = await axios.all([ updateEmployerProfile, updateCompanyProfile ]);
-            //     console.log("Employer Response: " + employerResponse);
-            //     console.log("Company Response: " + companyResponse);
-            // }
-            // catch (err) {
-            //     console.log(err.message);
-            // }
-
-            console.log(employerProfile);
-
-            try{
-                const employerReponse = await axios.put(endPointObj.url+ "/employer/update-profile", {
-                    employerId : "61a1899070aa0513ab04bdb0", //TBD
-                    firstName : employerFirstName,
-                    lastName : employerLastName,
-                    role: employerRole,
-                    street : employerStreet,
-                    apt : "something", //Needed? TBD
-                    city : employerCity,
-                    state : employerState,
-                    country : employerCountry,
-                    zip : employerZipcode, //TBD change according to backend
-                    contactNumber : "something" //Needed ? TBD change according to backend
-                });
-                console.log(JSON.stringify(employerReponse));
-            }
-            catch(e){
-                console.log(e.message);
-            }
-
-            // try {
-            //     const saveJobResponse = await axios.post(endPointObj.url+ "/employer/postJob", {
-            //         companyId : "61a2f3ec6b3a62effbe5f222",
-            //         employerId : "61a05844336330b63c02effd", //Needed?
-            //         companyName: companyName,
-            //         jobTitle : jobTitle,
-            //         industry : industry,
-            //         jobLocation: {
-            //             street : streetAddress,
-            //             city : city,
-            //             state : state,
-            //             country : country,
-            //             zipcode : zipcode
-            //         },
-            //         jobType : jobType,
-            //         remote : (workType === "Remote") ? true : false,
-            //         jobDescription : {
-            //             description: jobDescription,
-            //             responsibilities: responsibilities,
-            //             requirements: requirements,
-            //             whyUs: whyUs
-            //         },
-            //         salary : salary
-            //     });
-            //     console.log("Employer Response: " + JSON.stringify(saveJobResponse));
-            // }
-            // catch (err) {
-            //     console.log(err.message);
-            // }
-        }
-        else{
-            const updateEmployerProfile = axios.post(endPointObj.url+ "/employer/update-profile/", {
+        if (companyProfile) {
+            const updateEmployerProfile = axios.put(endPointObj.url + "/employer/update-profile/", {
                 employerProfile
-              });
-            const updateCompanyProfile = axios.post(endPointObj.url+ "/employer/updateCompany/", {
+            });
+            const updateCompanyProfile = axios.put(endPointObj.url + "/employer/update-company/", {
                 companyProfile
-              });
-        
+            });
+
             try {
-                const [employerResponse, companyResponse] = await axios.all([ updateEmployerProfile, updateCompanyProfile ]);
-                console.log("Employer Response: " + employerResponse);
-                console.log("Company Response: " + companyResponse);
+                const [employerResponse, companyResponse] = await axios.all([updateEmployerProfile, updateCompanyProfile]);
+                console.log("Employer Response: " + JSON.stringify(employerResponse));
+                console.log("Company Response: " + JSON.stringify(companyResponse));
+                localStorage.setItem('employerProfile', JSON.stringify({
+                    employerId: "61a2935f773d3378523d18f7", //TBD
+                    firstName: employerFirstName,
+                    lastName: employerLastName,
+                    role: employerRole,
+                    companyLocation: {
+                        street: employerStreet,
+                        apt: "something", //Needed? TBD
+                        city: employerCity,
+                        state: employerState,
+                        country: employerCountry,
+                        zip: employerZipcode
+                    },
+                    //TBD change according to backend
+                    contactNumber: "something" //Needed ? TBD change according to backend
+                }));
+
+                localStorage.setItem('companyProfile', JSON.stringify({
+                    companyName : companyName,
+                    websiteUrl: companyWebsite,
+                    companyType: companyType,
+                    revenue: companyRevenue,
+                    companySize,
+                    headquarters: companyHeadquarters,
+                    ceoName: companyCeoName,
+                    companyLocation:{
+                        street: companyStreet,
+                        city: companyCity,
+                    zipcode: companyZipcode,
+                    state: companyState,
+                    country: companyCountry
+                    },
+                    industry: companyIndustry,
+                    founded: companyFounded,
+                    missionAndVision: companyMissionAndVision
+                }));
+
+                alert("Successfully Saved");
+            }
+            catch (err) {
+                console.log(err.message);
+            }
+        }
+        else {
+            const updateEmployerProfile = axios.put(endPointObj.url + "/employer/update-profile/", {
+                employerProfile
+            });
+            const updateCompanyProfile = axios.put(endPointObj.url + "/employer/createCompany/", {
+                companyProfile
+            });
+
+            try {
+                const [employerResponse, companyResponse] = await axios.all([updateEmployerProfile, updateCompanyProfile]);
+                console.log("Employer Response: " + JSON.stringify(employerResponse));
+                console.log("Company Response: " + JSON.stringify(companyResponse));
+                localStorage.setItem('employerProfile', JSON.stringify({
+                    employerId: "61a2935f773d3378523d18f7", //TBD
+                    firstName: employerFirstName,
+                    lastName: employerLastName,
+                    role: employerRole,
+                    companyLocation: {
+                        street: employerStreet,
+                        apt: "something", //Needed? TBD
+                        city: employerCity,
+                        state: employerState,
+                        country: employerCountry,
+                        zip: employerZipcode
+                    },
+                    //TBD change according to backend
+                    contactNumber: "something" //Needed ? TBD change according to backend
+                }));
+
+                localStorage.setItem('companyProfile', JSON.stringify({
+                    companyName : companyName,
+                    websiteUrl: companyWebsite,
+                    companyType: companyType,
+                    revenue: companyRevenue,
+                    companySize,
+                    headquarters: companyHeadquarters,
+                    ceoName: companyCeoName,
+                    companyLocation:{
+                        street: companyStreet,
+                        city: companyCity,
+                    zipcode: companyZipcode,
+                    state: companyState,
+                    country: companyCountry
+                    },
+                    industry: companyIndustry,
+                    founded: companyFounded,
+                    missionAndVision: companyMissionAndVision
+                }));
+                alert("Successfully Saved");
             }
             catch (err) {
                 console.log(err.message);

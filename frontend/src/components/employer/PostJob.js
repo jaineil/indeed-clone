@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useStyles } from './Styles';
 import Navbar from './Navbar';
+import { Redirect } from 'react-router';
 
 import {
     Box,
@@ -28,7 +29,7 @@ export default function PostJob() {
     const [jobType, setJobType] = useState("");
     const [jobDescription, setJobDescription] = useState("");
     const [responsibilities, setResponsibilities] = useState("");
-    const [salary, setSalary] = useState("");
+    const [salary, setSalary] = useState(null);
     const [requirements,setRequirements] = useState("");
     const [whyUs,setWhyUs] = useState("");
     const [streetAddress, setStreetAddress] = useState("");
@@ -36,6 +37,7 @@ export default function PostJob() {
     const [state, setState] = useState("");
     const [country,setCountry] = useState("");
     const [zipcode,setZipcode] = useState("");
+    const [redirectVar,setRedirectVar] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -64,6 +66,11 @@ export default function PostJob() {
                 salary : salary
             });
             console.log("Employer Response: " + JSON.stringify(saveJobResponse));
+            console.log(saveJobResponse.status);
+            if(saveJobResponse.status === 200){
+                console.log("Here");
+                setRedirectVar(<Redirect to="/jobs" />);
+            }
         }
         catch (err) {
             console.log(err.message);
@@ -80,6 +87,8 @@ export default function PostJob() {
 
     return (
         <Container className={classes.registrationContent} maxWidth="xl">
+            {console.log("Redirect Var is :"+ redirectVar)}
+            {redirectVar}
             <Navbar />
             <Card sx={{ display: 'flex' }} style={{ width: '50%', marginTop: '5%', borderRadius: '15px' }}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
@@ -220,6 +229,7 @@ export default function PostJob() {
                                         style={{ width: '100%' }}
                                         required
                                         value = {salary}
+                                        type = "number"
                                         onChange = {(e) =>{ setSalary(e.target.value) }}
                                     />
                                 </Grid>

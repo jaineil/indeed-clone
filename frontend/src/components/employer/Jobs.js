@@ -3,6 +3,8 @@ import { useStyles } from './Styles';
 import Navbar from './Navbar';
 import DashboardItems from './DashboardItems';
 import JobsTable from './RenderTable';
+import endPointObj from '../../endPointUrl.js';
+import axios from "axios";
 
 import {
     Box,
@@ -20,9 +22,41 @@ export default function Jobs() {
 
     const [jobs, setJobs] = useState([]);
 
-    useEffect(() => {
+    useEffect(async () => {
         console.log("Jobs Fetch");
-    }, jobs)
+        try{
+            // const jobsResponse = await axios.get(endPointObj.url+'/employer/get-job-list/',{
+            //     params:{
+            //         employerId:"619f3868ef6dff3633f6d959"
+            //     }
+            // });
+            // console.log(jobsResponse.data.jobList);
+            var data = JSON.stringify({
+                "employerId": "619f3868ef6dff3633f6d959"
+              });
+              
+              var config = {
+                method: 'get',
+                url: 'http://localhost:3001/employer/get-job-list',
+                headers: { 
+                  'Content-Type': 'application/json'
+                },
+                data : data
+              };
+              
+              axios(config)
+              .then(function (response) {
+                console.log(JSON.stringify(response.data));
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+        }
+        catch(err){
+            console.log(err.msg);
+        }
+        
+    }, [])
 
     const columns = [
         { id: 'jobTitle', label: 'Job Title', minWidth: 170 },
