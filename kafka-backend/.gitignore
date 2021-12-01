@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 /src/db/config
+<<<<<<< HEAD
+
+=======
+>>>>>>> 508e936f8d03f6d31206312482843cf98a3ca1db
 # config
 
 /src/db/config/mongo.config.js

@@ -51,12 +51,12 @@ export class UserController {
                         const id = result.insertId
 
                         switch(userPersona){
-                            case 'jobseeker':
+                            case 'JOB_SEEKER':
                                 const jobSeeker = new JobSeekerDetails({userId: id, emailId: emailId})
                                 await jobSeeker.save()
                                 mongoId = jobSeeker._id.valueOf()
                                 break
-                            case 'employer':
+                            case 'EMPLOYER':
                                 const employer = new EmployerDetails({userId: id, emailId: emailId})
                                 await employer.save()
                                 mongoId = employer._id.valueOf()
