@@ -30,6 +30,7 @@ export const loginReducer = (state=initialState,{type,payload})=>{
                 errorMsg:payload
             };
         case LOGOUT: 
+            localStorage.clear();
             return {
                 ...state,
                 isAuth:false
