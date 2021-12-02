@@ -20,6 +20,7 @@ class ReviewController {
 					overallCompanyRatingByReviewer: parseInt(
 						req.body.overallRating
 					),
+					reviewerRole: req.body.reviewerRole,
 					reviewTitle: req.body.reviewTitle,
 					reviewBody: req.body.reviewBody,
 					pros: req.body.pros,
@@ -80,6 +81,7 @@ class ReviewController {
 					reviewId: companyReviews[i].id,
 					overallCompanyRatingByReviewer:
 						companyReviews[i].overallCompanyRatingByReviewer,
+					reviewerRole: companyReviews[i].reviewerRole,
 					reviewTitle: companyReviews[i].reviewTitle,
 					reviewBody: companyReviews[i].reviewBody,
 					featuredReview: featuredReviews.includes(
