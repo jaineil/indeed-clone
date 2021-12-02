@@ -216,7 +216,6 @@ class CompanyController {
 		const message = {};
 		message.body = req.params;
 		message.path = req.route.path;
-		console.log(JSON.stringify(message));
 		make_request("company", message, (err, results) => {
 			if (err) {
 				console.error(err);
@@ -226,6 +225,29 @@ class CompanyController {
 				});
 			} else {
 				console.log("Fetched company salaries with kafka-backend");
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
+	};
+
+	addClick = async (req, res) => {
+		console.log("Inside companies controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.body;
+		message.path = req.path;
+
+		make_request("company", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log("Added company click with kafka-backend");
 				console.log(results);
 				res.json(results);
 				res.end();
