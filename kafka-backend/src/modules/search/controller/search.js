@@ -130,12 +130,6 @@ export class SearchController {
 							$options: "i",
 						},
 					},
-					{
-						"jobLocation.zipcode": {
-							$regex: location,
-							$options: "i",
-						},
-					},
 				],
 			})
 				.populate("companyId")
@@ -185,12 +179,6 @@ export class SearchController {
 								},
 								{
 									"companyLocation.state": {
-										$regex: location,
-										$options: "i",
-									},
-								},
-								{
-									"companyLocation.zipcode": {
 										$regex: location,
 										$options: "i",
 									},
