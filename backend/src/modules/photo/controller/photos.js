@@ -27,7 +27,7 @@ class PhotoController {
 							const newPhoto = new CompanyPhotos({
 								jobSeekerId: jobSeekerId,
 								companyId: companyId,
-								companyPhotoUrl: s3res.location,
+								companyPhotoUrl: s3res.Location,
 							});
 							const response = await newPhoto.save();
 							photos.push(response);
