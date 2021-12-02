@@ -103,7 +103,7 @@ export class JobSeekerController {
 						const jobseeker = await JobSeekerDetails.findById(
 							jobSeekerId
 						);
-						console.log(jobseeker.resumes);
+						console.log(jobseeker);
 						jobseeker.resumes.push(resume);
 						await jobseeker.save();
 						res.status(200).send({ message: "Resume uploaded!" });
