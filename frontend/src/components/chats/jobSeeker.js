@@ -19,7 +19,7 @@ import axios from "axios";
 const JobSeekerChats = () => {
 	const [activeChat, setActiveChat] = useState("");
 	const [jobSeekerId, setJobSeekerId] = useState(
-		localStorage.getItem("jobSeekerId")
+		localStorage.getItem("userId")
 	);
 	const [messagesOverview, setMessagesOverview] = useState();
 	const [chat, setChats] = useState([]);
