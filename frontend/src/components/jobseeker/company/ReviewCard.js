@@ -1,30 +1,34 @@
 import React from 'react'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import StarIcon from '@material-ui/icons/Star';
-import { Grid, Typography } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core';
+import Rating from '@material-ui/lab/Rating';
 
-export function ReviewCard({ rating, job_position, date, title, description }) {
+export function ReviewCard({ reviewTitle, reviewerRole,reviewDescription,city,state,postedDate,overallStars,ratingInNumber, pros,cons }) {
     return (
         <Grid item container spacing={4}>
             <Grid item container spacing={2}>
                 <Grid item>
-                    <AccountCircleIcon fontSize = "large" />
+                    <h3>{ratingInNumber}</h3>
+                    <Rating name="half-rating-read" defaultValue={0} value={overallStars} size="small" readOnly />
                 </Grid>
                 <Grid item>
-                    <Typography variant = "body2" style = {{fontWeight: "600"}}>{job_position}</Typography>
-                    <Typography variant = "h6">
-                        {rating}
-                        <StarIcon fontSize="small" style = {{color: "#9d2b6b"}} />
-                        <Typography variant = "caption" > on {date}</Typography>
-                    </Typography>
+                    <Typography variant = "body2" style = {{fontWeight: "600"}}><h5>{reviewTitle}</h5></Typography>
+                    <Typography variant = "body3" style = {{fontWeight: "400", fontSize:"12px",color: "#595959"}}>{reviewerRole} - {city},{state} - posted on {postedDate}</Typography>
+                    <br/>
+                    <Typography variant="subtitle1" >
+                        {reviewDescription}
+                </Typography>
                 </Grid>
             </Grid>
             <Grid item container spacing={3}>
-                <Typography variant="h6" style ={{marginLeft:"20px"}}>
-                    {title}
-                </Typography>
-                <Typography variant="subtitle1" style ={{marginLeft:"20px"}}>
-                    {description}
+                <Typography variant="subtitle1" style ={{marginLeft:"120px"}}>
+                    <b>Pros:</b><br/>
+                    {pros}
+                </Typography><br/><br/>
+                <Typography variant="subtitle1" style ={{marginLeft:"-105px", marginTop:"50px"}}>
+                    <b>Cons:</b><br/>
+                    {cons}
                 </Typography>
             </Grid>
         </Grid>
