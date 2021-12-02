@@ -134,7 +134,7 @@ export default function Header() {
                 to="/postjob"
                 className={styleClasses.linkText}
               >
-                Employers/jobs
+                Employers/Jobs
               </Typography>
             </Box>
           </Container>

@@ -32,11 +32,11 @@ export const getJobSearchData = (job = "", location = "") => (dispatch) => {
     searchQuery: job,
     location: location
   }})
-        .then(response => {
-          console.log("Get job response", response.data);
-          dispatch(searchSuccess(response.data));
-          dispatch(setSearchCount(response.data.length));
-      })
+    .then(response => {
+      console.log("Get job response", response.data);
+      dispatch(searchSuccess(response.data));
+      dispatch(setSearchCount(response.data.length));
+  })
       .catch(error => {
           if(error.response && error.response.data) {
             console.log("error",error.response);
