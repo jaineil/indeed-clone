@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
-import StarIcon from '@material-ui/icons/Star';
+import endPointObj from '../../../endPointUrl.js';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-import Pagination from 'react-mui-pagination';
+
 
 
 import {
     Container,
+    Input,
     makeStyles,
+    Snackbar,
 } from '@material-ui/core';
+
 import { Redirect } from 'react-router-dom';
 import companyDetails from './companyDetails';
 import CompanyHeader from './CompanyHeader';
+import JwPagination from 'jw-react-pagination';
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import { Modal, Button} from 'react-bootstrap';
 
 
 import theme from "../../common/MenuTheme";
-import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
-
-
-
+import { ImageList, ImageListItem, ImageListItemBar, Alert } from '@mui/material';
 
 
 const useStyle = makeStyles((theme) => ({
@@ -67,13 +69,24 @@ const useStyle = makeStyles((theme) => ({
 
     imageStyle: {
         borderRadius: "10px",
+        maxWidth:"300px",
+        maxHeight: "300px",
         width:"300px",
-        height: "500px",
+        height:"300px",
         '&:hover': {
             color: theme.palette.primary.main,
             backgroundColor: 'black',
             border: `1px solid ${theme.palette.primary.main}` 
         }
+    },
+
+    previewImageStyle: {
+        borderRadius: "10px",
+        width:"350px",
+        height: "300px",
+        marginLeft: "55px",
+        marginBottom: "10px",
+        alignItems: 'center'
     },
 
     modal: {
@@ -87,30 +100,33 @@ const useStyle = makeStyles((theme) => ({
 }))
 
 
-
 export function CompanyPhotos(props) {
 
     const [page, setMyPage] = useState(1); // this an example using hooks
     const setPage = (e, p) => {
          setMyPage(p);
     }   
+    let [pageOfItems, setPageOfItems] = useState([])
+
     const classes = useStyle();
-    const [modalData, setData] = useState();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-        //setData(data[index]);
-        //setData();
-    const handleClose = () => {
-    setOpen(false);
-    };
+    const handleClose = () => {setOpen(false);};
+    const [previewopen, setPreviewOpen] = useState(false);
+    const handlePreviewOpen = () => setPreviewOpen(true);
+    const handlePreviewClose = () => {setPreviewOpen(false);};
 
-
-    const [photos, setPhotos] = useState([{
+    const [previewPhotos, setPreviewPhotos] = useState([{
         photos: [],
         url: ""
     }])
+    const [photos, setPhotos] = useState([]);
+    const [displayPhotos, setDisplayPhotos] = useState([]);
+    const [uploading, setUploading] = useState(false);
+    const [uploaded, setUploaded] = useState(false);
 
-    const upload = e => {
+
+    const onImageChange = e => {
         const tempArr = [];
       
         [...e.target.files].forEach(file => {
@@ -121,15 +137,78 @@ export function CompanyPhotos(props) {
             url: URL.createObjectURL(file)
           });
       
-          console.log("pictures >> ", photos);
+          console.log("pictures >> ", tempArr);
         });
-      
-        setPhotos(tempArr);
+        setPreviewPhotos(tempArr);
+        setPhotos([...e.target.files]);
+        handlePreviewOpen();
+        handleClose();
       };
-    // const upload = (e) => {
-    // e.preventDefault()
-    // console.log(this.state.file)
-    // }
+    
+
+      useEffect(() => {
+        console.log("Inside get company salaries");
+        const params ={
+            filter : "PENDING"
+        }
+        axios.get(`${endPointObj.url}/admin/get-photo-requests/`, {params})
+            .then(response => {
+                console.log("Get company reviews response", response.data);
+                setDisplayPhotos(response.data);
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log("Error", err.response);
+                }
+            });
+    }, [])
+
+    const upload = (e) => {
+        console.log("on upload");
+        const formData = new FormData();
+        photos.forEach(photo=>{
+            formData.append("file", photo);
+          });
+        setUploading(true)
+        axios(
+            {
+                method: "POST",
+                url: `${endPointObj.url}/job-seeker/add-company-photo?companyId=61a1789f93a168d41d6d2a0c&jobSeekerId=61a1789f93a168d41d6d2a0c`,
+                data: formData,
+                headers: {
+                "Content-Type": "multipart/form-data"
+            }
+          }
+        )
+        .then(response => {
+            console.log("Image Uploaded", response.data);
+            setUploading(false)
+            setUploaded(true)
+            handlePreviewClose();
+
+        })
+        .catch(err => {
+            if (err.response && err.response.data) {
+                handlePreviewClose();
+                alert("Image not Uploaded")
+    
+                console.log("Error", err.response);
+            }
+        });;
+        
+        
+        // ${endPointObj.url}/job-seeker/add-company-photo?companyId=61a1789f93a168d41d6d2a0c&jobSeekerId=61a1789f93a168d41d6d2a0c`,
+        //     {formData},
+        //     {
+        //     headers: {
+        //         "Content-Type": undefined
+        //     },
+        //     }
+        // );
+        // alert("Photo uploaded!")
+        // window.location.reload(false);
+    }
+    
 
     const query = new URLSearchParams(props.location.search);
     const id = query.get('id')
@@ -142,7 +221,7 @@ export function CompanyPhotos(props) {
     console.log("Company details: ", companyDetails);
 
 
-    const CustomModal = () => {
+    const UploadPhotoModal = () => {
        return (
         <Modal show={open} onHide={handleClose} animation={false} className = {classes.modal}>
         <Modal.Header closeButton>
@@ -163,7 +242,7 @@ export function CompanyPhotos(props) {
         <Modal.Footer>
             <Button variant="light" onClick={handleClose}>Cancel</Button>
              {/* <Button style = {{ backgroundColor: "#000080", color: "white",}}> */}
-            <input type="file" style = {{ width : "113px" }}  onChange={upload} multiple />
+            <input type="file" style = {{ width : "113px" }} name="choose" onChange={onImageChange} multiple />
             {/* </Button>  */}
             
         </Modal.Footer>
@@ -171,7 +250,40 @@ export function CompanyPhotos(props) {
         ) 
       };
     
-
+    const PreviewPhotoModal = () => {
+        return (
+         <Modal show={previewopen} onHide={handlePreviewClose} animation={false} className = {classes.modal}>
+         <Modal.Header closeButton>
+           <Modal.Title>Preview Photos</Modal.Title>
+         </Modal.Header>
+         <Modal.Body>
+            <div className="form-group multi-preview">
+                    {previewPhotos.map(photo => (
+                        <img src={photo.url} className={classes.previewImageStyle} alt="..." />
+                    ))}
+            </div>
+             
+            <div>
+             By uploading this photograph, you represent that you are the owner of this photograph and verify that you have the right and required permissions to post it to Indeed.
+            </div>
+         </Modal.Body>
+         <Modal.Footer>
+                <div style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+                            {
+                                uploading?<CircularProgress disableShrink />:<></>
+                                
+                            }  
+                            
+                </div>
+             <Button variant="light" onClick={handlePreviewClose}>Cancel</Button>
+             <Button style = {{ backgroundColor: "#000080", color: "white",}} onClick= {upload}> Upload
+             </Button> 
+             
+         </Modal.Footer>
+       </Modal>
+         ) 
+       };
+     
 
 
     return (
@@ -193,7 +305,19 @@ export function CompanyPhotos(props) {
                     justifyContent: "space-between"
                    
                 }}>
-                    <div>Photos 1-16</div>
+                     <div>Photos 1-16</div>
+                    {/* <div>
+                    {    
+                            uploaded?
+                            <Snackbar open={true} autoHideDuration={6000} onClose={handleClose}>
+                            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                                This is a success message!
+                            </Alert>
+                            </Snackbar>
+                            :<></>
+                            }
+                    </div> */}
+                   
                     <div>
                         <button className= {classes.buttonStyle}
                             onClick= {()=> {handleOpen()}}
@@ -204,8 +328,19 @@ export function CompanyPhotos(props) {
                 <div></div>
                 <div>
 
-                    <ImageList sx={{ width: 1250, height: 500 }} cols={4} rowHeight={240}>
-                    <ImageListItem >
+                    <ImageList sx={{ width: 1250, height: 350 }} cols={4} rowHeight={300}>
+                         
+                    {pageOfItems.map((item) => (
+                        <ImageListItem key={item._id}>
+                        <img className = {classes.imageStyle}
+                            src={item.companyPhotoUrl}
+                            srcSet={item.companyPhotoUrl}
+                            alt={item.userId}
+                            loading="lazy"
+                        />
+                        </ImageListItem>
+                    ))}
+                    {/* <ImageListItem >
                         <img
                             className = {classes.imageStyle}
                             src={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg`}
@@ -276,26 +411,17 @@ export function CompanyPhotos(props) {
                             alt="google"
                             loading="lazy"
                         />
-                    </ImageListItem>
+                    </ImageListItem> */}
                     
-                    
-                    {/* {itemData.map((item) => (
-                        <ImageListItem key={item.img}>
-                        <img
-                            src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                            alt={item.title}
-                            loading="lazy"
-                        />
-                        </ImageListItem>
-                    ))} */}
+                   
                     </ImageList>
                 </div>
-                <Pagination page={page} setPage={setPage} total={50} perPage ={5}/>
+                <JwPagination pageSize={12} items={displayPhotos} onChangePage={setPageOfItems} />
                 
 
                 </Container>
-            <CustomModal/>
+            <UploadPhotoModal/>
+            <PreviewPhotoModal/>
             </ThemeProvider>
             
             : <></>) : <Redirect to="/login" />
