@@ -257,17 +257,22 @@ class CompanyController {
 
 	top10CompaniesDailyClicks = async (req, res) => {
 		try {
-			const response = CompanyClicks.aggregate([
+			const response = await CompanyClicks.aggregate([
 				{
 					$match: {
 						date: req.params.date,
 					},
 				},
 				{
-					$sortByCount: "$clicks",
+					$sort: {
+						clicks: -1,
+					},
+				},
+				{
+					$limit: 10,
 				},
 			]);
-			res.status(200).send(response.slice(0, 10));
+			res.status(200).send(response);
 		} catch (err) {
 			console.error(err);
 		}
