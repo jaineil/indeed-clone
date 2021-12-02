@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import { ConnectionProvider } from "./connection.js";
 
-const TIMEOUT = 12000; // time to wait for response in ms
+const TIMEOUT = 30000; // time to wait for response in ms
 let self;
 
 export class KafkaRPC {

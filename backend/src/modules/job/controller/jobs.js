@@ -1,3 +1,4 @@
+import { make_request } from "../../../../kafka/client.js";
 import Jobs from "../../../db/models/mongo/jobs.js";
 
 class JobController {
@@ -13,7 +14,7 @@ class JobController {
 				jobDescription: req.body.jobDescription,
 				jobType: req.body.jobType,
 				remote: req.body.remote,
-				salary: req.body.salary,
+				salary: parseInt(req.body.salary),
 			});
 			const response = await newJob.save();
 			res.status(200).send(response);
@@ -25,7 +26,7 @@ class JobController {
 	getJobList = async (req, res) => {
 		try {
 			const response = await Jobs.find({
-				employerId: req.body.employerId,
+				employerId: req.params.employerId,
 			});
 			res.status(200).send({
 				jobList: response,
@@ -38,7 +39,7 @@ class JobController {
 	showJobsByCompany = async (req, res) => {
 		try {
 			const response = await Jobs.find({
-				companyId: req.body.companyId,
+				companyId: req.params.companyId,
 			});
 			res.status(200).send({
 				jobList: response,
@@ -46,6 +47,54 @@ class JobController {
 		} catch (err) {
 			console.error(err);
 		}
+	};
+
+	fetchJobDetails = async (req, res) => {
+		console.log("Inside jobs controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.params;
+		message.path = req.route.path;
+
+		make_request("job", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log("Fetched job-details with kafka-backend");
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
+	};
+
+	fetchJobsOfCompany = async (req, res) => {
+		console.log("Inside jobs controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.query;
+		message.path = req.path;
+
+		make_request("job", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log(
+					"Fetched jobs for a particular company with kafka-backend"
+				);
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
 	};
 }
 

@@ -74,7 +74,7 @@ export function Register() {
     const dispatch = useDispatch();
     const [snackBarOpen,setSnackBarOpen] = useState(false)
     
-    const {success,isError,errorMsg} = useSelector(state=>state.register)
+    const {success,isError,errorMsg,userAlreadyExistsMsg} = useSelector(state=>state.register)
     
     const onEmailChange = (e) => {
         setEmail(e.target.value)
@@ -98,7 +98,7 @@ export function Register() {
         
         <Container className = {classes.registrationContainer} maxWidth = "xl">
             {
-                success ? alert('User registered successfully') : <></>
+                success ? <Redirect to="/login" /> : <></>
             }
             {isError ? 
                 <Box>
@@ -124,7 +124,7 @@ export function Register() {
                     <Grid item>
                         <form onSubmit = { handleSubmit }>
                             <FormHelperText className = {classes.formhelperText}>Email Address</FormHelperText>
-                            <OutlinedInput  className = {classes.borderlinedInput} onChange = { onEmailChange } value = { email } required type = "text" variant="outlined"/><br/>
+                            <OutlinedInput  className = {classes.borderlinedInput} onChange = { onEmailChange } value = { email } required type = "email" variant="outlined"/><br/>
                             <FormHelperText className = {classes.formhelperText}>Password</FormHelperText>
                             <OutlinedInput  className = {classes.borderlinedInput} onChange = { onPasswordChange } value = { password } required type = "password" variant="outlined"/>
                             <FormHelperText className = {classes.formhelperText}>Your role</FormHelperText>
@@ -150,6 +150,14 @@ export function Register() {
                                 margin: "10px 0",
                                 borderRadius:10 }}/>
                             </RadioGroup>
+                            <br/>
+                            { console.log("userAlreadyExistsMsg",userAlreadyExistsMsg) }
+                            {
+                             userAlreadyExistsMsg ? 
+                                <Box style={{cursor: "pointer",color: "#bb0707", fontSize: "15px"}}>
+                                    <b>{userAlreadyExistsMsg}</b>
+                                </Box> :<></>
+                            }
                             <br/>
                             <SignInButton type = "submit" className = {classes.createAccountButton} variant = "contained">
                                 Create Account

@@ -6,6 +6,7 @@ const jobSeekerSchema = new Schema({
 	userId: { type: Number },
 	firstName: { type: String },
 	lastName: { type: String },
+	emailId: { type: String },
 	profilePicture: { type: String },
 	resumes: [
 		{
@@ -32,12 +33,12 @@ const jobSeekerSchema = new Schema({
 		{
 			jobId: {
 				type: mongoose.Schema.Types.ObjectId,
-				ref: "jobDetails",
+				ref: "jobDetail",
 			},
 			jobTitle: { type: String },
 			companyId: {
 				type: mongoose.Schema.Types.ObjectId,
-				ref: "companyDetails",
+				ref: "companyDetail",
 			},
 			companyName: { type: String },
 		},

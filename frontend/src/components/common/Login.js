@@ -88,7 +88,7 @@ const SignInButton = withStyles(() => ({
 
 export function Login() {
     
-    const {isAuth,isLoading,isError,errorMsg} = useSelector(state=>state.login)
+    const {isAuth,isLoading,isError,errorMsg,user} = useSelector(state=>state.login)
     const classes = useStyles();
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
@@ -105,12 +105,16 @@ export function Login() {
         e.preventDefault();
         dispatch(makeLoginRequest({emailId:email,pass:password}))
     }
-
-
+    localStorage.setItem("userEmailId", user.emailId);
+    localStorage.setItem("role", user.userPersona);
+    localStorage.setItem("userId", user.mongoId);
+    console.log("login user data : userId", localStorage.getItem("userEmailId"));
+    console.log("login user data : user role", localStorage.getItem("role"));
+    console.log("localstorage login user data", localStorage.getItem("userId"));
     return (
         !isAuth ?
         <Container className = {classes.loginContainer} maxWidth = "xl">
-            {isError ? <Box>{errorMsg}</Box> : <></>}
+            
             <Box className = {classes.boxImg}>
                 <img
                     className = {classes.indeedLogo}
@@ -126,7 +130,7 @@ export function Login() {
                     <Grid item>
                         <form onSubmit = { handleSubmit }>
                             <FormHelperText className = {classes.formhelperText}>Email Address</FormHelperText>
-                            <OutlinedInput  className = {classes.borderlinedInput} onChange = { onEmailChange } value = { email } required type = "text" variant="outlined"/>
+                            <OutlinedInput  className = {classes.borderlinedInput} onChange = { onEmailChange } value = { email } required type = "email" variant="outlined"/>
                             <FormHelperText className = {classes.formhelperText}>Password</FormHelperText>
                             <OutlinedInput  className = {classes.borderlinedInput} onChange = { onPasswordChange } value = { password } required type = "password" variant="outlined"/>
                             <br/><br/>
@@ -135,6 +139,11 @@ export function Login() {
                                 isLoading?<CircularProgress disableShrink />:<></>
                             }
                             </div>
+                            {isError ? 
+                            <Box style={{cursor: "pointer",color: "#bb0707", fontSize: "15px"}}>
+                                <b>{errorMsg}</b>
+                            </Box> : <></>}
+                            <br/>
                             <SignInButton type = "submit" className = {classes.loginButton} variant = "contained" disabled={isLoading}>
                                 Sign In
                             </SignInButton>
@@ -159,7 +168,7 @@ export function Login() {
                     </Grid>
                 </Grid>
             </Box>
-        </Container> : <Redirect to="/home" />
-    )
+        </Container> : (user.userPersona === "jobseeker") ? <Redirect to="/home" /> : ((user.userPersona === "EMPLOYER")) ? <Redirect to="/employer" /> : <Redirect to="/admin" />
+    )   
 }
 export default Login;

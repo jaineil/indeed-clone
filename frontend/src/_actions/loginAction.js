@@ -1,5 +1,5 @@
 import axios from "axios";
-import endPointObj from '../endPointUrl.js';
+import endPointObj from "../endPointUrl.js";
 import {
   LOGIN_FAILURE,
   LOGIN_REQUEST,
@@ -28,21 +28,32 @@ const loginFailure = (errorMsg) => {
 };
 
 export const logout = () => {
+  // window.localStorage.clear();
   return {
-    type: LOGOUT,
+    type: LOGOUT
   };
 };
 
-export const makeLoginRequest = ({ emailId, pass }) => (dispatch) => {
-  console.log()
-  dispatch(loginRequest());
+export const makeLoginRequest =
+  ({ emailId, pass }) =>
+  (dispatch) => {
+    console.log();
+    dispatch(loginRequest());
 
-  let data = {
-    emailId: emailId,
-    pass: pass
-  }
-  axios.post(endPointObj.url+ "/user/login", data)
-      .then(response => dispatch(loginSuccess(
-           response.data)))
-      .catch((err) => dispatch(loginFailure("Something went wrong")));
-};
+    let data = {
+      emailId: emailId,
+      pass: pass,
+    };
+    axios
+      .post(endPointObj.url + "/user/login", data)
+      .then((response) => {
+        console.log("login response", response.data[0]);
+        dispatch(loginSuccess(response.data[0]));
+      })
+      .catch((error) => {
+        if (error.response && error.response.data) {
+          console.log("error", error.response);
+          dispatch(loginFailure(error.response.data.message));
+        }
+      });
+  };

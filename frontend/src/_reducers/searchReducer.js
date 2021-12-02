@@ -1,14 +1,14 @@
-import { COUNT_TOTAL_RESULT,
+import { COUNT_TOTAL_SEARCH_RESULT,
     FETCH_ERROR, 
     FETCH_JOBS_ID_SUCCESS,
      FETCH_LOADING, 
-     FETCH_SUCCESS, 
+     SEARCH_SUCCESS, 
      SET_PAGE} from "../_actions/actionTypes"
 
 const init = {
 isLoading :false,
 isError:false,
-searched:[],
+searchedJobsJobs:[],
 jobsById:{},
 totalCount:null,
 page:1
@@ -28,15 +28,15 @@ switch(type){
             isLoading:false,
             isError:true
         }
-    case FETCH_SUCCESS:
+    case SEARCH_SUCCESS:
         return{
             ...state,
             isLoading:false,
             isError:false,
-            searched:payload.reverse()
+            searchedJobs:payload.reverse()
         }
     
-    case COUNT_TOTAL_RESULT:
+    case COUNT_TOTAL_SEARCH_RESULT:
         return{
             ...state,
             totalCount:payload

@@ -5,6 +5,7 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
+  USER_ALREADY_EXISTS
 } from "./actionTypes";
 
 const registerRequest = () => {
@@ -25,6 +26,13 @@ const registerRequest = () => {
       payload: errorMsg,
     };
   };
+
+  const userAlreadyExists = (errorMsg) => {
+    return {
+      type: USER_ALREADY_EXISTS,
+      payload: errorMsg,
+    };
+  };
   
   export const userRegistration = ({ emailId, pass, userPersona }) => (dispatch) => {
     console.log("Inside user registration dispatch request", emailId,pass, userPersona);
@@ -37,10 +45,10 @@ const registerRequest = () => {
         console.log("get user data", res.data);
         if (res.data.length > 0) {
           console.log("FAIL");
-          dispatch(registerFailure("user with the email id already exists"));
+          dispatch(userAlreadyExists("User with the email already exists!"));
           return;  
         } else {
-          console.log("FAIL");
+          console.log("SUCCESS");
           dispatch(registerNewUser({ emailId, pass, userPersona }));
         }
         

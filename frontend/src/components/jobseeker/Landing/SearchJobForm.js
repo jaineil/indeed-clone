@@ -1,55 +1,54 @@
-import {  Box, Button, Grid, Typography} from '@material-ui/core';
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
-import {useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { makeStyles } from '@material-ui/core/styles';
-import { getSearchData, setCurrentPage } from '../../../_actions/jobSearchActions';
+import { getJobSearchData, setCurrentPage } from '../../../_actions/jobSearchActions';
 import { useHistory } from 'react-router-dom';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import SearchInput from './SearchInput';
 
-const useStyles = makeStyles((theme) => ({   
-    input:{
-        width:'100%',
-        height:'45px',
-        
+const useStyles = makeStyles((theme) => ({
+    input: {
+        width: '100%',
+        height: '45px',
+
     },
-    removeMargin:{
-        margin:'0'
+    removeMargin: {
+        margin: '0'
     },
-    searchForm:{
-        display:'flex',
-        justifyContent:'center'
+    searchForm: {
+        display: 'flex',
+        justifyContent: 'center'
     },
-    btn_Container:{
-        display:'flex',
-        alignItems:'flex-end',
-        
-        '& button':{
-            width:'100%',
-            height:"45px",
-            fontSize:'13px',
-            fontWeight:'bold',
-            borderRadius:'10px'
+    btn_Container: {
+        display: 'flex',
+        alignItems: 'flex-end',
+
+        '& button': {
+            width: '100%',
+            height: "45px",
+            fontSize: '13px',
+            fontWeight: 'bold',
+            borderRadius: '10px'
         }
     },
-    suggestionInput:{
-        position:'relative'
+    suggestionInput: {
+        position: 'relative'
     },
-    autocontainer:{
-        border:`1px solid ${theme.palette.primary.main}`,
-        width:'99%',
-        backgroundColor:"white",
-        borderBottomLeftRadius:'5px',
-        borderBottomRightRadius:'5px',
-        zIndex:'10',
-        paddingBottom:'30px',
-        position:'absolute',
-        '& div':{
-            marginTop:'30px'
+    autocontainer: {
+        border: `1px solid ${theme.palette.primary.main}`,
+        width: '99%',
+        backgroundColor: "white",
+        borderBottomLeftRadius: '5px',
+        borderBottomRightRadius: '5px',
+        zIndex: '10',
+        paddingBottom: '30px',
+        position: 'absolute',
+        '& div': {
+            marginTop: '30px'
         },
-        
+
     },
-  }))
+}))
 
 //Load search data  
 function loadData(key) {
@@ -75,88 +74,59 @@ function InputGrid({ label, placeholder, classes, setValue, value, options, setE
             <Typography variant='h5'>
                 {label}
             </Typography>
-            <SearchInput placeholder= {placeholder} setValue={setValue} value={value} classes={classes} options={options} setError={setError} />
+            <SearchInput placeholder={placeholder} setValue={setValue} value={value} classes={classes} options={options} setError={setError} />
         </Grid>
     );
 }
 
 function SearchJobForm(props) {
-    
+
     const dispatch = useDispatch()
     const classes = useStyles();
-    const [job,setJob] = useState('');
-    const [location,setLocation] = useState('');
-    const jobOptions = ['Java Developer','Javascript Developer','React Developer','Government','Account']
-    const locationOptions = ['Bangalore','Mumbai','Delhi','Kolkata','Chennai'];
+    const [job, setJob] = useState('');
+    const [location, setLocation] = useState('San Jose');
+    const jobOptions = ['Software Developer', 'Software development engineer', 'Data scientist', 'Data Engineer', 'Software Tester'];
+    const locationOptions = ['San Jose', 'San Francisco', 'New York', 'Seattle'];
     const history = useHistory()
-    const [error,setError] = useState(false);
-        
+    const [error, setError] = useState(false);
 
-    const handleSearch=e=>{
-        
+    let searchedJobs = useSelector(state => state.search.searchedJobs)
+
+
+    const handleSearch = (e) => {
+        console.log("Inside handle job search");
         e.preventDefault()
-        if(job === "" && location === ""){
+        if (job === "" && location === "") {
             setError(true)
+
             return
         }
         dispatch(setCurrentPage(1))
-        dispatch(getSearchData(job === ""?"":job,location=== "" ? "" : location))
-        
-        let data = loadData("recent") || []
-        let queryString = job !== "" && location !== "" ? {category:"both" , query: `${job} - ${location}`} : job === "" && location !== "" ? {category:"location", query:`${location}`} : {category:"job",query:`${job}`}
 
-        if(data.length === 4){
-            //To get most recent job search
-            data.reverse()
-            if(data.some(item=>item.category===queryString.category && item.query === queryString.query)){
-                data = data.filter(item=>item.category !== queryString.category || item.query !== queryString.query)
-                data.push(queryString)
-            }
-            else{
-                data.shift()
-                data.push(queryString)
-            }
-            
-        }
-        else {
-            if(data.some(item=>item.category===queryString.category && item.query===queryString.query)){
-                data = data.filter(item=>item.category !== queryString.category || item.query !== queryString.query)
-                data.push(queryString)
-            }
-            else{
-                
-                data.push(queryString)
-            }
-        }
+        //Get job search data
+        dispatch(getJobSearchData(job === "" ? undefined : job, location === undefined ? "" : location));
+        console.log("Inside search job form: searchedJobs", searchedJobs);
 
-        saveData("recent",data.reverse())
-        history.push(`/jobs?q=${job}&location=${location}&page=1`)
-
+        history.push(`/displayjobs?q=${job}&location=${location}&page=1`)
         // console.log(queryString,"queryString")
-
     }
 
 
-
-    // const handelSubmit = (e)=>{
-    //     e.preventDefault();
-    //     history.push(`/jobs/q=${job}&l=${location}`)
-    // }
     return (
         <>
-           { error ? <Box>Query is Empty</Box> : <></> }
-            <form  onSubmit={handleSearch} className={classes.searchForm}>
+
+            <form onSubmit={handleSearch} className={classes.searchForm}>
                 <Grid container spacing={1}>
-                    
-                    <InputGrid setValue={setJob} value={job} label={'What?'} 
-                    placeholder={'Job title, keywords, or company'} classes={classes}
-                    options={job !== "" ?jobOptions:null}
-                    setError = {setError}
+
+                    <InputGrid setValue={setJob} value={job} label={'What?'}
+                        placeholder={'Job title, keywords, or company'} classes={classes}
+                        options={job !== "" ? jobOptions : null}
+                        setError={setError}
                     />
 
-                    <InputGrid setError = {setError} setValue={setLocation} value={location} label={'Where'}
-                    placeholder='City, state, zip code, or “remote”' classes={classes}
-                    options={locationOptions} />
+                    <InputGrid setError={setError} setValue={setLocation} value={location} label={'Where'}
+                        placeholder='City, state, zip code, or “remote”' classes={classes}
+                        options={locationOptions} />
 
                     <Grid item lg={2} md={2} sm={2} xs={12} className={classes.btn_Container}>
                         <Button color={'primary'} variant='contained' type='submit'>
@@ -165,9 +135,8 @@ function SearchJobForm(props) {
                     </Grid>
                 </Grid>
             </form>
-       </>
-           
-        
+            {error ? <Box>Please enter Jobtitle or location</Box> : <></>}
+        </>
     );
 }
 
