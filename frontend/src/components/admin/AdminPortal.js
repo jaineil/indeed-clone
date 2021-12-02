@@ -27,7 +27,7 @@ export const AdminPortal = () => {
     <>
       <ThemeProvider theme={theme}>
         <AdminHeader />
-        <hr style={{ marginBottom: "0" }} />
+        <hr style={{ margin: "0" }} />
         <div>
           <Row style={{ margin: "0" }}>
             <Col
@@ -39,19 +39,21 @@ export const AdminPortal = () => {
                 boxShadow: "0 6px 20px 0 rgba(0, 0, 1, 0.19)",
               }}
             >
-              <Nav vertical>
+              <Nav vertical style={{ paddingTop: "10px" }}>
                 <NavItem>
                   <HeaderNavLink
                     className={classnames(
                       { active: activeTab === "1" },
                       classes.pointer
                     )}
+                    style={{ backgroundColor: "#fcfcfc" }}
                     onClick={() => {
                       setActiveTab("1");
                     }}
                   >
                     <p className="black b">Dashboard</p>
                   </HeaderNavLink>
+                  <hr style={{ margin: "5px" }} />
                 </NavItem>
                 <NavItem className="black">
                   <HeaderNavLink
@@ -59,12 +61,14 @@ export const AdminPortal = () => {
                       { active: activeTab === "2" },
                       classes.pointer
                     )}
+                    style={{ backgroundColor: "#fcfcfc" }}
                     onClick={() => {
                       setActiveTab("2");
                     }}
                   >
                     <p className="black b">Companies</p>
                   </HeaderNavLink>
+                  <hr style={{ margin: "5px" }} />
                 </NavItem>
                 <NavItem className="black">
                   <HeaderNavLink
@@ -72,12 +76,14 @@ export const AdminPortal = () => {
                       { active: activeTab === "3" },
                       classes.pointer
                     )}
+                    style={{ backgroundColor: "#fcfcfc" }}
                     onClick={() => {
                       setActiveTab("3");
                     }}
                   >
                     <p className="black b">Review Requests</p>
                   </HeaderNavLink>
+                  <hr style={{ margin: "5px" }} />
                 </NavItem>
                 <NavItem className="black">
                   <HeaderNavLink
@@ -85,12 +91,14 @@ export const AdminPortal = () => {
                       { active: activeTab === "4" },
                       classes.pointer
                     )}
+                    style={{ backgroundColor: "#fcfcfc" }}
                     onClick={() => {
                       setActiveTab("4");
                     }}
                   >
                     <p className="black b">Photo Requests</p>
                   </HeaderNavLink>
+                  <hr style={{ margin: "5px" }} />
                 </NavItem>
               </Nav>
             </Col>

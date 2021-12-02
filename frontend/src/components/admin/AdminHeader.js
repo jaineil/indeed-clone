@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     background: "#2d2d2d",
     boxSizing: "border-box",
+    paddingBottom: "15px",
   },
   toolbar: {
     minHeight: "45px",
@@ -63,9 +64,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   linkText: {
-    color: "#2d2d2d",
+    color: "white",
     fontFamily:
       '"Noto Sans","Helvetica Neue","Helvetica","Arial","Liberation Sans","Roboto","Noto",sans-serif;',
+    "&:hover": {
+      color: "blue",
+    },
   },
 }));
 
@@ -102,12 +106,15 @@ export default function AdminHeader() {
                   justifyContent: "flex-end",
                 }}
               >
-                <em>for admin</em>
+                <em style={{ color: "white" }}>for admin</em>
               </p>
             </Box>
             <Box className={styleClasses.header_right}>
               <Typography
-                style={{ display: "flex", alignItems: "center" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
                 component={NavLink}
                 variant="h6"
                 to="/home"
