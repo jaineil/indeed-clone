@@ -253,6 +253,45 @@ class ReviewController {
 			}
 		});
 	};
+
+	fetchTopJobSeekersByAcceptedReviews = async (req, res) => {
+		try {
+			const response = await Review.aggregate([
+				{
+					$match: {
+						isReviewApprovedByAdmin: "APPROVED",
+					},
+				},
+				{
+					$group: {
+						_id: "$jobSeekerId",
+						acceptedReviews: {
+							$sum: 1,
+						},
+					},
+				},
+				{
+					$sort: {
+						acceptedReviews: -1,
+					},
+				},
+				{
+					$limit: 5,
+				},
+				{
+					$lookup: {
+						from: "jobseekerdetails",
+						localField: "_id",
+						foreignField: "_id",
+						as: "jobSeekerInfo",
+					},
+				},
+			]);
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 }
 
 export default ReviewController;
