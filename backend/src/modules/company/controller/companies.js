@@ -231,6 +231,52 @@ class CompanyController {
 			}
 		});
 	};
+
+	addClick = async (req, res) => {
+		console.log("Inside companies controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.body;
+		message.path = req.path;
+
+		make_request("company", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log("Added company click with kafka-backend");
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
+	};
+
+	top10CompaniesDailyClicks = async (req, res) => {
+		try {
+			const response = await CompanyClicks.aggregate([
+				{
+					$match: {
+						date: req.params.date,
+					},
+				},
+				{
+					$sort: {
+						clicks: -1,
+					},
+				},
+				{
+					$limit: 10,
+				},
+			]);
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 }
 
 export default CompanyController;
