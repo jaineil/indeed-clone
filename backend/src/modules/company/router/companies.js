@@ -25,5 +25,13 @@ CompanyRouter.get(
 	"/job-seeker/company-details/join-us/:companyId",
 	companyController.fetchCompanyWhyJoinUs
 );
+CompanyRouter.get(
+	"/job-seeker/get-company-photos/:companyId",
+	companyController.fetchPhotos
+);
+CompanyRouter.get(
+	"/job-seeker/get-salaries-by-company-id/:companyId",
+	companyController.fetchCompanySalaries
+);
 
 export default CompanyRouter;

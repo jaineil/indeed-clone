@@ -16,11 +16,13 @@ class CompanyController {
 				founded: req.body.founded,
 				missionAndVision: req.body.missionAndVision,
 				ceoName: req.body.ceoName,
-				averageRating: req.body.averageRating,
+				averageRating: parseInt(req.body.averageRating),
 				companyLocation: req.body.companyLocation,
 			});
 			const response = await newCompany.save();
-			await EmployerDetails.findByIdAndUpdate(req.body.employerId, {companyId: response._id.valueOf()});
+			await EmployerDetails.findByIdAndUpdate(req.body.employerId, {
+				companyId: response._id.valueOf(),
+			});
 
 			res.status(200).send(response);
 		} catch (err) {
@@ -182,6 +184,98 @@ class CompanyController {
 				res.end();
 			}
 		});
+	};
+
+	fetchPhotos = async (req, res) => {
+		console.log("Inside companies controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.params;
+		message.path = req.route.path;
+
+		make_request("company", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log("Fetched company photos details kafka-backend");
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
+	};
+
+	fetchCompanySalaries = async (req, res) => {
+		console.log("Inside companies controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.params;
+		message.path = req.route.path;
+		console.log(JSON.stringify(message));
+		make_request("company", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log("Fetched company salaries with kafka-backend");
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
+	};
+
+	addClick = async (req, res) => {
+		console.log("Inside companies controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.body;
+		message.path = req.path;
+
+		make_request("company", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log("Added company click with kafka-backend");
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
+	};
+
+	top10CompaniesDailyClicks = async (req, res) => {
+		try {
+			const response = await CompanyClicks.aggregate([
+				{
+					$match: {
+						date: req.params.date,
+					},
+				},
+				{
+					$sort: {
+						clicks: -1,
+					},
+				},
+				{
+					$limit: 10,
+				},
+			]);
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 }
 

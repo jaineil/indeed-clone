@@ -9,9 +9,9 @@ class JobRecordController {
 				companyName: req.body.companyName,
 				isCurrentEmployee: req.body.isCurrentEmployee,
 				jobEndDate: req.body.jobEndDate,
-				jobTitle: req.body,
+				jobTitle: req.body.jobTitle,
 				jobLocation: req.body.jobLocation,
-				annualSalary: req.body.annualSalary,
+				annualSalary: parseInt(req.body.annualSalary),
 				yearsOfExperience: req.body.yearsOfExperience,
 				benefits: {
 					paidTimeOff:

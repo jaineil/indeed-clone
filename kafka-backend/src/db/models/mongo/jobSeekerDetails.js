@@ -6,6 +6,7 @@ const jobSeekerSchema = new Schema({
 	userId: { type: Number },
 	firstName: { type: String },
 	lastName: { type: String },
+	emailId: { type: String },
 	profilePicture: { type: String },
 	resumes: [
 		{

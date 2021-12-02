@@ -1,5 +1,7 @@
 import Review from "../../../db/models/mongo/reviews.js";
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
+import { make_request } from "../../../../kafka/client.js";
+import client from "../../../db/config/redis.config.js";
 
 class ReviewController {
 	create = async (req, res) => {
@@ -16,17 +18,23 @@ class ReviewController {
 					jobSeekerId: req.body.jobSeekerId,
 					companyId: req.body.companyId,
 					companyName: companyDetails.companyName,
-					overallCompanyRatingByReviewer: req.body.overallRating,
+					overallCompanyRatingByReviewer: parseInt(
+						req.body.overallRating
+					),
+					reviewerRole: req.body.reviewerRole,
 					reviewTitle: req.body.reviewTitle,
 					reviewBody: req.body.reviewBody,
 					pros: req.body.pros,
 					cons: req.body.cons,
-					ceoApprovalRating: req.body.ceoApprovalRating,
+					ceoApprovalRating: parseInt(req.body.ceoApprovalRating),
 					interviewTips: req.body.interviewPrepTips,
 					companyLocation: companyDetails.companyLocation,
 					categoricalRating: req.body.categoricalRating,
 				});
 				const response = await newReview.save();
+				client.del(`review/${req.body.companyId}/DATE`);
+				client.del(`review/${req.body.companyId}/HELPFULNESS`);
+				client.del(`review/${req.body.companyId}/RATING`);
 				res.status(200).send(response);
 			}
 		} catch (err) {
@@ -77,6 +85,7 @@ class ReviewController {
 					reviewId: companyReviews[i].id,
 					overallCompanyRatingByReviewer:
 						companyReviews[i].overallCompanyRatingByReviewer,
+					reviewerRole: companyReviews[i].reviewerRole,
 					reviewTitle: companyReviews[i].reviewTitle,
 					reviewBody: companyReviews[i].reviewBody,
 					featuredReview: featuredReviews.includes(
@@ -177,15 +186,12 @@ class ReviewController {
 	updateRequest = async (req, res) => {
 		try {
 			const { reviewId, companyId, status } = req.body;
-			if (status === 'APPROVED'){
-
-			
+			if (status === "APPROVED") {
 				await CompanyDetails.findOneAndUpdate(
 					{
 						_id: companyId,
-
 					},
-					{ $inc: { reviewCount : 1} }
+					{ $inc: { reviewCount: 1 } }
 				);
 			}
 			const response = await Review.findOneAndUpdate(
@@ -199,6 +205,119 @@ class ReviewController {
 			);
 
 			res.status(200).send({ message: "Review Status Updated" });
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	fetchReviews = async (req, res) => {
+		client.get(
+			`review/${req.query.companyId}/${req.query.sortBy}`,
+			async (err, cache_res) => {
+				if (err) {
+					console.error(err);
+					res.status(500).send(
+						"Error when connecting to Redis cache"
+					);
+				} else {
+					if (cache_res != null) {
+						console.log("Found from cache");
+						res.json(JSON.parse(cache_res));
+						res.end();
+					} else {
+						console.log(
+							"Inside reviews controller, about to make Kafka request"
+						);
+
+						const message = {};
+						message.body = req.query;
+						message.path = req.path;
+
+						make_request("review", message, (err, results) => {
+							if (err) {
+								console.error(err);
+								res.json({
+									status: "Error",
+									msg: "System error, try again",
+								});
+							} else {
+								console.log(
+									"Fetched reviews with kafka-backend"
+								);
+								console.log(results);
+								client.set(
+									`review/${req.query.companyId}/${req.query.sortBy}`,
+									JSON.stringify(results)
+								);
+								res.json(results);
+								res.end();
+							}
+						});
+					}
+				}
+			}
+		);
+	};
+
+	fetchJobSeekerReviews = async (req, res) => {
+		console.log("Inside reviews controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.query;
+		message.path = req.path;
+
+		make_request("review", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log(
+					"Fetched particular job-seeker's reviews with kafka-backend"
+				);
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
+	};
+
+	fetchTopJobSeekersByAcceptedReviews = async (req, res) => {
+		try {
+			const response = await Review.aggregate([
+				{
+					$match: {
+						isReviewApprovedByAdmin: "APPROVED",
+					},
+				},
+				{
+					$group: {
+						_id: "$jobSeekerId",
+						acceptedReviews: {
+							$sum: 1,
+						},
+					},
+				},
+				{
+					$sort: {
+						acceptedReviews: -1,
+					},
+				},
+				{
+					$limit: 5,
+				},
+				{
+					$lookup: {
+						from: "jobseekerdetails",
+						localField: "_id",
+						foreignField: "_id",
+						as: "jobSeekerInfo",
+					},
+				},
+			]);
+			res.status(200).send(response);
 		} catch (err) {
 			console.error(err);
 		}
