@@ -28,4 +28,8 @@ yarn-error.log*
 /frontend/package-lock.json
 /frontend/package-lock.json
 /frontend/package-lock.json
+<<<<<<< HEAD
+/frontend/package-lock.json
+=======
 dump.rdb
+>>>>>>> dev
