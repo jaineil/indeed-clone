@@ -10,6 +10,6 @@ const companyClicksSchema = new Schema({
 	clicks: { type: Number, default: 0 },
 });
 
-const CompanyClicks = mongoose.model("companyclicks", companyClicksSchema);
+const CompanyClicks = mongoose.model("companyclick", companyClicksSchema);
 
 export default CompanyClicks;
