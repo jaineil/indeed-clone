@@ -77,7 +77,7 @@ export default function CompanyHeader(props) {
                     <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/joinus">
                         Photos
                     </Grid>
-                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/joinus">
+                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/companyjobs">
                         Jobs
                     </Grid>
                 </Grid>
