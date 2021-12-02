@@ -6,9 +6,7 @@ import { UPDATE_PROFILE, GET_PROFILE } from "./actionTypes";
 export const updateProfile = (jobSeekerProfile) => async (dispatch) => {
   try {
     axios
-      .put(endPointObj.url + "/job-seeker/update-profile", {
-        jobSeekerProfile,
-      })
+      .put(endPointObj.url + "/job-seeker/update-profile", jobSeekerProfile)
       .then((res) => {
         if (res.status === 200) {
           console.log("Job Seeker : " + res);

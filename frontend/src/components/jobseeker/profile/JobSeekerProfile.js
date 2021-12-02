@@ -23,6 +23,8 @@ import {
   lastNameSelector,
   contactNumberSelector,
   resumesSelector,
+  citySelector,
+  stateSelector,
 } from "../../../_reducers/jobseekerReducer";
 import endPointObj from "../../../endPointUrl";
 
@@ -30,6 +32,7 @@ import endPointObj from "../../../endPointUrl";
 const FullName = () => {
   const firstName = useSelector(firstNameSelector);
   const lastName = useSelector(lastNameSelector);
+  const fullName = firstName + " " + lastName;
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div
@@ -60,7 +63,7 @@ const FullName = () => {
               fontSize: "1.375rem",
             }}
           >
-            {firstName.slice(0, 1)}
+            {firstName?.slice(0, 1) || "Y"}
           </div>
           <div
             className="first-letter"
@@ -70,11 +73,11 @@ const FullName = () => {
               fontSize: "1.375rem",
             }}
           >
-            {lastName.slice(0, 1)}
+            {lastName?.slice(0, 1) || "N"}
           </div>
         </div>
         <Typography variant="h4" component="div" style={{ paddingTop: "10px" }}>
-          {firstName + " " + lastName || "Your Name"}
+          {fullName !== " " ? fullName : "Your Name"}
         </Typography>
       </div>
     </div>
@@ -86,7 +89,7 @@ const Resume = ({ mongoId }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const resumes = useSelector(resumesSelector);
-  console.log("Resume: ", resumes);
+
   const hiddenFileInput = React.useRef(null);
   const uploadResume = (e) => {
     e.preventDefault();
@@ -95,12 +98,11 @@ const Resume = ({ mongoId }) => {
   const handleChange = (e) => {
     e.preventDefault();
     const fileUploaded = e.target.files[0];
-    console.log("Resume: ", fileUploaded.name);
     const formData = new FormData();
     formData.append("file", fileUploaded);
     axios
       .post(
-        `${endPointObj.url}/job-seeker/upload-resume?jobseekerId=${mongoId}&resumeName=${fileUploaded.name}`,
+        `${endPointObj.url}/job-seeker/upload-resume?jobSeekerId=${mongoId}&resumeName=${fileUploaded.name}`,
         formData,
         {
           headers: {
@@ -115,6 +117,25 @@ const Resume = ({ mongoId }) => {
         console.log("Error while uploading Resume: ", err);
       });
   };
+
+  const deleteResume = (e) => {
+    e.preventDefault();
+    const body = {
+      jobSeekerId: mongoId,
+      resumeId: resumes[resumes.length - 1]._id,
+      resumeName: resumes[resumes.length - 1].name,
+    };
+    console.log(body);
+    axios
+      .put(`${endPointObj.url}/job-seeker/delete-resume`, body)
+      .then((res) => {
+        if (res.status === 200) dispatch(getProfile(mongoId));
+      })
+      .catch((err) => {
+        console.log("Error while uploading Resume: ", err);
+      });
+  };
+
   return (
     <>
       <Card variant="outlined" style={{ width: "600px" }}>
@@ -170,7 +191,7 @@ const Resume = ({ mongoId }) => {
               <Typography
                 variant="body1"
                 component="a"
-                href={resumes[0].url}
+                href={resumes[resumes.length - 1].url}
                 target="_blank"
                 style={{
                   fontSize: "1.2rem",
@@ -178,7 +199,7 @@ const Resume = ({ mongoId }) => {
                   cursor: "pointer",
                 }}
               >
-                {resumes[0].name}
+                {resumes[resumes.length - 1].name}
               </Typography>
             </CardContent>
 
@@ -186,14 +207,24 @@ const Resume = ({ mongoId }) => {
               <Button
                 variant="contained"
                 type="button"
+                onClick={uploadResume}
                 className={classes.uploadResume}
               >
-                Download
+                Replace
               </Button>
+              <input
+                type="file"
+                id="resume"
+                name="resume"
+                style={{ display: "none" }}
+                ref={hiddenFileInput}
+                onChange={handleChange}
+              />
               <Button
                 variant="contained"
                 type="button"
                 className={classes.deleteResume}
+                onClick={deleteResume}
               >
                 Delete
               </Button>
@@ -206,16 +237,21 @@ const Resume = ({ mongoId }) => {
 };
 
 // Contact Details Block
-const ContactInformation = (props) => {
+const ContactInformation = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   const jobseekerId = useSelector((state) => state.jobseekerProfile._id);
+
   const [editProfile, setEditStatus] = useState(false);
   const [firstName, setFirstName] = useState(useSelector(firstNameSelector));
   const [lastName, setLastName] = useState(useSelector(lastNameSelector));
   const [contactNumber, setContactNumber] = useState(
     useSelector(contactNumberSelector)
   );
-  const dispatch = useDispatch();
+  const [city, setCity] = useState(useSelector(citySelector));
+  const [state, setState] = useState(useSelector(stateSelector));
+
   const handleSumbit = (e) => {
     e.preventDefault();
     const payload = {
@@ -223,6 +259,8 @@ const ContactInformation = (props) => {
       firstName,
       lastName,
       contactNumber,
+      city,
+      state,
     };
     dispatch(updateProfile(payload));
     setEditStatus(false);
@@ -244,6 +282,7 @@ const ContactInformation = (props) => {
           {!editProfile ? (
             <EditSharpIcon
               fontSize="medium"
+              style={{ cursor: "pointer" }}
               onClick={(e) => {
                 e.preventDefault();
                 setEditStatus(true);
@@ -336,6 +375,32 @@ const ContactInformation = (props) => {
                 value={contactNumber}
               />
               <br />
+              <Typography
+                style={{ marginTop: "10px", fontWeight: "bold" }}
+                variant="body2"
+              >
+                Location
+              </Typography>
+              <TextField
+                variant="outlined"
+                label="City (Optional)"
+                style={{ width: "100%", marginTop: "10px" }}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setCity(e.target.value);
+                }}
+                value={contactNumber}
+              />
+              <TextField
+                variant="outlined"
+                label="State (Optional)"
+                style={{ width: "100%", marginTop: "10px" }}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setState(e.target.value);
+                }}
+                value={contactNumber}
+              />
               <Button type="submit" className={classes.saveButton}>
                 Save
               </Button>
@@ -361,13 +426,13 @@ const JobSeekerProfile = () => {
   const dispatch = useDispatch();
   const mongoId = useSelector((state) => state.login.user.mongoId);
   useEffect(() => {
-    dispatch(getProfile(mongoId));
-  }, [dispatch, mongoId]);
+    dispatch(getProfile(mongoId), []);
+  });
   return (
     <ThemeProvider theme={theme}>
       <Header />
       <hr />
-      <FullName userProfile="" />
+      <FullName />
       <div
         className="profile-container"
         style={{
