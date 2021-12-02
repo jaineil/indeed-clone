@@ -11,6 +11,9 @@ import CompanySalaries from "./components/jobseeker/company/CompanySalaries";
 import CompanyPhotos from "./components/jobseeker/company/CompanyPhotos";
 import jobseekerprofile from "./components/jobseeker/profile/JobSeekerProfile";
 import findSalaries from "./components/jobseeker/salaries/FindSalaries";
+import CompanyJobs from "./components/jobseeker/company/CompanyJobs";
+import CompanyReviews from "./components/jobseeker/Landing/CompanyReviews";
+import { AddCompanySalaryModal } from "./components/jobseeker/company/AddCompanySalaryModal";
 import employerDashboard from "./components/employer/LandingPage";
 import employerProfile from "./components/employer/Profile";
 import employerCandidates from "./components/employer/Candidates";
@@ -50,6 +53,11 @@ class Main extends Component {
 				<Route path="/jobs" component={employerDashboard} />
 				<Route path="/reports" component={employerReport} />
                 <Route path="/reviews" component={myReviews} />
+
+				<Route path="/addcompanysalary" component={AddCompanySalaryModal} />
+				<Route path="/companyjobs" component={CompanyJobs} />
+				<Route path="/companyReviews" component={CompanyReviews} />
+
 
             </div>
         );

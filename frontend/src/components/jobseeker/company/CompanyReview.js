@@ -18,7 +18,7 @@ import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
 import { AddReviewModal } from "./AddCompanyReview";
 import { ReviewCard } from './ReviewCard';
-
+import JwPagination from 'jw-react-pagination';
 
 const useStyle = makeStyles((theme) => ({
     imgCont: {
@@ -101,7 +101,7 @@ export function CompanyReview(props) {
     const [helpfulness, setHelpfulness] = useState('');
     const [rating, setRating] = useState('');
     const [date, setDate] = useState('DATE');
-
+    let [pageOfItems, setPageOfItems] = useState([])
 
 
     useEffect(() => {
@@ -148,7 +148,7 @@ export function CompanyReview(props) {
 
     return (
 
-        isAuth ? (reviewdetails ?
+        
             <ThemeProvider theme={theme}>
                 
                 <Header /><hr />
@@ -192,9 +192,10 @@ export function CompanyReview(props) {
                     <Grid item style={{ marginTop: "30px", marginBottom: "50px",marginLeft: '310px' }}>
                         <Typography variant="h4"><b>Reviews</b></Typography>
                     </Grid>
+                    <>
                     <Grid container spacing={10} style={{ marginTop: "30px", marginBottom: "50px",marginLeft: '210px' }}>
                         {
-                            reviewdetails.map((item) => {
+                            pageOfItems.map((item) => {
                                 return (    
                                     <ReviewCard
                                         reviewTitle={item.reviewTitle}
@@ -212,9 +213,11 @@ export function CompanyReview(props) {
                             })
                         }
                     </Grid>
+                    <JwPagination pageSize={5} items={reviewdetails} onChangePage={setPageOfItems} />
+                    </>
                 </Container>
             </ThemeProvider>
-            : <></>) : <Redirect to="/login" />
+           
     )
 }
 export default CompanyReview;

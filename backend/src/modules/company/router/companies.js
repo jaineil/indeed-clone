@@ -33,5 +33,6 @@ CompanyRouter.get(
 	"/job-seeker/get-salaries-by-company-id/:companyId",
 	companyController.fetchCompanySalaries
 );
+CompanyRouter.post("/job-seeker/add-company-view", companyController.addClick);
 
 export default CompanyRouter;
