@@ -1,5 +1,6 @@
 import Review from "../../../db/models/mongo/reviews.js";
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
+import { make_request } from "../../../../kafka/client.js";
 
 class ReviewController {
 	create = async (req, res) => {
@@ -16,12 +17,15 @@ class ReviewController {
 					jobSeekerId: req.body.jobSeekerId,
 					companyId: req.body.companyId,
 					companyName: companyDetails.companyName,
-					overallCompanyRatingByReviewer: req.body.overallRating,
+					overallCompanyRatingByReviewer: parseInt(
+						req.body.overallRating
+					),
+					reviewerRole: req.body.reviewerRole,
 					reviewTitle: req.body.reviewTitle,
 					reviewBody: req.body.reviewBody,
 					pros: req.body.pros,
 					cons: req.body.cons,
-					ceoApprovalRating: req.body.ceoApprovalRating,
+					ceoApprovalRating: parseInt(req.body.ceoApprovalRating),
 					interviewTips: req.body.interviewPrepTips,
 					companyLocation: companyDetails.companyLocation,
 					categoricalRating: req.body.categoricalRating,
@@ -77,6 +81,7 @@ class ReviewController {
 					reviewId: companyReviews[i].id,
 					overallCompanyRatingByReviewer:
 						companyReviews[i].overallCompanyRatingByReviewer,
+					reviewerRole: companyReviews[i].reviewerRole,
 					reviewTitle: companyReviews[i].reviewTitle,
 					reviewBody: companyReviews[i].reviewBody,
 					featuredReview: featuredReviews.includes(
@@ -177,15 +182,12 @@ class ReviewController {
 	updateRequest = async (req, res) => {
 		try {
 			const { reviewId, companyId, status } = req.body;
-			if (status === 'APPROVED'){
-
-			
+			if (status === "APPROVED") {
 				await CompanyDetails.findOneAndUpdate(
 					{
 						_id: companyId,
-
 					},
-					{ $inc: { reviewCount : 1} }
+					{ $inc: { reviewCount: 1 } }
 				);
 			}
 			const response = await Review.findOneAndUpdate(
@@ -202,6 +204,54 @@ class ReviewController {
 		} catch (err) {
 			console.error(err);
 		}
+	};
+
+	fetchReviews = async (req, res) => {
+		console.log("Inside reviews controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.query;
+		message.path = req.path;
+
+		make_request("review", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log("Fetched reviews with kafka-backend");
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
+	};
+
+	fetchJobSeekerReviews = async (req, res) => {
+		console.log("Inside reviews controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.query;
+		message.path = req.path;
+
+		make_request("review", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log(
+					"Fetched particular job-seeker's reviews with kafka-backend"
+				);
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
 	};
 }
 

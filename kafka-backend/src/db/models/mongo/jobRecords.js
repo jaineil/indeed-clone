@@ -21,11 +21,10 @@ const jobRecordsSchema = new Schema({
 	},
 	yearsOfExperience: { type: Number },
 	benefits: {
-		paidTimeOff: { type: String },
+		paidTimeOff: { type: Boolean },
 		healthInsurance: { type: Boolean },
 		lifeInsurance: { type: Boolean },
-		dentalInsurance: { type: Boolean },
-		visionInsurance: { type: Boolean },
+		dentalOrVisionInsurance: { type: Boolean },
 		retirement401k: { type: Boolean },
 		other: { type: String },
 	},

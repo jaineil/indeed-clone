@@ -1,17 +1,17 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import RateReviewIcon from '@material-ui/icons/RateReview';
-import PersonIcon from '@material-ui/icons/Person';
-import { IconButton, Typography } from '@material-ui/core';
-import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../_actions/loginAction';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import RateReviewIcon from "@material-ui/icons/RateReview";
+import PersonIcon from "@material-ui/icons/Person";
+import { IconButton, Typography } from "@material-ui/core";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../_actions/loginAction";
 //import { logout } from '../../../Redux/Login/actions';
 
 const StyledMenu = withStyles({
@@ -57,7 +57,6 @@ export default function UserMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
 
   return (
     <div>
@@ -108,7 +107,7 @@ export default function UserMenu() {
         <StyledMenuItem
           onClick={() => {
             handleClose();
-            history.push("/myreviews");
+            history.push("/reviews");
           }}
         >
           <ListItemIcon>
@@ -119,6 +118,7 @@ export default function UserMenu() {
         <StyledMenuItem onClick={()=>{
             handleClose()
             dispatch(logout())
+            
             }}>
           <ListItemIcon>
             <PowerSettingsNewIcon fontSize="small" />

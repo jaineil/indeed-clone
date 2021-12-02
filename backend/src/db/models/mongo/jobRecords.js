@@ -6,7 +6,7 @@ const jobRecordsSchema = new Schema({
 	jobSeekerId: { type: String },
 	companyId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "companyDetails",
+		ref: "companyDetail",
 	},
 	companyName: { type: String },
 	isCurrentEmployee: { type: Boolean },
@@ -24,8 +24,7 @@ const jobRecordsSchema = new Schema({
 		paidTimeOff: { type: Boolean },
 		healthInsurance: { type: Boolean },
 		lifeInsurance: { type: Boolean },
-		dentalInsurance: { type: Boolean },
-		visionInsurance: { type: Boolean },
+		dentalOrVisionInsurance: { type: Boolean },
 		retirement401k: { type: Boolean },
 		other: { type: String },
 	},

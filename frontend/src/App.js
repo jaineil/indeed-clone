@@ -5,20 +5,11 @@ import Main from "./Main.js";
 import Header from "./components/common/Header";
 import { useSelector } from "react-redux";
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-	//To extract isAuth data from redux store
-	//const isAuth = useSelector((state) => state.login.isAuth);
-	// window.onbeforeunload = function () {
-	// 	localStorage.clear();
-	// };
 	return (
 		<ThemeProvider theme={theme}>
-			{/* <div className="App">
-        {isAuth ? <Header /> : <></>}
-        <Main />
-      </div> */}
 			<Main />
 		</ThemeProvider>
 	);

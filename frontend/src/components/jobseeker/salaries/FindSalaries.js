@@ -191,9 +191,8 @@ const CompanyCard = ({ jobTitle, location, topCompanies }) => {
                     >
                       <Link
                         to={{
-                          pathname: "/company/profile",
+                          pathname: "/companyHome",
                         }}
-                        className="black hover-black"
                         style={{ textDecoration: "none" }}
                       >{`${company.companyName}`}</Link>
                     </Typography>

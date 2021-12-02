@@ -11,7 +11,7 @@ import {
     Button,
 } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
-import companyDetails from './companyDetails';
+import reviewdetails from './reviewDetails';
 import CompanyHeader from './CompanyHeader';
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
@@ -48,6 +48,7 @@ const useStyle = makeStyles((theme) => ({
         justifyContent: 'center',
         borderRadius: '10px',
         height: '53px',
+        width: '150px',
         padding: '0 25px',
         fontSize: '15px',
         color: theme.palette.primary.main,
@@ -59,19 +60,49 @@ const useStyle = makeStyles((theme) => ({
             border: `1px solid ${theme.palette.primary.main}`
 
         }
+    },
+    reviewContainer: {
+        backgroundColor: "#f3f2f1",
+        height: "200px",
+        width: "800px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginBottom: '30px',
+        marginTop: "50px",
+        borderRadius:10
+    },
+    filterButton: {
+        
+        borderRadius: '10px',
+        height: '50px',
+        width: '120px',
+        padding: '0 25px',
+        fontSize: '15px',
+        color: theme.palette.primary.main,
+        border: `1px solid #000000`,
+        backgroundColor: 'white',
+        '&:hover': {
+            color: 'white',
+            backgroundColor: theme.palette.primary.main,
+            border: `1px solid ${theme.palette.primary.main}`
+
+        }  
     }
 }))
 
 export function CompanyReview(props) {
     const classes = useStyle();
     const [reviews, setReviews] = useState([]);
-    const query = new URLSearchParams(props.location.search);
-    const id = query.get('id')
-    const dispatch = useDispatch()
     const { isAuth } = useSelector(state => state.login);
     const companyId = localStorage.getItem("currentcompanyid");
     const [open, setOpen] = useState(false);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+    const [helpfulness, setHelpfulness] = useState('');
+    const [rating, setRating] = useState('');
+    const [date, setDate] = useState('DATE');
+
+
 
     useEffect(() => {
         console.log("Inside get company reviews");
@@ -89,7 +120,7 @@ export function CompanyReview(props) {
 
     //fetch company id by localstorage
     //Call fetch company details API
-    console.log("Company details: ", companyDetails);
+    console.log("Fetch review details: ", reviewdetails);
 
     const handleOpen = (id) => {
         setOpen(true);
@@ -104,21 +135,30 @@ export function CompanyReview(props) {
         forceUpdate();
     }
 
+    const onHelfulnessChange = () => {
+        setHelpfulness('HELPFULNESS');
+    }
+
+    const onRatingChange = () => {
+        setRating('RATING');
+    }
+    const onDateChange = () => {
+        setDate('DATE');
+    }
 
     return (
 
-        isAuth ? (companyDetails ?
+        isAuth ? (reviewdetails ?
             <ThemeProvider theme={theme}>
+                
                 <Header /><hr />
                 <CompanyHeader /><hr /><br />
-                <Container maxwidth="xl">
+                <Container maxwidth="xl">   
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "30px" }}>
                         <Grid>
-                            <Typography variant="h5"><b>{companyDetails[0].companyName} Employee Reviews</b></Typography>
-                            {ignored ? null : null}
                             <Button className={classes.link} onClick={() => handleOpen(companyId)}
-                                style={{ marginBottom: '30px', marginLeft: '800px', marginTop: '-35px' }}>
+                                style={{ marginBottom: '30px', marginLeft: '900px', marginTop: '-40px' }}>
                                 <b>Review this company</b>
                             </Button>
                             <AddReviewModal
@@ -130,22 +170,43 @@ export function CompanyReview(props) {
                         </Grid>
                     </Grid>
 
+                    <Container maxwidth="xl" className = {classes.reviewContainer}>
+                        <div style={{marginLeft: '-10px', fontSize:'25px',marginBottom: "60px", marginTop: '35px'}}className={classes.scoreTest}>
+                            <b>Sort by</b></div>
+                        <Button className={classes.filterButton} onClick={onHelfulnessChange}
+                            style={{ marginBottom: '30px', marginLeft: '-300px', marginTop: '-40px' }}>
+                            <b>Helpfulness</b>
+                        </Button>
+                        <Button className={classes.filterButton} onClick={onRatingChange}
+                            style={{ marginBottom: '30px', marginLeft: '-60px', marginTop: '-80px' }}>
+                            <b>Rating</b>
+                        </Button>
+                        <Button className={classes.filterButton} onClick={onDateChange}
+                            style={{ marginBottom: '30px', marginLeft: '180px', marginTop: '-80px' }}>
+                            <b>Date </b>
+                        </Button>
+                    </Container> 
+
 
                     {/* This needs to be done */}
-                    <Grid item style={{ marginTop: "30px", marginBottom: "50px" }}>
+                    <Grid item style={{ marginTop: "30px", marginBottom: "50px",marginLeft: '310px' }}>
                         <Typography variant="h4"><b>Reviews</b></Typography>
                     </Grid>
-                    <Grid container spacing={10}>
+                    <Grid container spacing={10} style={{ marginTop: "30px", marginBottom: "50px",marginLeft: '210px' }}>
                         {
-                            reviews.map((item) => {
-                                return (
+                            reviewdetails.map((item) => {
+                                return (    
                                     <ReviewCard
-                                        key={item.id}
-                                        rating={item.rating}
-                                        job_position={item.job_position}
-                                        date={item.date}
-                                        title={item.title}
-                                        description={item.description}
+                                        reviewTitle={item.reviewTitle}
+                                        reviewerRole={item.reviewerRole}
+                                        reviewDescription={item.reviewDescription}
+                                        city={item.city}
+                                        state={item.state}
+                                        postedDate={item.postedDate}
+                                        overallStars={item.overallStars}
+                                        ratingInNumber={item.ratingInNumber}
+                                        pros={item.pros}
+                                        cons={item.cons}
                                     />
                                 )
                             })

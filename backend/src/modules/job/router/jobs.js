@@ -12,5 +12,9 @@ jobRouter.get(
 	jobController.showJobsByCompany
 );
 jobRouter.get("/job-seeker/job-details/:jobId", jobController.fetchJobDetails);
+jobRouter.get(
+	"/job-seeker/get-jobs-for-company",
+	jobController.fetchJobsOfCompany
+);
 
 export default jobRouter;
