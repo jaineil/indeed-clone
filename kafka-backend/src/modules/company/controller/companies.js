@@ -1,8 +1,7 @@
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
 import CompanyPhotos from "../../../db/models/mongo/companyPhotos.js";
 import JobRecords from "../../../db/models/mongo/jobRecords.js";
-import CompanyClicks from "../../../db/models/mongo/companyClicks.js";
-import moment from "moment";
+import mongoose from "mongoose";
 class CompanyController {
 	responseGenerator = (statusCode, message) => ({
 		status: statusCode,
@@ -131,31 +130,6 @@ class CompanyController {
 			return this.responseGenerator(200, salaries);
 		} catch (err) {
 			console.error("Error when fetching salaries of a company ", err);
-		}
-	};
-
-	addClick = async (data) => {
-		console.log(data);
-		const companyId = data.companyId;
-		const date = moment().format("MM-DD-YYYY");
-		try {
-			const res = await CompanyClicks.updateOne(
-				{ companyId: companyId, date: date },
-				{
-					$set: {
-						companyId: companyId,
-						date: date,
-					},
-					$inc: { clicks: 1 },
-				},
-				{ upsert: true }
-			);
-			console.log(res);
-		} catch (err) {
-			console.error(
-				"Error when adding click count to company view ",
-				err
-			);
 		}
 	};
 }

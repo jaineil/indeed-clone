@@ -1,6 +1,5 @@
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
 import EmployerDetails from "../../../db/models/mongo/employerDetails.js";
-import CompanyClicks from "../../../db/models/mongo/companyClicks.js";
 
 import { make_request } from "../../../../kafka/client.js";
 class CompanyController {
@@ -216,6 +215,7 @@ class CompanyController {
 		const message = {};
 		message.body = req.params;
 		message.path = req.route.path;
+		console.log(JSON.stringify(message));
 		make_request("company", message, (err, results) => {
 			if (err) {
 				console.error(err);
