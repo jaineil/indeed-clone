@@ -1,5 +1,6 @@
 import { make_request } from "../../../../kafka/client.js";
 import JobSeekerApplications from "../../../db/models/mongo/jobSeekerApplications.js";
+import Jobs from "../../../db/models/mongo/jobs.js";
 import mongoose from "mongoose";
 
 export class JobApplicationController {
@@ -125,6 +126,74 @@ export class JobApplicationController {
 		} catch (err) {
 			console.error(err);
 			res.send({ error: err });
+		}
+	};
+
+	getApplicantsForEachJob = async (req, res) => {
+		try {
+			const jobs = await Jobs.find(
+				{ companyId: req.params.companyId },
+				{ _id: 1 }
+			);
+			let response = [];
+			let numberOfApplicants;
+			let numberHired;
+			let numberRejected;
+			let resp;
+			let jobId;
+			for (let i = 0; i < jobs.length; i++) {
+				jobId = jobs[i]._id;
+				numberOfApplicants = await JobSeekerApplications.aggregate([
+					{
+						$match: {
+							jobId: new mongoose.mongo.ObjectId(jobId),
+						},
+					},
+					{
+						$count: "numberOfApplicants",
+					},
+				]);
+				numberHired = await JobSeekerApplications.aggregate([
+					{
+						$match: {
+							jobId: new mongoose.mongo.ObjectId(jobId),
+							applicationStatus: "HIRED",
+						},
+					},
+					{
+						$count: "numberHired",
+					},
+				]);
+				numberRejected = await JobSeekerApplications.aggregate([
+					{
+						$match: {
+							jobId: new mongoose.mongo.ObjectId(jobId),
+							applicationStatus: "REJECTED",
+						},
+					},
+					{
+						$count: "numberRejected",
+					},
+				]);
+				resp = {
+					numberOfApplicants: numberOfApplicants.length
+						? numberOfApplicants[0].numberOfApplicants
+						: 0,
+					numberHired: numberHired.length
+						? numberHired[0].numberHired
+						: 0,
+					numberRejected: numberRejected.length
+						? numberRejected[0].numberRejected
+						: 0,
+				};
+				response.push({
+					...resp,
+					jobId: jobId,
+				});
+			}
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
 		}
 	};
 }

@@ -1,4 +1,5 @@
 import JobSeekerDetails from "../../../db/models/mongo/jobSeekerDetails.js";
+import JobSeekerApplications from "../../../db/models/mongo/jobSeekerApplications.js";
 import fs from "fs";
 import multiparty from "multiparty";
 import fileType from "file-type";
@@ -16,7 +17,13 @@ export class JobSeekerController {
 					message: "Could not find jobseeker profile",
 				});
 			} else {
-				res.status(200).send(jobSeekerDetails);
+				const appliedJobs = await JobSeekerApplications.find({
+					jobSeekerId: req.query.jobseekerId,
+				});
+				res.status(200).send({
+					...jobSeekerDetails._doc,
+					appliedJobs: appliedJobs,
+				});
 			}
 		} catch (err) {
 			console.error(err);
@@ -25,38 +32,49 @@ export class JobSeekerController {
 
 	updateprofile = async (req, res) => {
 		try {
-	
-		const {
-			jobseekerId,
-			firstName,
-			lastName,
-			contactNumber,
-			street,
-			apt,
-			city,
-			state,
-			country,
-			zip
-		} = req.body;
+			const {
+				jobseekerId,
+				firstName,
+				lastName,
+				contactNumber,
+				street,
+				apt,
+				city,
+				state,
+				country,
+				zip,
+			} = req.body;
 
-		const address = {
-			street: street,
-			apt: apt,
-			city: city,
-			state: state,
-			country: country,
-			zip: zip,
-		};
+			const address = {
+				street: street,
+				apt: apt,
+				city: city,
+				state: state,
+				country: country,
+				zip: zip,
+			};
 
-        console.log(req.body);
-        const update = { firstName, lastName, profilePicture, resumes, coverLetters, contactNumber, address, savedJobs }
-        const result = await JobSeekerDetails.findByIdAndUpdate(jobseekerId, update, { new:true });
-        console.log(result);
-        res.status(200).send(result);
-	} catch (err) {
-		console.error(err);
-	}
-
+			console.log(req.body);
+			const update = {
+				firstName,
+				lastName,
+				profilePicture,
+				resumes,
+				coverLetters,
+				contactNumber,
+				address,
+				savedJobs,
+			};
+			const result = await JobSeekerDetails.findByIdAndUpdate(
+				jobseekerId,
+				update,
+				{ new: true }
+			);
+			console.log(result);
+			res.status(200).send(result);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	unsaveJob = async (req, res) => {
