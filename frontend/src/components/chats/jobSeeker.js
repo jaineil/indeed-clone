@@ -28,7 +28,7 @@ const JobSeekerChats = () => {
 	const [newMessage, setNewMessage] = useState("");
 
 	console.log("Messages overview: ", messagesOverview);
-	
+
 	const getMessagesOverview = async () => {
 		try {
 			const response = await axios.get(
@@ -39,7 +39,7 @@ const JobSeekerChats = () => {
 				response.data
 			);
 			const res = response.data.response.messages;
-		
+
 			let dataSource = [];
 			for (let i = 0; i < res.length; i++) {
 				dataSource.push({
@@ -63,20 +63,23 @@ const JobSeekerChats = () => {
 				`${endPointObj.url}/employer/get-chats/${e.employerId}/${jobSeekerId}`
 			);
 			setChats(response.data.response.chats);
-			let res = []
-			let chats = response.data.response.chats
-			for (const chat of chats){
-				console.log(chat.timestamp)
+			let res = [];
+			let chats = response.data.response.chats;
+			for (const chat of chats) {
+				console.log(chat.timestamp);
 				const entry = {
-					position :  (chat.sender === localStorage.getItem("role")) ? "right" : "left",
-					text : chat.text,
-					type : "text",
-					date : Date.parse(chat.timestamp)
-				}
+					position:
+						chat.sender === localStorage.getItem("role")
+							? "right"
+							: "left",
+					text: chat.text,
+					type: "text",
+					date: Date.parse(chat.timestamp),
+				};
 
-				res.push(entry)
+				res.push(entry);
 			}
-			
+
 			setChats(res);
 			setChatId(e.chatId);
 			setEmployerId(e.employerId);
@@ -86,7 +89,6 @@ const JobSeekerChats = () => {
 	};
 	const sendMessage = async () => {
 		try {
-		
 			const payload = {
 				employerId: employerId,
 				jobSeekerId: jobSeekerId,

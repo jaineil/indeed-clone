@@ -3,11 +3,12 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const companyPhotosSchema = new Schema({
-	userId: { type: String },
+	jobSeekerId: { type: String },
 	companyId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "companyDetail",
 	},
+	photoTitle: { type: String },
 	companyPhotoUrl: { type: String },
 	isPhotoApprovedByAdmin: { type: String, default: "PENDING" },
 });

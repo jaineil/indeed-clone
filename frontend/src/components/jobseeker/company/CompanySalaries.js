@@ -2,14 +2,13 @@ import React, { useEffect, useState, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import endPointObj from '../../../endPointUrl.js';
-import StarIcon from '@material-ui/icons/Star';
 import {
     Grid,
     Container,
     makeStyles,
-    Typography,
-    Button,
+    Typography,Button, Box
 } from '@material-ui/core';
+import { Col, Row} from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import companyDetails from './companyDetails';
 import CompanyHeader from './CompanyHeader';
@@ -17,7 +16,7 @@ import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
 import { AddCompanySalaryModal } from "./AddCompanySalaryModal";
-import { ReviewCard } from './ReviewCard';
+import { SalaryCard } from './SalaryCard';
 
 
 const useStyle = makeStyles((theme) => ({
@@ -82,11 +81,36 @@ export function CompanyReview(props) {
         //             console.log("Error", err.response);
         //         }
         //     });
+        
+
     }, [])
+
+    var salaryDetails= [
+        {
+            "roleName": "Software Development Engineer",
+            "annualSalary":14.34
+        },
+        {
+            "roleName": "Quality Assurance",
+            "annualSalary":20.00
+        },
+        {
+            "roleName": "Software Engineer - Test",
+            "annualSalary":15.45
+        },
+        {
+            "roleName": "Software Engineer - Test",
+            "annualSalary":15.45
+        },
+        {
+            "roleName": "Software Engineer - Test",
+            "annualSalary":15.45
+        }   
+    ]
 
     //fetch company id by localstorage
     //Call fetch company details API
-    console.log("Company details: ", companyDetails);
+    console.log("Salary  details: ", salaryDetails);
 
     const handleOpen = (id) => {
         setOpen(true);
@@ -113,9 +137,10 @@ export function CompanyReview(props) {
                     <Grid item style={{ marginTop: "20px", marginBottom: "30px" }}>
                         <Grid>
                             <Button className={classes.link} onClick={() => handleOpen(companyId)}
-                                style={{ marginBottom: '30px', marginLeft: '800px', marginTop: '-35px' }}>
+                                style={{ marginBottom: '30px', marginLeft: '1000px', marginTop: '-35px' }}>
                                 <b>Add a Salary</b>
                             </Button>
+                            
                             <AddCompanySalaryModal
                                 open={open}
                                 handleClose={() => handleClose()}
@@ -127,21 +152,19 @@ export function CompanyReview(props) {
 
 
                     {/* This needs to be done */}
-                    <Grid item style={{ marginTop: "30px", marginBottom: "50px" }}>
+                    <Grid item style={{ marginTop: "30px", marginBottom: "50px", marginLeft: "200px" }}>
                         <Typography variant="h4"><b>Average Salaries at {companyDetails[0].companyName}</b></Typography>
                     </Grid>
-                    <Grid container spacing={10}>
+                    <Grid container spacing={-30} style={{ marginTop: "30px", marginBottom: "60px", marginLeft: "180px" }} >
                         {
-                            reviews.map((item) => {
+                            salaryDetails.map((item) => {
                                 return (
-                                    <ReviewCard
-                                        key={item.id}
-                                        rating={item.rating}
-                                        job_position={item.job_position}
-                                        date={item.date}
-                                        title={item.title}
-                                        description={item.description}
-                                    />
+                                    <Col md={4}>
+                                    <SalaryCard
+                                        roleName = {item.roleName}
+                                        annualSalary = {item.annualSalary}    
+                                    /><br/><br/><br/>
+                                    </Col>
                                 )
                             })
                         }

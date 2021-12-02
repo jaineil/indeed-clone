@@ -15,6 +15,7 @@ export const lastNameSelector = (state) => state.jobseekerProfile.lastName;
 export const contactNumberSelector = (state) =>
   state.jobseekerProfile.contactNumber;
 export const citySelector = (state) => state.jobseekerProfile.city;
+export const stateSelector = (state) => state.jobseekerProfile.state;
 export const resumesSelector = (state) => state.jobseekerProfile.resumes;
 export const savedJobsSelector = (state) => state.jobseekerProfile.savedJobs;
 

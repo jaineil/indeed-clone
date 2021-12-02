@@ -28,15 +28,15 @@ export const setSearchCount = (payload) => {
 export const getJobSearchData = (job = "", location = "") => (dispatch) => {
   console.log("Inside get job search data", job, location);
    
-  axios.post(endPointObj.url + '/job-seeker/search-jobs/', {params:{
+  axios.get(endPointObj.url + '/job-seeker/search-jobs/', {params:{
     searchQuery: job,
     location: location
   }})
-        .then(response => {
-          console.log("Get job response", response.data);
-          dispatch(searchSuccess(response.data));
-          dispatch(setSearchCount(response.data.length));
-      })
+    .then(response => {
+      console.log("Get job response", response.data);
+      dispatch(searchSuccess(response.data));
+      dispatch(setSearchCount(response.data.length));
+  })
       .catch(error => {
           if(error.response && error.response.data) {
             console.log("error",error.response);
@@ -143,8 +143,18 @@ export const getJobSearchData = (job = "", location = "") => (dispatch) => {
   //     "state": "California",
   //     "salary": "120k - 140k",
   //     "jobDescription": "Software Development Engineer job description"
+  //   },
+  //   {
+  //     "jobId": "10",
+  //     "jobTitle": "Software Development Engineer",
+  //     "companyName": "amazon", 
+  //     "rating": 3,
+  //     "city": "San Jose",
+  //     "state": "California",
+  //     "salary": "120k - 140k",
+  //     "jobDescription": "Software Development Engineer job description"
   //   }
-  // ];
+  //];
   // console.log("Job data", jobsData);
   // dispatch(searchSuccess(jobsData));
   // dispatch(setSearchCount(jobsData.length)); 

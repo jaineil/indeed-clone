@@ -61,12 +61,6 @@ export class SearchController {
 										$options: "i",
 									},
 								},
-								{
-									"jobLocation.zipcode": {
-										$regex: location,
-										$options: "i",
-									},
-								},
 							],
 						},
 						{
@@ -95,7 +89,9 @@ export class SearchController {
 						job.jobTitle.toLowerCase() === searchQuery.toLowerCase()
 					) {
 						results.push({
+							jobId: job._id,
 							jobTitle: job.jobTitle,
+							companyId: job.companyId._id,
 							companyName: job.companyName,
 							rating: job.companyId.averageRating,
 							city: job.jobLocation.city,
@@ -130,12 +126,6 @@ export class SearchController {
 							$options: "i",
 						},
 					},
-					{
-						"jobLocation.zipcode": {
-							$regex: location,
-							$options: "i",
-						},
-					},
 				],
 			})
 				.populate("companyId")
@@ -143,7 +133,9 @@ export class SearchController {
 
 			jobs.map((job) =>
 				results.push({
+					jobId: job._id,
 					jobTitle: job.jobTitle,
+					companyId: job.companyId._id,
 					companyName: job.companyName,
 					rating: job.companyId.averageRating,
 					city: job.jobLocation.city,
@@ -185,12 +177,6 @@ export class SearchController {
 								},
 								{
 									"companyLocation.state": {
-										$regex: location,
-										$options: "i",
-									},
-								},
-								{
-									"companyLocation.zipcode": {
 										$regex: location,
 										$options: "i",
 									},

@@ -15,11 +15,8 @@ import { Link } from 'react-router-dom';
 
 const useStyle = makeStyles((theme) => ({
     imgCont: {
-        padding: "5px",
         borderRadius: "5px",
         boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-        marginBottom: "10px",
-        marginLeft: "500px"
     },
     optionTab: {
         cursor: "pointer",
@@ -50,10 +47,10 @@ export default function CompanyHeader(props) {
                     <Grid container item lg={6} md={7} sm={8}>
                         <Grid item className={classes.imgCont} >
                             {/* Need to add company image */}
-                            <img src={companyDetails[0].homeImage} alt="Company home page" width="500px" height="200px" />
+                            <img src={companyDetails[0].homeImage} alt="Company home page" width="1200px" height="400px" />
                         </Grid>
-                        <Grid item style={{ paddingTop: "40px", paddingLeft: "200px" }}>
-                            <Typography variant="h5" >{companyDetails[0].companyName}</Typography>
+                        <Grid item style={{ paddingTop: "10px", paddingLeft: "50px" }}>
+                            <Typography variant="h4" >{companyDetails[0].companyName}</Typography>
                             <Typography variant="h6" >
                                 {companyDetails[0].featuresReviews.overallStars}
                                 <StarIcon style={{ color: "#9d2b6b", paddingRight: "10px" }} />
@@ -74,10 +71,10 @@ export default function CompanyHeader(props) {
                     <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/companysalary">
                         Salaries
                     </Grid>
-                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/joinus">
+                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/companyphotos">
                         Photos
                     </Grid>
-                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/joinus">
+                    <Grid item className={classes.optionTab} style={{ textDecoration: "none" }} component={Link} to="/companyjobs">
                         Jobs
                     </Grid>
                 </Grid>

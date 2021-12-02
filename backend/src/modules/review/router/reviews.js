@@ -38,12 +38,17 @@ reviewRouter.put("/admin/update-review", reviewController.updateRequest);
 
 reviewRouter.get(
 	"/job-seeker/company-details/job-seeker-reviews",
-	reviewController.fetchReviews
+	reviewController.fetchJobSeekerReviews
 );
 
 reviewRouter.get(
 	"/job-seeker/company-details/reviews",
 	reviewController.fetchReviews
+);
+
+reviewRouter.get(
+	"/admin/top-5-job-seekers-accepted-reviews",
+	reviewController.fetchTopJobSeekersByAcceptedReviews
 );
 
 export default reviewRouter;

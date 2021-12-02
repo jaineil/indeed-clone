@@ -1,7 +1,7 @@
 import { Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import SearchJobForm from './SearchJobForm';
 import RecentJobSearch from '../Landing/RecentJobSearch';
 import Header from "../../common/Header";
@@ -32,6 +32,7 @@ function Home() {
     console.log("isauth home", isAuth);
     console.log("Login user data: home", user);
     return (
+        isAuth ?
         <ThemeProvider theme={theme}>
             <Header />
             <hr />
@@ -49,8 +50,7 @@ function Home() {
                 </div>
             </Container>
             <hr />
-            <RecentJobSearch />
-        </ThemeProvider>
+        </ThemeProvider> :  <Redirect to="/login" />
     );
 }
 
