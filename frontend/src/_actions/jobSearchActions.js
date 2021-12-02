@@ -143,6 +143,16 @@ export const getJobSearchData = (job = "", location = "") => (dispatch) => {
       "state": "California",
       "salary": "120k - 140k",
       "jobDescription": "Software Development Engineer job description"
+    },
+    {
+      "jobId": "10",
+      "jobTitle": "Software Development Engineer",
+      "companyName": "amazon", 
+      "rating": 3,
+      "city": "San Jose",
+      "state": "California",
+      "salary": "120k - 140k",
+      "jobDescription": "Software Development Engineer job description"
     }
   ];
   console.log("Job data", jobsData);

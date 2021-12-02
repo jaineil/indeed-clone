@@ -103,7 +103,7 @@ export default function Header() {
                 <Typography
                   component={NavLink}
                   variant="h6"
-                  to="/companies"
+                  to="/companyReviews"
                   className={styleClasses.linkText}
                 >
                   Company Reviews
