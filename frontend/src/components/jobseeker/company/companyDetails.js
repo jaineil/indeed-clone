@@ -1,7 +1,7 @@
 var companydetails = [
     {   
         "companyName": "Amazon",
-        "homeImage": "test.jpg",
+        "homeImage": "https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg",
         "avgWorkHappinessScore": 55,
         "avgLearningScore": 65,
         "avgAppreciationScore": 63,

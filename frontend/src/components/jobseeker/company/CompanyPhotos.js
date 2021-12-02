@@ -120,10 +120,13 @@ export function CompanyPhotos(props) {
         photos: [],
         url: ""
     }])
+    const companyId = localStorage.getItem('currentcompanyid')
+    const userId = localStorage.getItem('userId')
     const [photos, setPhotos] = useState([]);
     const [displayPhotos, setDisplayPhotos] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [uploaded, setUploaded] = useState(false);
+
 
 
     const onImageChange = e => {
@@ -148,13 +151,11 @@ export function CompanyPhotos(props) {
 
       useEffect(() => {
         console.log("Inside get company salaries");
-        const params ={
-            filter : "PENDING"
-        }
-        axios.get(`${endPointObj.url}/admin/get-photo-requests/`, {params})
+
+        axios.get(`${endPointObj.url}/job-seeker/get-company-photos/${companyId}`)
             .then(response => {
-                console.log("Get company reviews response", response.data);
-                setDisplayPhotos(response.data);
+                console.log("Get company reviews response", response.data.response);
+                setDisplayPhotos(response.data.response);
             })
             .catch(err => {
                 if (err.response && err.response.data) {
@@ -173,7 +174,7 @@ export function CompanyPhotos(props) {
         axios(
             {
                 method: "POST",
-                url: `${endPointObj.url}/job-seeker/add-company-photo?companyId=61a1789f93a168d41d6d2a0c&jobSeekerId=61a1789f93a168d41d6d2a0c`,
+                url: `${endPointObj.url}/job-seeker/add-company-photo?companyId=${companyId}&jobSeekerId=${userId}`,
                 data: formData,
                 headers: {
                 "Content-Type": "multipart/form-data"
@@ -196,17 +197,7 @@ export function CompanyPhotos(props) {
             }
         });;
         
-        
-        // ${endPointObj.url}/job-seeker/add-company-photo?companyId=61a1789f93a168d41d6d2a0c&jobSeekerId=61a1789f93a168d41d6d2a0c`,
-        //     {formData},
-        //     {
-        //     headers: {
-        //         "Content-Type": undefined
-        //     },
-        //     }
-        // );
-        // alert("Photo uploaded!")
-        // window.location.reload(false);
+
     }
     
 
@@ -305,18 +296,8 @@ export function CompanyPhotos(props) {
                     justifyContent: "space-between"
                    
                 }}>
-                     <div>Photos 1-16</div>
-                    {/* <div>
-                    {    
-                            uploaded?
-                            <Snackbar open={true} autoHideDuration={6000} onClose={handleClose}>
-                            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                                This is a success message!
-                            </Alert>
-                            </Snackbar>
-                            :<></>
-                            }
-                    </div> */}
+                     <div></div>
+                    
                    
                     <div>
                         <button className= {classes.buttonStyle}
@@ -331,87 +312,16 @@ export function CompanyPhotos(props) {
                     <ImageList sx={{ width: 1250, height: 350 }} cols={4} rowHeight={300}>
                          
                     {pageOfItems.map((item) => (
-                        <ImageListItem key={item._id}>
+                        <ImageListItem key={item}>
                         <img className = {classes.imageStyle}
-                            src={item.companyPhotoUrl}
-                            srcSet={item.companyPhotoUrl}
-                            alt={item.userId}
+                            src={item}
+                            srcSet={item}
+                            alt="dummy"
                             loading="lazy"
                         />
                         </ImageListItem>
                     ))}
-                    {/* <ImageListItem >
-                        <img
-                            className = {classes.imageStyle}
-                            src={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg`}
-                            srcSet={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg`}
-                            alt="google"
-                            loading="lazy"
-                        />
-                    </ImageListItem>
-                    <ImageListItem >
-                        <img
-                            className = {classes.imageStyle}
-                            src={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                            alt="google"
-                            loading="lazy"
-                        />
-                    </ImageListItem>
-                    <ImageListItem >
-                        <img
-                            className = {classes.imageStyle}
-                            src={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                            alt="google"
-                            loading="lazy"
-                        />
-                    </ImageListItem>
-                    <ImageListItem >
-                        <img
-                            className = {classes.imageStyle}
-                            src={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                            alt="google"
-                            loading="lazy"
-                        />
-                    </ImageListItem>
-                    <ImageListItem >
-                        <img
-                            className = {classes.imageStyle}
-                            src={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                            alt="google"
-                            loading="lazy"
-                        />
-                    </ImageListItem>
-                    <ImageListItem >
-                        <img
-                            className = {classes.imageStyle}
-                            src={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                            alt="google"
-                            loading="lazy"
-                        />
-                    </ImageListItem>
-                    <ImageListItem >
-                        <img
-                            className = {classes.imageStyle}
-                            src={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                            alt="google"
-                            loading="lazy"
-                        />
-                    </ImageListItem>
-                    <ImageListItem >
-                        <img
-                            className = {classes.imageStyle}
-                            src={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`https://assets.entrepreneur.com/content/3x2/2000/20150805204041-google-company-building-corporate.jpeg?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                            alt="google"
-                            loading="lazy"
-                        />
-                    </ImageListItem> */}
+
                     
                    
                     </ImageList>
