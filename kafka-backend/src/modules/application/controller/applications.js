@@ -85,6 +85,28 @@ class JobSeekerApplicationController {
 			return this.responseGenerator(400, "Error when applying to job");
 		}
 	};
+
+	changeApplicantStatus = async (data) => {
+		console.log(data);
+		const jobApplicationId = data.jobApplicationId;
+		const updatedStatus = data.status;
+
+		try {
+			await JobSeekerApplications.findByIdAndUpdate(jobApplicationId, {
+				applicationStatus: updatedStatus,
+			});
+			return this.responseGenerator(200, "Updated");
+		} catch (err) {
+			console.error(
+				"Error when updating job-seeker application status ",
+				err
+			);
+			return this.responseGenerator(
+				404,
+				"Error when updating job-seeker application status"
+			);
+		}
+	};
 }
 
 export default JobSeekerApplicationController;

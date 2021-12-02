@@ -22,6 +22,7 @@
     "file-type": "16.5.3",
     "fs": "0.0.1-security",
     "kafka-node": "^5.0.0",
+    "moment": "^2.29.1",
     "mongoose": "^6.0.13",
     "multiparty": "^4.2.2",
     "mysql": "^2.18.1",
