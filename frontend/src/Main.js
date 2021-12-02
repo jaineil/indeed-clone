@@ -8,12 +8,13 @@ import companyHome from "./components/jobseeker/company/CompanyHome";
 import CompanyJoinus from "./components/jobseeker/company/CompanyJoinus";
 import CompanyReview from "./components/jobseeker/company/CompanyReview";
 import CompanySalaries from "./components/jobseeker/company/CompanySalaries";
+import CompanyPhotos from "./components/jobseeker/company/CompanyPhotos";
 import { AddCompanySalaryModal } from "./components/jobseeker/company/AddCompanySalaryModal";
 import jobseekerprofile from "./components/jobseeker/profile/JobSeekerProfile";
 import findSalaries from "./components/jobseeker/salaries/FindSalaries";
 import CompanyJobs from "./components/jobseeker/company/CompanyJobs";
 import CompanyReviews from "./components/jobseeker/Landing/CompanyReviews";
-
+import { AddCompanySalaryModal } from "./components/jobseeker/company/AddCompanySalaryModal";
 import employerDashboard from "./components/employer/LandingPage";
 import employerProfile from "./components/employer/Profile";
 import employerCandidates from "./components/employer/Candidates";
@@ -43,19 +44,21 @@ class Main extends Component {
                 <Route path="/companysalary" component={CompanySalaries} />
                 <Route path="/jobseekerprofile" component={jobseekerprofile} />
                 <Route path="/career/salaries" component={findSalaries} />
+				<Route path="/savedjobs" component={myJobs} />
+				<Route path="/jobSeekerChats" component={JobSeekerChats} />
+				<Route path="/employerChats" component={EmployerChats} />
+				<Route path="/companyphotos" component={CompanyPhotos} />
+                <Route path="/employer" component={employerDashboard} />
+                <Route path="/profile" component={employerProfile} />
+				<Route path="/candidates" component={employerCandidates} />
+				<Route path="/jobs" component={employerDashboard} />
+				<Route path="/reports" component={employerReport} />
+                <Route path="/reviews" component={myReviews} />
+
 				<Route path="/addcompanysalary" component={AddCompanySalaryModal} />
 				<Route path="/companyjobs" component={CompanyJobs} />
 				<Route path="/companyReviews" component={CompanyReviews} />
-				<Route path="/jobSeekerChats" component={JobSeekerChats} />
-				<Route path="/employerChats" component={EmployerChats} />
 				<Route path="/admin" component={AdminPortal} />
-		        <Route path="/savedjobs" component={myJobs} />
-                <Route path="/employer" component={employerDashboard} />
-                <Route path="/profile" component={employerProfile} />
-                <Route path="/reviews" component={myReviews} />
-                <Route path="/candidates" component={employerCandidates} />
-                <Route path="/jobs" component={employerDashboard} />
-                <Route path="/reports" component={employerReport} />
             </div>
         );
     }

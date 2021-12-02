@@ -22,7 +22,7 @@ const EmployerChats = () => {
 	const [messagesOverview, setMessagesOverview] = useState();
 	const [chat, setChats] = useState([]);
 	const [employerId, setEmployerId] = useState(
-		localStorage.getItem("employerId")
+		localStorage.getItem("userId")
 	);
 	const [chatId, setChatId] = useState("");
 	const [newMessage, setNewMessage] = useState("");
