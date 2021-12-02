@@ -33,7 +33,8 @@ export const loginReducer = (state=initialState,{type,payload})=>{
             localStorage.clear();
             return {
                 ...state,
-                isAuth:false
+                isAuth:false,
+                user:""
             }
         default: return state
     }

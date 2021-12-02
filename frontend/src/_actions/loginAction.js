@@ -30,7 +30,7 @@ const loginFailure = (errorMsg) => {
 export const logout = () => {
   window.localStorage.clear();
   return {
-    type: LOGOUT,
+    type: LOGOUT
   };
 };
 

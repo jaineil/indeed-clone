@@ -119,6 +119,7 @@ export default function UserMenu() {
         <StyledMenuItem onClick={()=>{
             handleClose()
             dispatch(logout())
+            
             }}>
           <ListItemIcon>
             <PowerSettingsNewIcon fontSize="small" />
