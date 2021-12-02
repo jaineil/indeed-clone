@@ -115,12 +115,11 @@ export default function UserMenu() {
           </ListItemIcon>
           <ListItemText primary="My Reviews" />
         </StyledMenuItem>
-        <StyledMenuItem
-        // onClick={()=>{
-        //     handleClose()
-        //     dispatch(logout())
-        //     }}
-        >
+        <StyledMenuItem onClick={()=>{
+            handleClose()
+            dispatch(logout())
+            
+            }}>
           <ListItemIcon>
             <PowerSettingsNewIcon fontSize="small" />
           </ListItemIcon>

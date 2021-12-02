@@ -5,12 +5,12 @@ const handleJobRequest = async (req, callback) => {
 
 	const jobsController = new JobController();
 	let results;
-	console.log("About to shoot 1 => ", req);
 	switch (req.path) {
 		case "/job-seeker/job-details/:jobId":
-			console.log("About to shoot 2 => ", req);
 			results = await jobsController.fetchJobDetails(req.body);
 			break;
+		case "/job-seeker/get-jobs-for-company":
+			results = await jobsController.fetchJobsOfCompany(req.body);
 	}
 
 	callback(null, results);

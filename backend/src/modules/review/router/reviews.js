@@ -37,8 +37,8 @@ reviewRouter.get("/admin/get-review-requests", reviewController.getRequests);
 reviewRouter.put("/admin/update-review", reviewController.updateRequest);
 
 reviewRouter.get(
-  "/job-seeker/company-details/job-seeker-reviews",
-  reviewController.fetchReviews
+	"/job-seeker/company-details/job-seeker-reviews",
+	reviewController.fetchJobSeekerReviews
 );
 
 reviewRouter.get(
