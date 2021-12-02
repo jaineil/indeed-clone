@@ -1,5 +1,6 @@
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
 import EmployerDetails from "../../../db/models/mongo/employerDetails.js";
+import CompanyClicks from "../../../db/models/mongo/companyClicks.js";
 
 import { make_request } from "../../../../kafka/client.js";
 class CompanyController {
@@ -230,6 +231,24 @@ class CompanyController {
 				res.end();
 			}
 		});
+	};
+
+	top10CompaniesDailyClicks = async (req, res) => {
+		try {
+			const response = CompanyClicks.aggregate([
+				{
+					$match: {
+						date: req.params.date,
+					},
+				},
+				{
+					$sortByCount: "$clicks",
+				},
+			]);
+			res.status(200).send(response.slice(0, 10));
+		} catch (err) {
+			console.error(err);
+		}
 	};
 }
 

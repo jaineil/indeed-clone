@@ -33,5 +33,9 @@ CompanyRouter.get(
 	"/job-seeker/get-salaries-by-company-id/:companyId",
 	companyController.fetchCompanySalaries
 );
+CompanyRouter.get(
+	"/admin/top-10-companies-based-on-clicks-per-day/:date",
+	companyController.top10CompaniesDailyClicks
+);
 
 export default CompanyRouter;
