@@ -50,7 +50,6 @@ function Home() {
                 </div>
             </Container>
             <hr />
-            <RecentJobSearch />
         </ThemeProvider> :  <Redirect to="/login" />
     );
 }

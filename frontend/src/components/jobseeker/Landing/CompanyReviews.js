@@ -10,14 +10,12 @@ import {
 } from '@material-ui/core';
 import { Col, Row} from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
-import companyDetails from './companyDetails';
-import CompanyHeader from './CompanyHeader';
+import companyDetails from '../company/companyDetails';
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
-import { AddCompanySalaryModal } from "./AddCompanySalaryModal";
-import { SalaryCard } from './SalaryCard';
-
+import companydetails from '../company/companyDetails';
+import { CompanyReviewCard } from './CompanyReviewCard.js';
 
 const useStyle = makeStyles((theme) => ({
     imgCont: {
@@ -85,32 +83,9 @@ export function CompanyReview(props) {
 
     }, [])
 
-    var salaryDetails= [
-        {
-            "roleName": "Software Development Engineer",
-            "annualSalary":14.34
-        },
-        {
-            "roleName": "Quality Assurance",
-            "annualSalary":20.00
-        },
-        {
-            "roleName": "Software Engineer - Test",
-            "annualSalary":15.45
-        },
-        {
-            "roleName": "Software Engineer - Test",
-            "annualSalary":15.45
-        },
-        {
-            "roleName": "Software Engineer - Test",
-            "annualSalary":15.45
-        }   
-    ]
-
     //fetch company id by localstorage
     //Call fetch company details API
-    console.log("Salary  details: ", salaryDetails);
+    console.log("Salary  details: ", companydetails);
 
     const handleOpen = (id) => {
         setOpen(true);
@@ -125,44 +100,56 @@ export function CompanyReview(props) {
         forceUpdate();
     }
 
+    var companyReviewDetails= [
+        {
+            "companyId": "1",
+            "companyName": "Amazon",
+            "ratingNumber": "4"
+        },
+        {
+            "companyId": "1",
+            "companyName": "Amazon",
+            "ratingNumber": "3"
+        },
+        {
+            "companyId": "1",
+            "companyName": "Amazon",
+            "ratingNumber": "5"
+        },
+        {
+            "companyId": "1",
+            "companyName": "Amazon",
+            "ratingNumber": "4"
+        },
+        {
+            "companyId": "1",
+            "companyName": "Amazon",
+            "ratingNumber": "1"
+        }   
+    ]
 
     return (
 
         isAuth ? (companyDetails ?
             <ThemeProvider theme={theme}>
                 <Header /><hr />
-                <CompanyHeader /><hr /><br />
                 <Container maxwidth="xl">
 
-                    <Grid item style={{ marginTop: "20px", marginBottom: "30px" }}>
-                        <Grid>
-                            <Button className={classes.link} onClick={() => handleOpen(companyId)}
-                                style={{ marginBottom: '30px', marginLeft: '1000px', marginTop: '-35px' }}>
-                                <b>Add a Salary</b>
-                            </Button>
-                            
-                            <AddCompanySalaryModal
-                                open={open}
-                                handleClose={() => handleClose()}
-                                companyId={companyId}
-                                handleApply={() => handleApply()}
-                            />
-                        </Grid>
-                    </Grid>
-
-
                     {/* This needs to be done */}
-                    <Grid item style={{ marginTop: "30px", marginBottom: "50px", marginLeft: "200px" }}>
-                        <Typography variant="h4"><b>Average Salaries at {companyDetails[0].companyName}</b></Typography>
+                    <Grid item style={{ marginTop: "40px", marginBottom: "50px", marginLeft: "200px" }}>
+                        <Typography variant="h3"><b>Find great places to work</b></Typography> <br/>
+                        <Typography variant="subtitle">Get access to millions of company reviews</Typography>
+
                     </Grid>
                     <Grid container spacing={-30} style={{ marginTop: "30px", marginBottom: "60px", marginLeft: "180px" }} >
                         {
-                            salaryDetails.map((item) => {
+                            companyReviewDetails.map((item) => {
                                 return (
                                     <Col md={4}>
-                                    <SalaryCard
-                                        roleName = {item.roleName}
-                                        annualSalary = {item.annualSalary}    
+                                    <CompanyReviewCard
+                                        companyId={item.companyId}
+                                        companyName={item.companyName}
+                                        ratingNumber={item.ratingNumber}
                                     /><br/><br/><br/>
                                     </Col>
                                 )
