@@ -14,7 +14,6 @@ const jobsSchema = new Schema({
 	},
 	jobTitle: { type: String },
 	industry: { type: String },
-
 	jobLocation: {
 		street: { type: String },
 		apt: { type: String },
@@ -23,14 +22,14 @@ const jobsSchema = new Schema({
 		country: { type: String },
 		zip: { type: String },
 	},
-
 	jobDescription: {
 		description: { type: String },
-		responsibilites: { type: String },
+		responsibilities: { type: String },
 		requirements: { type: String },
 		whyUs: { type: String },
 	},
-
+	postedOn: { type: Date, default: Date.now },
+	remote: { type: Boolean },
 	jobType: { type: String },
 	salary: { type: Number },
 });

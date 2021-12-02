@@ -15,10 +15,6 @@ function App() {
 	// };
 	return (
 		<ThemeProvider theme={theme}>
-			{/* <div className="App">
-        {isAuth ? <Header /> : <></>}
-        <Main />
-      </div> */}
 			<Main />
 		</ThemeProvider>
 	);

@@ -14,7 +14,7 @@ class JobController {
 				jobDescription: req.body.jobDescription,
 				jobType: req.body.jobType,
 				remote: req.body.remote,
-				salary: req.body.salary,
+				salary: parseInt(req.body.salary),
 			});
 			const response = await newJob.save();
 			res.status(200).send(response);
@@ -65,6 +65,31 @@ class JobController {
 				});
 			} else {
 				console.log("Fetched job-details with kafka-backend");
+				console.log(results);
+				res.json(results);
+				res.end();
+			}
+		});
+	};
+
+	fetchJobsOfCompany = async (req, res) => {
+		console.log("Inside jobs controller, about to make Kafka request");
+
+		const message = {};
+		message.body = req.query;
+		message.path = req.path;
+
+		make_request("job", message, (err, results) => {
+			if (err) {
+				console.error(err);
+				res.json({
+					status: "Error",
+					msg: "System error, try again",
+				});
+			} else {
+				console.log(
+					"Fetched jobs for a particular company with kafka-backend"
+				);
 				console.log(results);
 				res.json(results);
 				res.end();
