@@ -46,7 +46,7 @@ export class JobApplicationController {
 				jobId: new mongoose.mongo.ObjectId(req.query.jobId),
 			};
 			if (
-				["HIRED", "REJECTED"].includes(req.query.status.toUpperCase())
+				["HIRED", "REJECTED"].includes(req.query.status)
 			) {
 				filters["applicationStatus"] = req.query.status;
 			}

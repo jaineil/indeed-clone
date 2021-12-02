@@ -69,7 +69,7 @@ export default function Jobs() {
                 <Card sx={{ display: 'flex' }} style={{ width: '75%', marginTop: '1%', marginLeft: '15%', borderRadius: '15px' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <CardContent sx={{ flex: '1 0 auto' }} style={{ marginLeft: '10%', marginRight: '10%', marginTop: '1%' }}>
-                            <JobsTable columns={columns} rows={jobs} pathname="/candidates"/>
+                            <JobsTable columns={columns} rows={jobs} pathname="/employer/candidates"/>
                         </CardContent>
                     </Box>
                 </Card>

@@ -49,7 +49,7 @@ export default function LandingPage(props) {
 
     return (
         <div>
-            <Jobs />
+            
         </div>
     );
 }

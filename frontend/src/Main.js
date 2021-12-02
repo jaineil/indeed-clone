@@ -12,13 +12,15 @@ import {AddCompanySalaryModal} from "./components/jobseeker/company/AddCompanySa
 import jobseekerprofile from "./components/jobseeker/profile/JobSeekerProfile";
 import findSalaries from "./components/jobseeker/salaries/FindSalaries";
 
-import employerDashboard from "./components/employer/LandingPage";
+import employerJobs from "./components/employer/Jobs";
 import employerProfile from "./components/employer/Profile";
 import employerCandidates from "./components/employer/Candidates";
 
 import JobSeekerChats from "./components/chats/jobSeeker";
 import EmployerChats from "./components/chats/employer";
 import employerReport from "./components/employer/Report";
+import employerReviews from "./components/employer/Reviews";
+import employerPostJob from "./components/employer/PostJob";
 
 class Main extends Component {
     
@@ -42,12 +44,13 @@ class Main extends Component {
 				<Route path="/jobSeekerChats" component={JobSeekerChats} />
 				<Route path="/employerChats" component={EmployerChats} />
 
-                <Route path="/employer" component={employerDashboard} />
-                <Route path="/profile" component={employerProfile} />
-
-				<Route path="/candidates" component={employerCandidates} />
-				<Route path="/jobs" component={employerDashboard} />
-				<Route path="/reports" component={employerReport} />
+                <Route path="/employer" component={employerJobs} />
+                <Route path="/employer/profile" component={employerProfile} />
+				<Route path="/employer/candidates" component={employerCandidates} />
+				<Route path="/employer/jobs" component={employerJobs} />
+				<Route path="/employer/reports" component={employerReport} />
+				<Route path="/employer/reviews" component={employerReviews} />
+				<Route path="/employer/postJob" component={employerPostJob} />
 
             </div>
         );

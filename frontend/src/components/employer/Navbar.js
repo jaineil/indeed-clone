@@ -66,7 +66,7 @@ export default function Navbar(props) {
                         <Box className={classes.header_left}>
                             <img className={classes.logo}
                                 src={employerLogo}
-                                style={{marginTop: props.current==='dashboard' || props.current==='reports' ? '4%' : '0%' }}
+                                style={{marginTop: (props.current==='dashboard' || props.current==='reports' || props.current==='reviews') ? '4%' : '0%' }}
                             />
                             <Box style={{ marginLeft: '5%', marginTop:'5%'}} >
                                 <Typography variant='h6' component={Link} to="/employer" style={{ textDecoration: 'none', fontSize: '100%', marginLeft:'10%',fontFamily:'Open Sans', color:"#ffffff"}}>
@@ -75,10 +75,16 @@ export default function Navbar(props) {
                                 <hr hidden= {!(props.current==='dashboard')} style={{marginLeft: '10%',marginTop:'20%', borderColor : '#1e6ce8', width:'100%'}} /> 
                             </Box>
                             <Box style={{ marginLeft: '5%', marginTop:'5%'}} >
-                                <Typography variant='h6' component={Link} to="/reports" style={{ textDecoration: 'none', fontSize: '100%', marginLeft:'10%',fontFamily:'Open Sans', color:"#ffffff"}}>
+                                <Typography variant='h6' component={Link} to="/employer/reports" style={{ textDecoration: 'none', fontSize: '100%', marginLeft:'10%',fontFamily:'Open Sans', color:"#ffffff"}}>
                                     Reports
                                 </Typography>
                                 <hr hidden= {!(props.current==='reports')} style={{marginLeft: '10%',marginTop:'20%', borderColor : '#1e6ce8', width:'100%'}} /> 
+                            </Box>
+                            <Box style={{ marginLeft: '5%', marginTop:'5%'}} >
+                                <Typography variant='h6' component={Link} to="/employer/reviews" style={{ textDecoration: 'none', fontSize: '100%', marginLeft:'10%',fontFamily:'Open Sans', color:"#ffffff"}}>
+                                    Reviews
+                                </Typography>
+                                <hr hidden= {!(props.current==='reviews')} style={{marginLeft: '10%',marginTop:'20%', borderColor : '#1e6ce8', width:'100%'}} /> 
                             </Box>
                         </Box>
                         <Box className={classes.header_right} >
@@ -87,7 +93,7 @@ export default function Navbar(props) {
                                 color="inherit"
                                 aria-label="open drawer"
                                 style={{marginRight:'5%'}}
-                                component={Link} to="/messages"
+                                component={Link} to="/employer/messages"
                             >
                                 <NotificationsIcon />
                             </IconButton>
@@ -96,7 +102,7 @@ export default function Navbar(props) {
                                 color="inherit"
                                 aria-label="open drawer"
                                 style={{marginRight:'5%'}}
-                                component={Link} to="/profile"
+                                component={Link} to="/employer/profile"
                             >
                                 <PersonIcon />
                             </IconButton>
