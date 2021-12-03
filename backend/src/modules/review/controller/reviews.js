@@ -29,10 +29,10 @@ class ReviewController {
 					reviewerRole: req.body.reviewerRole,
 					reviewTitle: req.body.reviewTitle,
 					reviewBody: req.body.reviewBody,
-					pros: req.body.pros,
-					cons: req.body.cons,
+					pros: req.body.pros.slice(","),
+					cons: req.body.cons.slice(","),
 					ceoApprovalRating: parseInt(req.body.ceoApprovalRating),
-					interviewTips: req.body.interviewTips,
+					interviewTips: req.body.interviewTips.slice(","),
 					companyLocation: companyDetails.companyLocation,
 					categoricalRating: req.body.categoricalRating,
 				});
