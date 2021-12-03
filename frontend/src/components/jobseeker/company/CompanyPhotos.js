@@ -279,7 +279,8 @@ export function CompanyPhotos(props) {
 
             
             <ThemeProvider theme={theme}>
-                <Header /><hr />
+                {isAuth ? (<Header />): <><br/><br/></> }
+			    <br/>
                 <CompanyHeader /><hr />
                 <Container maxwidth="xl">
                 <div data-tn-section="head" data-testid="head" class="css-1kmudnk eu4oa1w0">

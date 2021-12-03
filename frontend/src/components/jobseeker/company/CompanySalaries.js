@@ -128,9 +128,10 @@ export function CompanyReview(props) {
 
     return (
 
-        isAuth ? (companyDetails ?
+        (companyDetails ?
             <ThemeProvider theme={theme}>
-                <Header /><hr />
+                {isAuth ? (<Header />): <><br/><br/></> }
+			<br/>
                 <CompanyHeader /><hr /><br />
                 <Container maxwidth="xl">
 
@@ -171,7 +172,7 @@ export function CompanyReview(props) {
                     </Grid>
                 </Container>
             </ThemeProvider>
-            : <></>) : <Redirect to="/login" />
+            : <></>)
     )
 }
 export default CompanyReview;

@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 function DisplayJobs(props) {
 
     const query = new URLSearchParams(props.location.search)
-
+    const {isAuth} = useSelector(state=>state.login);
     const classes = useStyles()
 
     let job = query.get('q') || ""
@@ -104,7 +104,8 @@ function DisplayJobs(props) {
 
     return (
         <ThemeProvider theme={theme}>
-            <Header />  <hr />
+            {isAuth ? (<Header />): <><br/><br/></> }
+			<br/>
             <CompanyHeader /> <br/><br/>
             <Container className={classes.job_section}>
                 
