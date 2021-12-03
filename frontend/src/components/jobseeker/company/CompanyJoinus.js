@@ -81,7 +81,8 @@ export function CompanyJoinus(props) {
 
         isAuth ? (companyDetails ?
             <ThemeProvider theme={theme}>
-                <Header /><hr />
+                {isAuth ? (<Header />): <><br/><br/></> }
+			    <br/>
                 <CompanyHeader /><hr />
                 <Container maxwidth="xl">
 

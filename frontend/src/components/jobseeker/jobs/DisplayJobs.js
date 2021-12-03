@@ -89,7 +89,7 @@ function DisplayJobs(props) {
 	let jobs = useSelector((state) => state.search.searchedJobs);
 	console.log("jobs", jobs);
 	let totalCount = useSelector((state) => state.search.totalCount);
-	const loggedUser = useSelector((state) => state.login.loggedUser);
+    const {isAuth} = useSelector(state=>state.login);
 	let isLoading = useSelector((state) => state.search.isLoading);
 	let userId = localStorage.getItem("userId");
 	console.log("Inside display jobs: searchedJobs", jobs);
@@ -137,10 +137,11 @@ function DisplayJobs(props) {
 	//     delete saved_jobs[jobId]
 	//     //dispatch(makeSaveJobRequest({user_id:id,saved_jobs}))
 	// }
-
+	console.log("isAuth", isAuth);
 	return (
 		<ThemeProvider theme={theme}>
-			<Header /> <hr />
+			{isAuth ? (<Header />): <><br/><br/></> }
+			<br/>
 			<Container className={classes.job_section}>
 				<SearchJobForm /> <br />
 				{isLoading ? (

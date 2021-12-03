@@ -27,12 +27,14 @@ import employerReport from "./components/employer/Report";
 import employerReviews from "./components/employer/Reviews";
 import employerPostJob from "./components/employer/PostJob";
 import employerLandingPage from "./components/employer/LandingPage";
+import LandingPage from "./components/common/Landing";
+
 
 class Main extends Component {
 	render() {
 		return (
 			<div>
-				<Route exact path="/" component={register} />
+				<Route exact path="/" component={LandingPage} />
 				<Route path="/login" component={login} />
 				<Route path="/register" component={register} />
 				<Route path="/home" component={home} />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useSelector } from "react";
 import { ThemeProvider } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import {
@@ -227,6 +227,7 @@ const FindSalaries = () => {
   const [location, setLocation] = useState("");
   const [averageSalary, setAverageSalary] = useState("");
   const [topCompanies, setTopCompanies] = useState([]);
+  const {isAuth} = useSelector(state=>state.login);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Search Criteria: ", jobTitle, location);
@@ -253,7 +254,8 @@ const FindSalaries = () => {
   };
   return (
     <ThemeProvider theme={theme}>
-      <Header />
+      {isAuth ? (<Header />): <><br/><br/></> }
+			<br/>
       <hr style={{ marginBottom: "0" }} />
       <SearchJobs
         jobTitle={jobTitle}
