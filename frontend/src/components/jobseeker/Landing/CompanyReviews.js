@@ -18,7 +18,8 @@ import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
 import companydetails from "../company/companyDetails";
 import { CompanyReviewCard } from "./CompanyReviewCard.js";
-import SearchJobForm from "../Landing/SearchJobForm.js";
+import SearchCompaniesForm from "./SearchCompaniesForm.js";
+import SearchJobsForm from "../Landing/SearchJobForm.js";
 
 const useStyle = makeStyles((theme) => ({
 	imgCont: {
@@ -62,30 +63,54 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 export function CompanyReview(props) {
+	const query = new URLSearchParams(props.location.search);
+	let job = query.get("query") || "";
+	let location = query.get("location") || "";
 	const classes = useStyle();
 	const [companyReviewDetails, setCompanyReviewDetails] = useState([]);
 	const { isAuth } = useSelector((state) => state.login);
 	const companyId = localStorage.getItem("currentcompanyid");
 	const [open, setOpen] = useState(false);
 	const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+	console.log("PROPS: ", props);
+	console.log(job, location);
+
+	const searchForCompanies = async (req, res) => {
+		console.log("Searching for companies");
+		try {
+			const response = await axios.get(
+				`${endPointObj.url}/job-seeker/search-for-companies?companyName=${job}&location=${location}`
+			);
+			console.log(response);
+			setCompanyReviewDetails(response.data.response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 
 	useEffect(() => {
+		console.log("USE EFFECT");
 		console.log("Inside get Company Reviews");
-		axios
-			.get(endPointObj.url + "/admin/get-companies")
-			.then((response) => {
-				console.log(
-					"Get company reviews on landing page response",
-					response.data
-				);
-				setCompanyReviewDetails(response.data);
-			})
-			.catch((err) => {
-				if (err.response && err.response.data) {
-					console.log("Error", err.response);
-				}
-			});
-	}, []);
+		console.log(job, location);
+		if (job || location) {
+			searchForCompanies();
+		} else {
+			axios
+				.get(endPointObj.url + "/admin/get-companies")
+				.then((response) => {
+					console.log(
+						"Get company reviews on landing page response",
+						response.data
+					);
+					setCompanyReviewDetails(response.data);
+				})
+				.catch((err) => {
+					if (err.response && err.response.data) {
+						console.log("Error", err.response);
+					}
+				});
+		}
+	}, [job, location]);
 
 	//fetch company id by localstorage
 	//Call fetch company details API
@@ -134,7 +159,8 @@ export function CompanyReview(props) {
 
 	return companyDetails ? (
 		<ThemeProvider theme={theme}>
-			<Header />
+			{isAuth ? (<Header />): <><br/><br/></> }
+			<br/>
 			<hr />
 			<Container maxwidth="xl">
 				{/* This needs to be done */}
@@ -155,7 +181,7 @@ export function CompanyReview(props) {
 					</Typography>
 					<br />
 					<br />
-					<SearchJobForm />
+					<SearchCompaniesForm />
 				</Grid>
 				<Grid
 					container

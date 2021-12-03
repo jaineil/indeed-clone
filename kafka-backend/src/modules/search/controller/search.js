@@ -86,7 +86,10 @@ export class SearchController {
 
 				jobs.map((job) => {
 					if (
-						job.jobTitle.toLowerCase() === searchQuery.toLowerCase()
+						job.jobTitle.toLowerCase() ===
+							searchQuery.toLowerCase() ||
+						job.companyName.toLowerCase() ===
+							searchQuery.toLowerCase()
 					) {
 						results.push({
 							jobId: job._id,
@@ -190,6 +193,7 @@ export class SearchController {
 					results.push({
 						companyId: company.id,
 						companyName: company.companyName,
+						averageRating: company.averageRating,
 					})
 				);
 				return this.responseGenerator(200, results);
@@ -216,6 +220,7 @@ export class SearchController {
 					results.push({
 						companyId: company.id,
 						companyName: company.companyName,
+						averageRating: company.averageRating,
 					})
 				);
 				return this.responseGenerator(200, results);

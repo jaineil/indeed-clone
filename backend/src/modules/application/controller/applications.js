@@ -13,7 +13,8 @@ export class JobApplicationController {
 			"Inside job-application controller, about to make Kafka request"
 		);
 
-		const { jobSeekerId, resumeName } = req.query;
+		const { jobSeekerId, resumeName, jobId, companyId, companyName } =
+			req.query;
 		const form = new multiparty.Form();
 
 		form.parse(req, async (error, fields, files) => {
@@ -35,6 +36,9 @@ export class JobApplicationController {
 						resumeUrl: resumeUrl,
 						resumeName: resumeName,
 						jobSeekerId: jobSeekerId,
+						jobId: jobId,
+						companyId: companyId,
+						companyName: companyName,
 					};
 					message.path = req.path;
 
@@ -74,9 +78,7 @@ export class JobApplicationController {
 			let filters = {
 				jobId: new mongoose.mongo.ObjectId(req.query.jobId),
 			};
-			if (
-				["HIRED", "REJECTED"].includes(req.query.status)
-			) {
+			if (["HIRED", "REJECTED"].includes(req.query.status)) {
 				filters["applicationStatus"] = req.query.status;
 			}
 			const response = await JobSeekerApplications.aggregate([

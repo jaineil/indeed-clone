@@ -74,7 +74,7 @@ export default function Profile() {
     }, [employerProfile])
 
     useEffect(() => {
-        if (JSON.stringify(companyProfile) !== '{}') {
+        if (localStorage.getItem('companyId') !== "") {
             setCompanyName(companyProfile.companyName);
             setCompanyWebsite(companyProfile.websiteUrl);
             setCompanyRevenue(companyProfile.revenue);
@@ -90,7 +90,7 @@ export default function Profile() {
 
             setCompanyIndustry(companyProfile.industry);
             setCompanyFounded(companyProfile.founded);
-            setCompanyMissionAndVision(companyProfile.missionAndVision);
+            setCompanyMissionAndVision(companyProfile.description.missionAndVision);
         }
         else {
             setCompanyName("");
@@ -192,7 +192,7 @@ export default function Profile() {
             country: employerCountry,
             zipcode: employerZipcode,
         }
-        if (companyProfile) {
+        if (localStorage.getItem('companyId')) {
             const updateEmployerProfile = axios.put(endPointObj.url + "/employer/update-profile/", updateEmployer);
             const updateCompanyProfile = axios.put(endPointObj.url + "/employer/update-company/", updateCompany);
 
@@ -286,6 +286,7 @@ export default function Profile() {
                     founded: companyFounded,
                     missionAndVision: companyMissionAndVision
                 }));
+                localStorage.setItem('companyId',companyResponse.data._id);
                 alert("Successfully Saved");
             }
             catch (err) {

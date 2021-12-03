@@ -23,16 +23,19 @@ import myReviews from "./components/jobseeker/activity/myReviews/MyReviews";
 import JobSeekerChats from "./components/chats/jobSeeker";
 import employerChats from "./components/chats/employer";
 import { AdminPortal } from "./components/admin/AdminPortal";
+import { CompanyStats } from "./components/admin/components/CompanyStats";
 import employerReport from "./components/employer/Report";
 import employerReviews from "./components/employer/Reviews";
 import employerPostJob from "./components/employer/PostJob";
 import employerLandingPage from "./components/employer/LandingPage";
+import LandingPage from "./components/common/Landing";
+
 
 class Main extends Component {
 	render() {
 		return (
 			<div>
-				<Route exact path="/" component={register} />
+				<Route exact path="/" component={LandingPage} />
 				<Route path="/login" component={login} />
 				<Route path="/register" component={register} />
 				<Route path="/home" component={home} />
@@ -52,8 +55,7 @@ class Main extends Component {
 				<Route path="/companyjobs" component={CompanyJobs} />
 				<Route path="/companyReviews" component={CompanyReviews} />
 				<Route path="/admin" component={AdminPortal} />
-
-				
+        		<Route path="/companystats" component={CompanyStats} />				
 				<Route exact path="/employer/profile" component={employerProfile} />
 				<Route exact path="/employer/candidates" component={employerCandidates} />
 				<Route exact path="/employer/jobs" component={employerJobs} />
