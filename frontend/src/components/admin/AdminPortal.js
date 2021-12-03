@@ -1,8 +1,9 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 import { ThemeProvider } from "@material-ui/core";
 import TurnedInIcon from "@material-ui/icons/TurnedIn";
 import { Typography, Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import {
   TabContent,
   TabPane,
@@ -19,7 +20,8 @@ import AdminHeader from "./AdminHeader";
 import { useStyles } from "./Styles";
 import theme from "../common/MenuTheme";
 import endPointObj from "../../endPointUrl";
-
+import { Analytics } from "./components/Analytics";
+import { Companies } from "./components/Companies";
 export const AdminPortal = () => {
   const classes = useStyles();
   const [activeTab, setActiveTab] = useState("1");
@@ -46,7 +48,12 @@ export const AdminPortal = () => {
                       { active: activeTab === "1" },
                       classes.pointer
                     )}
-                    style={{ backgroundColor: "#fcfcfc" }}
+                    style={{
+                      backgroundColor: "#fcfcfc",
+                      color: "#007bff",
+                      fontFamily: `-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif`,
+                      paddingLeft: "20px",
+                    }}
                     onClick={() => {
                       setActiveTab("1");
                     }}
@@ -61,7 +68,12 @@ export const AdminPortal = () => {
                       { active: activeTab === "2" },
                       classes.pointer
                     )}
-                    style={{ backgroundColor: "#fcfcfc" }}
+                    style={{
+                      backgroundColor: "#fcfcfc",
+                      color: "#007bff",
+                      fontFamily: `-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif`,
+                      paddingLeft: "20px",
+                    }}
                     onClick={() => {
                       setActiveTab("2");
                     }}
@@ -76,7 +88,12 @@ export const AdminPortal = () => {
                       { active: activeTab === "3" },
                       classes.pointer
                     )}
-                    style={{ backgroundColor: "#fcfcfc" }}
+                    style={{
+                      backgroundColor: "#fcfcfc",
+                      color: "#007bff",
+                      fontFamily: `-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif`,
+                      paddingLeft: "20px",
+                    }}
                     onClick={() => {
                       setActiveTab("3");
                     }}
@@ -91,7 +108,12 @@ export const AdminPortal = () => {
                       { active: activeTab === "4" },
                       classes.pointer
                     )}
-                    style={{ backgroundColor: "#fcfcfc" }}
+                    style={{
+                      backgroundColor: "#fcfcfc",
+                      color: "#007bff",
+                      fontFamily: `-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif`,
+                      paddingLeft: "20px",
+                    }}
                     onClick={() => {
                       setActiveTab("4");
                     }}
@@ -104,10 +126,20 @@ export const AdminPortal = () => {
             </Col>
             <Col className={classes.tabCol}>
               <TabContent className={classes.tabContent} activeTab={activeTab}>
-                <TabPane tabId="1">Dashboard</TabPane>
+                <TabPane
+                  tabId="1"
+                  style={{
+                    height: "90vh",
+                    scrollY: "true",
+                  }}
+                >
+                  <Analytics />
+                </TabPane>
                 <TabPane tabId="2">
                   <Row className={classes.row}>
-                    <Col className={classes.col}>Companies</Col>
+                    <Col className={classes.col}>
+                      <Companies />
+                    </Col>
                   </Row>
                 </TabPane>
                 <TabPane tabId="3">

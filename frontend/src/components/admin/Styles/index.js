@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core";
 export const useStyles = makeStyles((theme) => ({
   pointer: {
     cursor: "pointer",
-    fontWeight: "bold",
   },
   tabContent: {
     paddingTop: "10px",
