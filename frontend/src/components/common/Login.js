@@ -8,14 +8,17 @@ import {
     OutlinedInput, 
     Typography,
     FormHelperText,
-    FormControlLabel,
-    Checkbox,
     Button
 } from '@material-ui/core';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { makeLoginRequest } from '../../_actions/loginAction';
 import { Link, Redirect } from 'react-router-dom';
+import axios from "axios";
+import endPointObj from "../../endPointUrl.js";
+import {
+    LOGIN_SUCCESS,
+  } from "../../_actions/actionTypes";
 
 const useStyles = makeStyles((theme) => ({
     loginContainer: {
@@ -96,20 +99,38 @@ export function Login() {
    
     const onEmailChange = (e) => {
         setEmail(e.target.value)
-        // errMsg state: clear
     }
 
     const onPasswordChange = (e) => {
         setPassword(e.target.value)
     }
 
+    const loginSuccess = (payload) => {
+        return {
+          type: LOGIN_SUCCESS,
+          payload: payload,
+        };
+      };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(makeLoginRequest({emailId:email,pass:password}));
+        //dispatch(makeLoginRequest({emailId:email,pass:password}));
+        let data = {
+            emailId: email,
+            pass: password,
+          };
         console.log("isAuth", isAuth);
-        if(isAuth === false) {
-            setError("Username and password is not valid!")
-        }
+        axios.post(endPointObj.url + "/user/login", data)
+        .then((response) => {
+            console.log("login response", response.data[0]);
+            dispatch(loginSuccess(response.data[0]));
+        })
+        .catch((error) => {
+            if (error.response && error.response.data) {
+            console.log("error", error.response.data);
+            setError(error.response.data.message);
+            }
+        });
     }
     localStorage.setItem("userEmailId", user.emailId);
     localStorage.setItem("role", user.userPersona);
