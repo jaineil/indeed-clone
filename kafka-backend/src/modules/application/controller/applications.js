@@ -12,7 +12,7 @@ class JobSeekerApplicationController {
 
 		try {
 			await JobSeekerDetails.updateOne(
-				{ jobSeekerId: data.jobSeekerId },
+				{ _id: data.jobSeekerId },
 				{
 					$push: {
 						resumes: {
@@ -34,7 +34,7 @@ class JobSeekerApplicationController {
 				{ _id: data.jobSeekerId },
 				{ resumes: { $slice: -1 } }
 			);
-
+			console.log();
 			resumeId = lastUsedResume.resumes[0].id;
 
 			console.log("Fetched resumeId ", resumeId);
