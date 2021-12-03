@@ -12,13 +12,14 @@ import {
 } from "@material-ui/core";
 import { Col, Row } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
-import companyDetails from "./companyDetails";
+//import companyDetails from "./companyDetails";
 import CompanyHeader from "./CompanyHeader";
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
 import { AddCompanySalaryModal } from "./AddCompanySalaryModal";
 import { SalaryCard } from "./SalaryCard";
+import { useLocation } from "react-router";
 
 const useStyle = makeStyles((theme) => ({
 	imgCont: {
@@ -62,10 +63,23 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 export function CompanyReview(props) {
+	const location = useLocation();
 	const classes = useStyle();
 	const [salaryDetails, setSalaries] = useState([]);
 	const { isAuth } = useSelector((state) => state.login);
-	const companyId = localStorage.getItem("currentcompanyid");
+	let companyId = "";
+	let companyName = "";
+	if (location.state) {
+		companyId = location.state.companyId;
+		companyName = location.state.companyName;
+		if (companyId) {
+			localStorage.setItem("currentcompanyid", companyId);
+			localStorage.setItem("currentcompanyname", companyName);
+		}
+	} else {
+		companyId = localStorage.getItem("currentcompanyid");
+		companyName = localStorage.getItem("currentcompanyname");
+	}
 	const [open, setOpen] = useState(false);
 	const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 
@@ -125,7 +139,7 @@ export function CompanyReview(props) {
 		forceUpdate();
 	};
 
-	return companyDetails ? (
+	return (
 		<ThemeProvider theme={theme}>
 			{isAuth ? (
 				<Header />
@@ -173,9 +187,7 @@ export function CompanyReview(props) {
 					}}
 				>
 					<Typography variant="h4">
-						<b>
-							Average Salaries at {companyDetails[0].companyName}
-						</b>
+						<b>Average Salaries at {companyName}</b>
 					</Typography>
 				</Grid>
 				<Grid
@@ -203,8 +215,6 @@ export function CompanyReview(props) {
 				</Grid>
 			</Container>
 		</ThemeProvider>
-	) : (
-		<></>
 	);
 }
 export default CompanyReview;

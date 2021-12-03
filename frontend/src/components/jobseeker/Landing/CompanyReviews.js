@@ -64,6 +64,7 @@ const useStyle = makeStyles((theme) => ({
 
 export function CompanyReview(props) {
 	const query = new URLSearchParams(props.location.search);
+	console.log(query);
 	let job = query.get("query") || "";
 	let location = query.get("location") || "";
 	const classes = useStyle();
@@ -102,7 +103,14 @@ export function CompanyReview(props) {
 						"Get company reviews on landing page response",
 						response.data
 					);
-					setCompanyReviewDetails(response.data);
+					let r = [];
+					for (let i = 0; i < response.data.length; i++) {
+						r.push({
+							...response.data[i],
+							companyId: response.data[i]._id,
+						});
+					}
+					setCompanyReviewDetails(r);
 				})
 				.catch((err) => {
 					if (err.response && err.response.data) {
@@ -159,8 +167,15 @@ export function CompanyReview(props) {
 
 	return companyDetails ? (
 		<ThemeProvider theme={theme}>
-			{isAuth ? (<Header />): <><br/><br/></> }
-			<br/>
+			{isAuth ? (
+				<Header />
+			) : (
+				<>
+					<br />
+					<br />
+				</>
+			)}
+			<br />
 			<hr />
 			<Container maxwidth="xl">
 				{/* This needs to be done */}

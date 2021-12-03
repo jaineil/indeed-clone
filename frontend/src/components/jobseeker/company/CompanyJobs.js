@@ -13,10 +13,11 @@ import JwPagination from "jw-react-pagination";
 import CompanyHeader from "./CompanyHeader";
 import axios from "axios";
 import endPointObj from "../../../endPointUrl";
+import { Redirect, useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	jobContainer: {
-		width: "450px",
+		width: "800px",
 	},
 	card: {
 		border: "1px solid black",
@@ -66,6 +67,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DisplayJobs(props) {
+	const location1 = useLocation();
+	let companyId = "";
+	let companyName = "";
+	if (location1.state) {
+		companyId = location1.state.companyId;
+		companyName = location1.state.companyName;
+		if (companyId) {
+			localStorage.setItem("currentcompanyid", companyId);
+			localStorage.setItem("currentcompanyname", companyName);
+		}
+	} else {
+		companyId = localStorage.getItem("currentcompanyid");
+		companyName = localStorage.getItem("currentcompanyname");
+	}
 	const query = new URLSearchParams(props.location.search);
 	const { isAuth } = useSelector((state) => state.login);
 	const classes = useStyles();
@@ -92,7 +107,7 @@ function DisplayJobs(props) {
 	let [jobData, setJobData] = useState([]);
 	const dispatch = useDispatch();
 
-	const companyId = localStorage.getItem("currentcompanyid");
+	//const companyId = localStorage.getItem("currentcompanyid");
 	console.log("hii company id", companyId);
 	// const fetchAllJobsForCompany = async () => {
 	// 	try {
@@ -118,6 +133,7 @@ function DisplayJobs(props) {
 		dispatch(getJobTabData(job, location, companyId));
 		forceUpdate();
 	}, [job, location, companyId]);
+	console.log("2:Inside display jobs: searchedJobs", jobs);
 
 	const getJobDescription = (job) => {
 		console.log("Hello");
