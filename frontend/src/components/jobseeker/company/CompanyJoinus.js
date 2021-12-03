@@ -16,6 +16,8 @@ import CompanyHeader from './CompanyHeader';
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
+import endPointObj from '../../../endPointUrl.js';
+
 
 
 const useStyle = makeStyles((theme) => ({
@@ -50,8 +52,27 @@ export function CompanyJoinus(props) {
     const id = query.get('id')
     const dispatch = useDispatch()
     const { isAuth } = useSelector(state => state.login)
+    const [companyDetails, setCompany] = useState([]);
+    const companyId = localStorage.getItem("currentcompanyid")
+
+
+
 
     //fetch company id by localstorage
+
+    useEffect(() => {
+
+        axios.get(`${endPointObj.url}/job-seeker/company-details/join-us/${companyId}`)
+            .then(response => {
+                console.log("why join us", response.data.response);
+                setCompany(response.data.response);
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log("Error", err.response);
+                }
+            });
+    }, []);
 
     //call get company details api
     console.log("Company details: ", companyDetails);

@@ -52,11 +52,9 @@ export function CompanyHome(props) {
     const companyId = localStorage.getItem("currentcompanyid")
 
 
-    //Call Company snapshot API
 
     useEffect(() => {
-        console.log("Company details: ", props.location.state.company);
-        console.log("Inside get company home");
+
         axios.get(`${endPointObj.url}/job-seeker/company-home/${companyId}`)
             .then(response => {
                 console.log("Get company details response", response.data.response);
@@ -78,9 +76,7 @@ export function CompanyHome(props) {
                 <Header /><hr />
                 <CompanyHeader /><hr />
                 <Container maxwidth="xl">
-                    <Grid item style={{ marginTop: "20px", marginBottom: "30px" }} >
-                        <Typography variant="caption" >{companyDetails.name}</Typography>
-                    </Grid>
+    
 
                     {/* Work happiness */}
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
