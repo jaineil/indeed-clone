@@ -56,4 +56,9 @@ reviewRouter.get(
 	reviewController.fetchReviewsPerDay
 );
 
+reviewRouter.get(
+	"/admin/get-accepted-rejected-reviews-for-company/:companyId",
+	reviewController.getAcceptedRejectedReviewsForCompany
+);
+
 export default reviewRouter;

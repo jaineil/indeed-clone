@@ -399,6 +399,23 @@ class ReviewController {
 			console.error(err);
 		}
 	};
+
+	getAcceptedRejectedReviewsForCompany = async (req, res) => {
+		try {
+			const { companyId } = req.params;
+			const response = await Review.find({
+				companyId: companyId,
+				isReviewApprovedByAdmin: {
+					$in: ["APPROVED", "REJECTED"],
+				},
+			}).sort({
+				postedOn: -1,
+			});
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 }
 
 export default ReviewController;
