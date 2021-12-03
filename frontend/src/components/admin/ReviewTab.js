@@ -20,9 +20,6 @@ const ReviewTab = () => {
 
 	const updateReviewStatus = async (e) => {
 		try {
-			// const response = await axios.put(`${endPointObj.url}/admin/update-review`, {
-			// 	companyId:
-			// })
 			const payload = {
 				reviewId: e.target.id,
 				companyId: e.target.name,
@@ -99,7 +96,7 @@ const ReviewTab = () => {
 	};
 
 	const [reviews, setReviews] = useState([]);
-	console.log("Rendering: ", reviews);
+
 	useEffect(() => {
 		getNewReviews();
 	}, []);
