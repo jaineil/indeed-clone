@@ -86,7 +86,7 @@ function JobDescription({ jobData }) {
 
   useEffect(() => {
     console.log("Inside get job description");
-    axios.get(endPointObj.url + 'job-seeker/job-details/' + jobId)
+    axios.get(endPointObj.url + '/job-seeker/job-details/' + jobId)
         .then(response => {
             console.log("Get job description response", response.data);
             setJobDetails(response.data);

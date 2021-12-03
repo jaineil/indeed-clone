@@ -68,7 +68,7 @@ export function CompanyReview(props) {
     const companyId = localStorage.getItem("currentcompanyid");
     const [open, setOpen] = useState(false);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
-
+     
     useEffect(() => {
         console.log("Inside get company salaries");
         axios.get(endPointObj.url + '/job-seeker/get-salaries-by-company-id/'+companyId)
