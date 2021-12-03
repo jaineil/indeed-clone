@@ -134,11 +134,7 @@ export function Login() {
                             <FormHelperText className = {classes.formhelperText}>Password</FormHelperText>
                             <OutlinedInput  className = {classes.borderlinedInput} onChange = { onPasswordChange } value = { password } required type = "password" variant="outlined"/>
                             <br/><br/>
-                            <div style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
-                            {
-                                isLoading?<CircularProgress disableShrink />:<></>
-                            }
-                            </div>
+                            
                             {isError ? 
                             <Box style={{cursor: "pointer",color: "#bb0707", fontSize: "15px"}}>
                                 <b>{errorMsg}</b>
