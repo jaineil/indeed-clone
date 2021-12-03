@@ -11,7 +11,6 @@ import {
 	Button,
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
-import reviewdetails from "./reviewDetails";
 import CompanyHeader from "./CompanyHeader";
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
@@ -125,7 +124,7 @@ export function CompanyReview(props) {
 
 	//fetch company id by localstorage
 	//Call fetch company details API
-	console.log("Fetch review details: ", reviewdetails);
+	console.log("Fetch review details: ", reviews);
 
 	const handleOpen = (id) => {
 		setOpen(true);
