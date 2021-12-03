@@ -23,7 +23,7 @@ import axios from "axios";
 
 export default function PostJob() {
     const classes = useStyles();
-    const [companyName, setCompanyName] = useState("");
+    const [companyName, setCompanyName] = useState(localStorage.getItem('companyProfile')? JSON.parse(localStorage.getItem('companyProfile')).companyName : "");
     const [jobTitle, setJobTitle] = useState("");
     const [industry, setIndustry] = useState("");
     const [workType, setWorkType] = useState("");
@@ -70,7 +70,7 @@ export default function PostJob() {
             console.log(saveJobResponse.status);
             if(saveJobResponse.status === 200){
                 console.log("Here");
-                setRedirectVar(<Redirect to="/jobs" />);
+                setRedirectVar(<Redirect to="/employer/jobs" />);
             }
         }
         catch (err) {
@@ -111,6 +111,7 @@ export default function PostJob() {
                                         style={{ width: '100%' }}
                                         required
                                         value = {companyName}
+                                        disabled='true'
                                         onChange = {(e) =>{ setCompanyName(e.target.value) }}
                                     />
                                 </Grid>

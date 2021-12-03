@@ -90,7 +90,7 @@ export default function Profile() {
 
             setCompanyIndustry(companyProfile.industry);
             setCompanyFounded(companyProfile.founded);
-            setCompanyMissionAndVision(companyProfile.missionAndVision);
+            setCompanyMissionAndVision(companyProfile.description.missionAndVision);
         }
         else {
             setCompanyName("");
@@ -192,7 +192,7 @@ export default function Profile() {
             country: employerCountry,
             zipcode: employerZipcode,
         }
-        if (companyProfile) {
+        if (localStorage.getItem('companyId')) {
             const updateEmployerProfile = axios.put(endPointObj.url + "/employer/update-profile/", updateEmployer);
             const updateCompanyProfile = axios.put(endPointObj.url + "/employer/update-company/", updateCompany);
 

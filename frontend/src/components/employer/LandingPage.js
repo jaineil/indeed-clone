@@ -4,6 +4,7 @@ import endPointObj from '../../endPointUrl.js';
 import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
 import RedirectUnauthorized from './RedirectUnauthorized';
+import { Redirect } from 'react-router';
 
 export default function LandingPage(props) {
 
@@ -42,7 +43,7 @@ export default function LandingPage(props) {
 
     return (
         <div>
-             <RedirectUnauthorized />
+            <RedirectUnauthorized />
             <Jobs />
         </div>
     );
