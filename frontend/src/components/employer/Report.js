@@ -46,7 +46,7 @@ export default function Report(props) {
 
                     getAppliedApplicants.data.map((applicant)=>{
                         currentApplicants.push({
-                            applicantName: applicant.jobSeekerDetails.firstName + " " + applicant.jobSeekerDetails.firstName
+                            applicantName: applicant.jobSeekerDetails.firstName + " " + applicant.jobSeekerDetails.lastName
                         });
                     });
                     setPopupApplicants(currentApplicants)
