@@ -62,31 +62,29 @@ const useStyle = makeStyles((theme) => ({
 
 export function CompanyReview(props) {
     const classes = useStyle();
-    const [reviews, setReviews] = useState([]);
+    const [companyReviewDetails, setCompanyReviewDetails] = useState([]);
     const { isAuth } = useSelector(state => state.login);
     const companyId = localStorage.getItem("currentcompanyid");
     const [open, setOpen] = useState(false);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
     useEffect(() => {
-        console.log("Inside get company salaries");
-        // axios.get(endPointObj.url + '/job-seeker/company-details/reviews/' + companyId)
-        //     .then(response => {
-        //         console.log("Get company reviews response", response.data);
-        //         setReviews(response.data);
-        //     })
-        //     .catch(err => {
-        //         if (err.response && err.response.data) {
-        //             console.log("Error", err.response);
-        //         }
-        //     });
-        
-
+        console.log("Inside get Company Reviews");
+        axios.get(endPointObj.url + '/job-seeker/search-for-companies' + companyId)
+            .then(response => {
+                console.log("Get company reviews on landing page response", response.data);
+                setCompanyReviewDetails(response.data);
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log("Error", err.response);
+                }
+            });
     }, [])
 
     //fetch company id by localstorage
     //Call fetch company details API
-    console.log("Salary  details: ", companydetails);
+    console.log("Salary  details: ", companyReviewDetails);
 
     const handleOpen = (id) => {
         setOpen(true);
@@ -101,33 +99,33 @@ export function CompanyReview(props) {
         forceUpdate();
     }
 
-    var companyReviewDetails= [
-        {
-            "companyId": "1",
-            "companyName": "Amazon",
-            "ratingNumber": "4"
-        },
-        {
-            "companyId": "1",
-            "companyName": "Amazon",
-            "ratingNumber": "3"
-        },
-        {
-            "companyId": "1",
-            "companyName": "Amazon",
-            "ratingNumber": "5"
-        },
-        {
-            "companyId": "1",
-            "companyName": "Amazon",
-            "ratingNumber": "4"
-        },
-        {
-            "companyId": "1",
-            "companyName": "Amazon",
-            "ratingNumber": "1"
-        }   
-    ]
+    // var companyReviewDetails= [
+    //     {
+    //         "companyId": "1",
+    //         "companyName": "Amazon",
+    //         "ratingNumber": "4"
+    //     },
+    //     {
+    //         "companyId": "1",
+    //         "companyName": "Amazon",
+    //         "ratingNumber": "3"
+    //     },
+    //     {
+    //         "companyId": "1",
+    //         "companyName": "Amazon",
+    //         "ratingNumber": "5"
+    //     },
+    //     {
+    //         "companyId": "1",
+    //         "companyName": "Amazon",
+    //         "ratingNumber": "4"
+    //     },
+    //     {
+    //         "companyId": "1",
+    //         "companyName": "Amazon",
+    //         "ratingNumber": "1"
+    //     }   
+    // ]
 
     return (
 
