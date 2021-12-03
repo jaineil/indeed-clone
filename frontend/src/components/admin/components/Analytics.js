@@ -11,6 +11,7 @@ import { Top10CompaniesViewedChart } from "./charts/top10viewedCompanies";
 import { ReviewsPerDayChart } from "./charts/reviewsPerDay";
 
 export const Analytics = () => {
+  const [reviewsPerDay, setReviewsPerDay] = useState();
   const [top5reviewedCompanies, setTop5reviewedCompanies] = useState();
   const [top5avgRatedCompanies, setTop5avgRatedCompanies] = useState();
   const [top5jobseekerReviews, setTop5jobseekerReviews] = useState();
@@ -18,18 +19,23 @@ export const Analytics = () => {
   const [top10viewedCompanies, setTop10viewedCompanies] = useState();
   useEffect(async () => {
     const [
+      reviewsPDay,
       reviewedCompanies,
       avgRatedCompanies,
       jobseekerReviews,
       ceoRatings,
       viewedCompanies,
     ] = await Promise.all([
+      axios.get(`${endPointObj.url}/admin/reviews-per-day/`),
       axios.get(`${endPointObj.url}/admin/top-5-reviewed-companies`),
       axios.get(`${endPointObj.url}/admin/top-5-companies-average-rating`),
       axios.get(`${endPointObj.url}/admin/top-5-job-seekers-accepted-reviews`),
       axios.get(`${endPointObj.url}/admin/top-ceos`),
       axios.get(`${endPointObj.url}/job-seeker/top-10-viewed-companies`),
     ]);
+    if (reviewsPDay.status === 200) {
+      setReviewsPerDay(reviewsPDay.data);
+    }
     if (reviewedCompanies.status === 200) {
       setTop5reviewedCompanies(reviewedCompanies.data);
     }
@@ -108,6 +114,32 @@ export const Analytics = () => {
               ) : (
                 <div style={{ font: "1.475rem", fontWeight: "bold" }}>
                   <Top5ReviewedCompaniesChart companies={[]} />
+                </div>
+              )}
+            </Card>
+          </Col>
+          <Col className="top-10-companies-views-pday" md="auto">
+            <Card
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                borderRadius: "20px",
+                boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)",
+                margin: "10px",
+                padding: "20px",
+                animation: "fade 3s",
+                backgroundColor: "#ffffff",
+                animation: "alternate 2sec",
+              }}
+            >
+              {top10viewedCompanies ? (
+                <div style={{ font: "1.475rem", fontWeight: "bold" }}>
+                  <Top10CompaniesViewedChart companies={top10viewedCompanies} />
+                </div>
+              ) : (
+                <div style={{ font: "1.475rem", fontWeight: "bold" }}>
+                  <Top10CompaniesViewedChart companies={[]} />
                 </div>
               )}
             </Card>
@@ -195,32 +227,6 @@ export const Analytics = () => {
                     <Top10CeoRatingsChart ceos={[]} />
                   </div>
                 </>
-              )}
-            </Card>
-          </Col>
-          <Col className="top-10-companies-views-pday" md="auto">
-            <Card
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                borderRadius: "20px",
-                boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)",
-                margin: "10px",
-                padding: "20px",
-                animation: "fade 3s",
-                backgroundColor: "#ffffff",
-                animation: "alternate 2sec",
-              }}
-            >
-              {top10viewedCompanies ? (
-                <div style={{ font: "1.475rem", fontWeight: "bold" }}>
-                  <Top10CompaniesViewedChart companies={top10viewedCompanies} />
-                </div>
-              ) : (
-                <div style={{ font: "1.475rem", fontWeight: "bold" }}>
-                  <Top10CompaniesViewedChart companies={[]} />
-                </div>
               )}
             </Card>
           </Col>

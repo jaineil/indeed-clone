@@ -1,4 +1,3 @@
-// import { Chart } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +8,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-// import faker from "faker";
 
 export const Top10CompaniesViewedChart = ({ companies }) => {
   ChartJS.register(
@@ -52,8 +50,8 @@ export const Top10CompaniesViewedChart = ({ companies }) => {
         data: companies.map((company) => {
           return company.reviewCount;
         }),
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
     ],
   };
