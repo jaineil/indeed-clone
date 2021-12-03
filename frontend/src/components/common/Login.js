@@ -168,7 +168,7 @@ export function Login() {
                     </Grid>
                 </Grid>
             </Box>
-        </Container> : (user.userPersona === "jobseeker") ? <Redirect to="/home" /> : ((user.userPersona === "EMPLOYER")) ? <Redirect to="/employer" /> : <Redirect to="/admin" />
+        </Container> : (user.userPersona === "JOBSEEKER") ? <Redirect to="/home" /> : ((user.userPersona === "EMPLOYER")) ? <Redirect to="/employer" /> : <Redirect to="/admin" />
     )   
 }
 export default Login;
