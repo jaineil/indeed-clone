@@ -139,8 +139,10 @@ function JobDescription({ jobData }) {
         <Box style={{ marginBottom: "5px" }}>
           {/* Setting up current company id in locastorage to make it access to company homepage. */}
           {localStorage.setItem("currentcompanyid", jobDetails[0].companyId)}
+
+
           <Link
-            to="/companyHome"
+            to={{pathname: "/companyHome", state:{company: jobDetails[0].companyId}}}
             style={{ textDecoration: "none", color: "#000000" }}
           >
             {companyName}

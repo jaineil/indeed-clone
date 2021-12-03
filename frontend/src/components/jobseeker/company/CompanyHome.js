@@ -8,12 +8,14 @@ import {
     Typography,
 } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
-import companyDetails from './companyDetails';
+//import companyDetails from './companyDetails';
 import CompanyHeader from './CompanyHeader';
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
-
+import endPointObj from '../../../endPointUrl.js';
+import featureReviewDetails from './featuredReviewDetails.js';
+import {FeatureReviewCard} from './FeatureReviewCard';
 
 const useStyle = makeStyles((theme) => ({
     imgCont: {
@@ -44,23 +46,41 @@ export function CompanyHome(props) {
     const classes = useStyle();
     const query = new URLSearchParams(props.location.search);
     const id = query.get('id')
-    const dispatch = useDispatch()
-    const { isAuth } = useSelector(state => state.login)
+    const [companyDetails, setCompany] = useState([]);
+    const companyId = localStorage.getItem("currentcompanyid")
 
-    //Call Company snapshot API
+
+    useEffect(() => {
+
+        axios.get(`${endPointObj.url}/job-seeker/company-home/${companyId}`)
+            .then(response => {
+                console.log("Get company details response", response.data.response);
+                setCompany(response.data.response);
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log("Error", err.response);
+                }
+            });
+    }, []);
+
+    let topFeaturedReview = [];
+    for(var i = 0; i < 5; i++) {
+        topFeaturedReview.push(featureReviewDetails[i]);
+    }
+
+    console.log("Featured review details", topFeaturedReview);
+
     //fetch company id by localstorage
-    console.log("Company details: ", companyDetails);
 
     return (
 
-        isAuth ? (companyDetails ?
+        (companyDetails ?
             <ThemeProvider theme={theme}>
                 <Header /><hr />
                 <CompanyHeader /><hr />
                 <Container maxwidth="xl">
-                    <Grid item style={{ marginTop: "20px", marginBottom: "30px" }} >
-                        <Typography variant="caption" >{companyDetails[0].companyName}</Typography>
-                    </Grid>
+    
 
                     {/* Work happiness */}
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
@@ -69,15 +89,15 @@ export function CompanyHome(props) {
 
                     <Grid container style={{ height: "40px", paddingLeft: "250px", marginBottom: "130px" }}>
                         <Grid item className={classes.optionTab} style={{ height: "20px", width: "60px" }}>
-                            <div className={classes.scoreTest}>{companyDetails[0].avgWorkHappinessScore}</div> <br />
+                            <div className={classes.scoreTest}>{companyDetails.avgWorkHappinessScore}</div> <br />
                             <div style={{ height: "20px", width: "160px", fontSize: "20px" }}>Work Happiness Score </div>
                         </Grid>
                         <Grid item className={classes.optionTab} style={{ height: "20px", width: "60px", marginLeft: "100px" }}>
-                            <div className={classes.scoreTest}>{companyDetails[0].avgLearningScore}</div> <br />
+                            <div className={classes.scoreTest}>{companyDetails.avgLearningScore}</div> <br />
                             <div style={{ height: "20px", width: "160px", fontSize: "20px" }}>Learning</div>
                         </Grid>
                         <Grid item className={classes.optionTab} style={{ height: "20px", width: "60px", marginLeft: "100px" }}>
-                            <div className={classes.scoreTest}>{companyDetails[0].avgAppreciationScore}</div> <br />
+                            <div className={classes.scoreTest}>{companyDetails.avgAppreciationScore}</div> <br />
                             <div style={{ height: "20px", width: "160px", fontSize: "20px" }}>Appreciation</div>
                         </Grid>
                     </Grid>
@@ -87,7 +107,7 @@ export function CompanyHome(props) {
                         <Typography variant="h5"><b>About the company</b></Typography>
 
                         <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
-                            <Typography><p>{companyDetails[0].aboutTheCompany}</p></Typography>
+                            <Typography><p>{companyDetails.aboutTheCompany}</p></Typography>
                         </Grid>
 
                         <Grid container style={{ height: "40px", paddingRight: "100px", marginBottom: "380px" }} spacing={1}>
@@ -99,7 +119,7 @@ export function CompanyHome(props) {
                                                 <h5> CEO </h5>
                                             </div>
                                             <div>
-                                                {companyDetails[0].ceo}
+                                                {companyDetails.ceo}
                                             </div>
                                         </Grid>
                                     </td>
@@ -109,7 +129,7 @@ export function CompanyHome(props) {
                                                 <h5> Founded </h5>
                                             </div>
                                             <div>
-                                                {companyDetails[0].founded}
+                                                {companyDetails.founded}
                                             </div>
                                         </Grid>
                                     </td>
@@ -119,7 +139,7 @@ export function CompanyHome(props) {
                                                 <h5> Revenue </h5>
                                             </div>
                                             <div>
-                                                {companyDetails[0].revenue}
+                                                {companyDetails.revenue}
                                             </div>
                                         </Grid>
                                     </td>
@@ -133,7 +153,7 @@ export function CompanyHome(props) {
                                                 <h5> Industry </h5>
                                             </div>
                                             <div>
-                                                {companyDetails[0].industry}
+                                                {companyDetails.industry}
                                             </div>
                                         </Grid>
                                     </td>
@@ -143,7 +163,7 @@ export function CompanyHome(props) {
                                                 <h5> Company Size </h5>
                                             </div>
                                             <div>
-                                                {companyDetails[0].companySize}
+                                                {companyDetails.companySize}
                                             </div>
                                         </Grid>
                                     </td>
@@ -159,7 +179,7 @@ export function CompanyHome(props) {
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
-                        <Typography><p>{companyDetails[0].companyDescription}</p></Typography>
+                        <Typography><p>{companyDetails.companyDescription}</p></Typography>
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "30px" }}>
@@ -167,15 +187,33 @@ export function CompanyHome(props) {
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
-                        <Typography><p>{companyDetails[0].companyMission}</p></Typography>
+                        <Typography><p>{companyDetails.companyMission}</p></Typography>
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
                         <Typography variant="h5"><b>Reviews</b></Typography>
                     </Grid>
+
+                    <Grid container spacing={10} style={{ marginTop: "30px", marginBottom: "50px",marginLeft: '210px' }}>
+                        {
+                        
+                        topFeaturedReview.map((item) => {
+                                return (    
+                                    <FeatureReviewCard
+                                        reviewTitle={item.reviewTitle}
+                                        city={item.city}
+                                        state={item.state}
+                                        postedDate={item.postedDate}
+                                        overallStars={item.overallStars}
+                                        ratingInNumber={item.ratingInNumber}
+                                    />
+                                )
+                            })
+                        }
+                    </Grid>
                 </Container>
             </ThemeProvider>
-            : <></>) : <Redirect to="/login" />
+            : <></>) 
     )
 }
 export default CompanyHome;

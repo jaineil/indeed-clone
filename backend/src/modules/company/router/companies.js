@@ -35,4 +35,6 @@ CompanyRouter.get(
 );
 CompanyRouter.post("/job-seeker/add-company-view", companyController.addClick);
 
+CompanyRouter.get("/job-seeker/top-10-viewed-companies", companyController.top10CompaniesDailyClicks);
+
 export default CompanyRouter;

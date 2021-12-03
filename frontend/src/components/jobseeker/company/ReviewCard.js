@@ -26,7 +26,7 @@ export function ReviewCard({ reviewTitle, reviewerRole,reviewDescription,city,st
                     <b>Pros:</b><br/>
                     {pros}
                 </Typography><br/><br/>
-                <Typography variant="subtitle1" style ={{marginLeft:"-105px", marginTop:"50px"}}>
+                <Typography variant="subtitle1" style ={{marginLeft:"120px"}}>
                     <b>Cons:</b><br/>
                     {cons}
                 </Typography>
