@@ -58,7 +58,7 @@ export default function Jobs() {
             console.log("Error in fetching employer"+err);
         }
         
-    }, [jobs])
+    }, [])
 
     return (
         <div>
