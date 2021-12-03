@@ -1,10 +1,10 @@
 import { Box, makeStyles, Typography } from "@material-ui/core";
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 //import { makeApplyRequest } from '../../Redux/JobApply/actions';
 //import { ApplyModal } from './JobApplyModal/ApplyModal';
-import jobDetails from "./jobdetails";
+//import jobDetails from "./jobdetails";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import endPointObj from "../../../endPointUrl";
@@ -71,6 +71,8 @@ function JobDescription({ jobData }) {
   const [_jobId, setJobId] = useState("");
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const mongoId = useSelector((state) => state.login.user.mongoId);
+  const [jobDetails, setJobDetails] = useState();
+
   const dispatch = useDispatch();
   const handleClose = () => {
     setOpen(false);
@@ -82,6 +84,19 @@ function JobDescription({ jobData }) {
     setOpen(true);
   };
 
+  useEffect(() => {
+    console.log("Inside get job description");
+    axios.get(endPointObj.url + 'job-seeker/job-details/' + jobId)
+        .then(response => {
+            console.log("Get job description response", response.data);
+            setJobDetails(response.data);
+        })
+        .catch(err => {
+            if (err.response && err.response.data) {
+                console.log("Error", err.response);
+            }
+        });
+  }, [])
   //fetchjobdetails
   console.log("Job details - jobdescription", jobDetails);
 
@@ -138,17 +153,19 @@ function JobDescription({ jobData }) {
         </Typography>
         <Box style={{ marginBottom: "5px" }}>
           {/* Setting up current company id in locastorage to make it access to company homepage. */}
-          {localStorage.setItem("currentcompanyid", jobDetails[0].companyId)}
+          {localStorage.setItem("currentcompanyid", jobDetails.companyId)}
+
+
           <Link
-            to="/companyHome"
+            to={{pathname: "/companyHome", state:{company: jobDetails.companyId}}}
             style={{ textDecoration: "none", color: "#000000" }}
           >
             {companyName}
           </Link>
         </Box>
-        <Box style={{ marginBottom: "5px" }}>{jobDetails[0].location}</Box>
+        <Box style={{ marginBottom: "5px" }}>{jobDetails.location}</Box>
         <Box style={{ marginBottom: "10px" }}>
-          <u>{jobDetails[0].jobType}</u>
+          <u>{jobDetails.jobType}</u>
         </Box>
         <div>
           <Button
@@ -183,7 +200,7 @@ function JobDescription({ jobData }) {
         </div>
         <br />
         <b>Experience & Skills</b> <br />
-        <div className={classes.sub_details}>{jobDetails[0].skillsNeeded}</div>
+        <div className={classes.sub_details}>{jobDetails.skillsNeeded}</div>
       </Box>
       <hr />
       <Box style={{ marginBottom: "10px" }}>
@@ -195,7 +212,7 @@ function JobDescription({ jobData }) {
         </Typography>
         <b>Job Type</b>
         <br />
-        <div className={classes.sub_details}>{jobDetails[0].jobType}</div>
+        <div className={classes.sub_details}>{jobDetails.jobType}</div>
       </Box>
       <hr />
       <Box style={{ marginBottom: "10px" }}>
@@ -223,14 +240,14 @@ function JobDescription({ jobData }) {
         </Typography>
         <div className={classes.sub_details}>
           What You’ll Do: <br />
-          <li>{jobDetails[0].yourRole}</li> <br />
+          <li>{jobDetails.yourRole}</li> <br />
           Why You’ll love working for a: <br />
-          <li>{jobDetails[0].whyYouWillLoveWorking}</li> <br />
+          <li>{jobDetails.whyYouWillLoveWorking}</li> <br />
           Work Remotely <br />
           <li>Temporarily due to COVID-19</li> <br />
           Job type: {jobDetails[0].jobType}
           <br />
-          Pay: {jobDetails[0].salaryDetails}
+          Pay: {jobDetails.salaryDetails}
           <br />
         </div>
       </Box>

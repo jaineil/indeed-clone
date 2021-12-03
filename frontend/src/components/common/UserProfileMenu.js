@@ -12,7 +12,11 @@ import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../_actions/loginAction";
-//import { logout } from '../../../Redux/Login/actions';
+import {
+  REGISTER_FAILURE,
+} from "../../_actions/actionTypes";
+import { Link, Redirect } from 'react-router-dom';
+
 
 const StyledMenu = withStyles({
   paper: {
@@ -47,6 +51,9 @@ export default function UserMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const history = useHistory();
   const loggedUser = useSelector((state) => state.login.loggedUser);
+    const {isAuth,isLoading,isError,errorMsg,user} = useSelector(state=>state.login)
+  const {success} = useSelector((state) => state.register);
+
   const dispatch = useDispatch();
   let emailId = localStorage.getItem("userEmailId");
 
@@ -56,6 +63,12 @@ export default function UserMenu() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const registerFailure = () => {
+    return {
+      type: REGISTER_FAILURE,
+      
+    };
   };
 
   return (
@@ -115,16 +128,18 @@ export default function UserMenu() {
           </ListItemIcon>
           <ListItemText primary="My Reviews" />
         </StyledMenuItem>
+        <Link to='/login'>
         <StyledMenuItem onClick={()=>{
             handleClose()
+            dispatch(registerFailure())
             dispatch(logout())
-            
             }}>
           <ListItemIcon>
             <PowerSettingsNewIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="Sign Out" />
         </StyledMenuItem>
+        </Link>
       </StyledMenu>
     </div>
   );
