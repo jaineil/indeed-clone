@@ -20,7 +20,10 @@ import Header from "../../../common/Header";
 import { useStyles } from "./Styles";
 import theme from "../../../common/MenuTheme";
 import { getProfile } from "../../../../_actions/jobseekerActions";
-import { savedJobsSelector } from "../../../../_reducers/jobseekerReducer";
+import {
+  savedJobsSelector,
+  appliedJobsSelector,
+} from "../../../../_reducers/jobseekerReducer";
 import endPointObj from "../../../../endPointUrl";
 import JobDescription from "../../jobs/JobDescription";
 
@@ -29,12 +32,12 @@ const MyJobs = () => {
   const classes = useStyles();
   const mongoId = useSelector((state) => state.login.user.mongoId);
   const savedJobs = useSelector(savedJobsSelector);
-  const appliedJobs = useSelector(savedJobsSelector);
+  const appliedJobs = useSelector(appliedJobsSelector);
 
   const [activeTab, setActiveTab] = useState("1");
   const [show, setShow] = useState(false);
   const [curJobId, setCurJobId] = useState("");
-  const {isAuth} = useSelector(state=>state.login);
+  const { isAuth } = useSelector((state) => state.login);
 
   const unsaveJob = (jobId) => {
     const body = {
@@ -58,8 +61,15 @@ const MyJobs = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      {isAuth ? (<Header />): <><br/><br/></> }
-			<br/>
+      {isAuth ? (
+        <Header />
+      ) : (
+        <>
+          <br />
+          <br />
+        </>
+      )}
+      <br />
       <hr />
       <div className={classes.jobsParent}>
         <div className={classes.headerWrapper}>
