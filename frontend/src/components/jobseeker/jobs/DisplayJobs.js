@@ -20,6 +20,7 @@ import { saveJob } from "../../../_actions/saveJobAction";
 const useStyles = makeStyles((theme) => ({
 	jobContainer: {
 		width: "450px",
+		height: "400px"
 	},
 	card: {
 		border: "1px solid black",
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 		color: "grey",
 	},
 	job_section: {
-		padding: "0 8vw",
+		//padding: "0 8vw",
 		position: "relative",
 	},
 	sort_container: {
@@ -151,7 +152,7 @@ function DisplayJobs(props) {
 						</Box>
 						{ignored ? null : null}
 
-						<Box style={{ display: "flex" }}>
+						<Box style={{ display: "flex",height:'1600px' }}>
 							<Grid className={classes.jobContainer} container>
 								{pageOfItems.map((job, index) => (
 									<Grid
@@ -205,7 +206,8 @@ function DisplayJobs(props) {
 										/>
 									</Grid>
 								))}
-							</Grid>
+							</Grid> &nbsp;&nbsp;&nbsp;
+							<Grid>
 							{jobData ? (
 								<JobDescription
 									jobData={jobData}
@@ -214,13 +216,15 @@ function DisplayJobs(props) {
 							) : (
 								<></>
 							)}
+							</Grid>
 						</Box>
-
+						<Grid>
 						<JwPagination
 							pageSize={5}
 							items={jobs}
 							onChangePage={setPageOfItems}
 						/>
+						</Grid>
 					</>
 				) : (
 					<Box>No results found</Box>

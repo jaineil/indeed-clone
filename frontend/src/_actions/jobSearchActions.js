@@ -50,7 +50,7 @@ export const getJobSearchData =
 				}
 			});
 
-	// 	var jobsData = [
+		  // var jobsData = [
   //   {
   //     "jobId": "1",
   //     "jobTitle": "Software Development Engineer",
@@ -161,8 +161,5 @@ export const getJobSearchData =
   //     "salary": "120k - 140k",
   //     "jobDescription": "Software Development Engineer job description"
   //   }
-  // ];
-  //   console.log("Job data", jobsData);
-  // dispatch(searchSuccess(jobsData));
-  // dispatch(setSearchCount(jobsData.length)); 
+  //];
 	};
