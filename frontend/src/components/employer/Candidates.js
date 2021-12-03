@@ -62,8 +62,9 @@ export default function Candidates(props) {
     const [applicationStatus, setApplicationStatus] = useState('');
     const [message, setMessage] = useState('')
 
-    const jobId = "619f92c5227cb6690426e43a";
-
+    //const jobId = "619f92c5227cb6690426e43a";
+    const jobId = props.location.state.rowId
+    console.log("jobId", props.location.state.rowId)
     const [chatOpen, setChatOpen] = React.useState(false);
     const [chatExistOpen, setChatExistOpen] = React.useState(false);
 
@@ -97,7 +98,7 @@ export default function Candidates(props) {
     };
 
     const handleChatClick = async (jobSeekerId) =>{
-        console.log(jobSeekerId)
+        console.log("jobseekerid",jobSeekerId)
         setJobSeekerId(jobSeekerId);
         const response = await axios.get(
             `${endPointObj.url}/employer/get-chats/${localStorage.getItem('userId')}/${jobSeekerId}`
@@ -157,28 +158,27 @@ export default function Candidates(props) {
             }]
             const applications = await axios.get(endPointObj.url + "/employer/get-job-applicants?jobId=" + jobId);
 
-            //console.log("Returned applications from backend: " + JSON.stringify(applications.data));
+            console.log("Returned applications from backend: " + JSON.stringify(applications));
 
             if (applications.data) {
                 applications.data.map((application) => {
-                    console.log(application);
-                    console.log(application._id);
-                    console.log(application.jobSeekerDetails.firstName);
-                    console.log(application.jobSeekerDetails.lastName);
+                    const firstName = application.jobSeekerDetails.firstName? application.jobSeekerDetails.firstName : "John"
+                    const lastName= application.jobSeekerDetails.lastName? application.jobSeekerDetails.lastName : "Doe"
+
                     const app = {
                         id: application._id,
                         resume: "View Resume",
                         coverLetter: "View Cover Letter",
-                        applicantName: application.jobSeekerDetails.firstName + ' ' + application.jobSeekerDetails.lastName,
+                        applicantName: firstName + ' ' +lastName,
+                        //applicantName:"Ratika",
                         resumeName: application.resume.name,
                         resumeUrl: application.resume.url,
-                        coverLetterName: application.coverLetter.name,
-                        coverLetterUrl: application.coverLetter.url,
                         rowId: application._id,
                         jobSeekerId: application.jobSeekerDetails._id
                     }
                     console.log("app", app)
                     rows.push(app);
+                    console.log("rows",rows)
                 })
                 setApplicants(rows);
             }

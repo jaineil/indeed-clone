@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { ThemeProvider, Typography, Card, CardHeader } from "@material-ui/core";
+import { ThemeProvider, Typography, Card } from "@material-ui/core";
 import {
   TabContent,
   TabPane,
@@ -109,21 +109,25 @@ export const CompanyStats = (props) => {
   const [activeTab, setActiveTab] = useState("1");
   const [allReviews, setReviews] = useState();
   const [jobStats, setJobStats] = useState();
-  useEffect(async () => {
-    const company = props.location.state.company;
-    console.log({ company }, props);
-    setCompany(company);
-    const [reviews, stats] = await Promise.all([
-      axios.get(
-        `${endPointObj.url}/admin/get-accepted-rejected-reviews-for-company/${company._id}`
-      ),
-      axios.get(
-        `${endPointObj.url}/employer/get-applicants-for-each-job/${company._id}`
-      ),
-    ]);
-    console.log({ reviews, stats });
-    if (reviews.status === 200) setReviews(reviews.data);
-    if (stats.status === 200) setJobStats(stats.data);
+
+  useEffect(() => {
+    async function fetchData() {
+      const company = props.location.state.company;
+      console.log({ company }, props);
+      setCompany(company);
+      const [reviews, stats] = await Promise.all([
+        axios.get(
+          `${endPointObj.url}/admin/get-accepted-rejected-reviews-for-company/${company._id}`
+        ),
+        axios.get(
+          `${endPointObj.url}/employer/get-applicants-for-each-job/${company._id}`
+        ),
+      ]);
+      console.log({ reviews, stats });
+      if (reviews.status === 200) setReviews(reviews.data);
+      if (stats.status === 200) setJobStats(stats.data);
+    }
+    fetchData();
   }, []);
 
   return (
