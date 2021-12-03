@@ -16,10 +16,10 @@ export function ReviewCard({ reviewTitle, reviewerRole, reviewDescription, city,
     }
 
     const [checked,setChecked] = useState(false);
-    if(featuredReview){
-        console.log("Here 1");
-        setChecked('true');
-    }
+    // if(featuredReview){
+    //     console.log("Here 1");
+    //     setChecked(true);
+    // }
 
     useEffect(async () => {
         if(!featuredReview && checked===true){
@@ -35,11 +35,11 @@ export function ReviewCard({ reviewTitle, reviewerRole, reviewDescription, city,
                 console.log("Error in fetching company reviews" + err);
             }
         }
-    }, [checked])
+    }, [])
 
     return (
         <div>
-            <Grid container spacing={6}>
+            <Grid container spacing={12}>
                 <Grid container spacing={2} style={{marginTop:'1%'}}>
                     <Grid item xs={2}>
                         <h3>{ratingInNumber}</h3>
@@ -47,7 +47,7 @@ export function ReviewCard({ reviewTitle, reviewerRole, reviewDescription, city,
                     </Grid>
                     <Grid item xs={8}>
                         <Typography variant="body2" style={{ fontWeight: "600" }}><h5>{reviewTitle}</h5></Typography>
-                        <Typography variant="body3" style={{ fontWeight: "400", fontSize: "12px", color: "#595959" }}>{reviewerRole} - {city},{state} - posted on {postedDate}</Typography>
+                        <Typography variant="body3" style={{ fontWeight: "400", fontSize: "12px", color: "#595959" }}>{reviewerRole} - {city},{state}</Typography>
                         <br />
                         <Typography variant="subtitle1" >
                             {reviewDescription}
@@ -55,24 +55,45 @@ export function ReviewCard({ reviewTitle, reviewerRole, reviewDescription, city,
                     </Grid>
                     <Grid item xs={2}>
                         <Switch
-                            checked={checked}
+                            checked={checked || featuredReview}
                             onChange={handleChange}
                             inputProps={{ 'aria-label': 'controlled' }}
                             label="Featured Review"
                         />
                     </Grid>
                 </Grid>
-                <Grid item container spacing={3}>
-                    <Grid item xs={12} hidden={(pros) ? false : true}>
+                <Grid item container>
+                    <Grid item xs={6} hidden={(pros) ? false : true}>
                         <Typography variant="subtitle1" >
                             <b>Pros:</b><br />
-                            {pros}
+                            <Grid container>
+                            <Grid item xs={12} style={{ marginTop: '2%' }}>
+                                {
+                                    pros.map((pro) => {
+                                        return (
+                                            <Typography variant="h6" style={{ color: "#000000", fontFamily: 'Open Sans' }}>{pro}</Typography>
+                                        );
+                                    })
+                                }
+                            </Grid>
+                        </Grid>
                         </Typography><br /><br />
                     </Grid>
-                    <Grid item xs={12} hidden={(cons) ? false : true}>
+                    <Grid item xs={6} hidden={(cons) ? false : true}>
                         <Typography variant="subtitle1">
                             <b>Cons:</b><br />
                             {cons}
+                            <Grid container>
+                            <Grid item xs={12} style={{ marginTop: '2%' }}>
+                                {
+                                    cons.map((con) => {
+                                        return (
+                                            <Typography variant="h6" style={{ color: "#000000", fontFamily: 'Open Sans' }}>{con}</Typography>
+                                        );
+                                    })
+                                }
+                            </Grid>
+                        </Grid>
                         </Typography>
                     </Grid>
                 </Grid>

@@ -39,23 +39,28 @@ export const AddReviewModal = ({ open, handleClose }) => {
 	const classes = useStyles();
 
 	const [rating, setRatingValue] = React.useState(0);
+	const [reviewerRole, setReviewerRole] = React.useState("");
 	const [reviewTitle, setReviewTitle] = React.useState("");
 	const [reviewBody, setReviewBody] = React.useState("");
 	const [pros, setProps] = React.useState("");
 	const [cons, setCons] = React.useState("");
 	const [ceoApproval, setCeoApproval] = React.useState("");
 	const [interviewPrepTips, setInterviewPrepTips] = React.useState("");
+	const [refresh, setRefresh] = React.useState("");
 
 	console.log("Rating selected", rating);
 	const postReview = (e) => {
 		console.log("Company id", localStorage.getItem("currentcompanyid"));
 		console.log("Inside postreview");
 		console.log("Rating selected", rating);
+		console.log("User id", localStorage.getItem("userId"));
 		e.preventDefault();
 
 		const data = {
+			jobseekerId: localStorage.getItem("userId"),
 			companyId: localStorage.getItem("currentcompanyid"),
 			rating: rating,
+			reviewerRole: reviewerRole,
 			reviewTitle: reviewTitle,
 			reviewBody: reviewBody,
 			pros: pros,
@@ -67,25 +72,27 @@ export const AddReviewModal = ({ open, handleClose }) => {
 
 		axios
 			.post(
-				endPointObj.url + "/job-seeker/company-details/add-review",
+				`${endPointObj.url}/job-seeker/company-details/add-review`,
 				data
 			)
 			.then((response) => {
 				console.log("Response after job review posting", response);
-				this.setState({
-					message: response.data.status,
-				});
+				handleClose();
+				setRefresh(" ");
 			})
 			.catch((err) => {
 				console.log("Error", err.response);
 				if (err.response && err.response.data) {
-					this.setState({
-						message: err.response.data,
-					});
+					// this.setState({
+					// 	message: err.response.data,
+					// });
+					console.log(err.response);
 				}
 			});
 	};
-
+	const onReviewerRoleChange = (e) => {
+		setReviewerRole(e.target.value);
+	};
 	const onReviewTitleChange = (e) => {
 		setReviewTitle(e.target.value);
 	};
@@ -147,6 +154,19 @@ export const AddReviewModal = ({ open, handleClose }) => {
 						</Grid>
 						<Grid item>
 							<label style={{ display: "block" }}>
+								Your role at the company
+							</label>
+							<OutlinedInput
+								type="text"
+								className={classes.borderlinedInput}
+								required
+								style={{ width: "500px" }}
+								onChange={onReviewerRoleChange}
+								value={reviewerRole}
+							/>
+						</Grid>
+						<Grid item>
+							<label style={{ display: "block" }}>
 								Review Title
 							</label>
 							<OutlinedInput
@@ -201,7 +221,7 @@ export const AddReviewModal = ({ open, handleClose }) => {
 								CEO Approval
 							</label>
 							<OutlinedInput
-								type="text"
+								type="number"
 								className={classes.borderlinedInput}
 								required
 								style={{ width: "500px" }}

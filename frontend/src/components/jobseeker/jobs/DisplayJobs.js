@@ -20,7 +20,7 @@ import { saveJob } from "../../../_actions/saveJobAction";
 const useStyles = makeStyles((theme) => ({
 	jobContainer: {
 		width: "450px",
-		height: "400px"
+		height: "400px",
 	},
 	card: {
 		border: "1px solid black",
@@ -89,7 +89,7 @@ function DisplayJobs(props) {
 	let jobs = useSelector((state) => state.search.searchedJobs);
 	console.log("jobs", jobs);
 	let totalCount = useSelector((state) => state.search.totalCount);
-    const {isAuth} = useSelector(state=>state.login);
+	const { isAuth } = useSelector((state) => state.login);
 	let isLoading = useSelector((state) => state.search.isLoading);
 	let userId = localStorage.getItem("userId");
 	console.log("Inside display jobs: searchedJobs", jobs);
@@ -140,8 +140,15 @@ function DisplayJobs(props) {
 	console.log("isAuth", isAuth);
 	return (
 		<ThemeProvider theme={theme}>
-			{isAuth ? (<Header />): <><br/><br/></> }
-			<br/>
+			{isAuth ? (
+				<Header />
+			) : (
+				<>
+					<br />
+					<br />
+				</>
+			)}
+			<br />
 			<Container className={classes.job_section}>
 				<SearchJobForm /> <br />
 				{isLoading ? (
@@ -153,7 +160,7 @@ function DisplayJobs(props) {
 						</Box>
 						{ignored ? null : null}
 
-						<Box style={{ display: "flex",height:'1600px' }}>
+						<Box style={{ display: "flex", height: "1600px" }}>
 							<Grid className={classes.jobContainer} container>
 								{pageOfItems.map((job, index) => (
 									<Grid
@@ -207,24 +214,25 @@ function DisplayJobs(props) {
 										/>
 									</Grid>
 								))}
-							</Grid> &nbsp;&nbsp;&nbsp;
+							</Grid>{" "}
+							&nbsp;&nbsp;&nbsp;
 							<Grid>
-							{jobData ? (
-								<JobDescription
-									jobData={jobData}
-									summary={job.jobDescription}
-								/>
-							) : (
-								<></>
-							)}
+								{jobData ? (
+									<JobDescription
+										jobData={jobData}
+										summary={job.jobDescription}
+									/>
+								) : (
+									<></>
+								)}
 							</Grid>
 						</Box>
 						<Grid>
-						<JwPagination
-							pageSize={5}
-							items={jobs}
-							onChangePage={setPageOfItems}
-						/>
+							<JwPagination
+								pageSize={5}
+								items={jobs}
+								onChangePage={setPageOfItems}
+							/>
 						</Grid>
 					</>
 				) : (

@@ -23,16 +23,14 @@ class ReviewController {
 					jobSeekerId: req.body.jobSeekerId,
 					companyId: req.body.companyId,
 					companyName: companyDetails.companyName,
-					overallCompanyRatingByReviewer: parseInt(
-						req.body.overallRating
-					),
+					overallCompanyRatingByReviewer: parseInt(req.body.rating),
 					reviewerRole: req.body.reviewerRole,
 					reviewTitle: req.body.reviewTitle,
 					reviewBody: req.body.reviewBody,
-					pros: req.body.pros.slice(","),
-					cons: req.body.cons.slice(","),
-					ceoApprovalRating: parseInt(req.body.ceoApprovalRating),
-					interviewTips: req.body.interviewTips.slice(","),
+					pros: req.body.pros.split(","),
+					cons: req.body.cons.split(","),
+					ceoApprovalRating: parseInt(req.body.ceoApproval),
+					interviewTips: req.body.interviewPrepTips.split(","),
 					companyLocation: companyDetails.companyLocation,
 					categoricalRating: req.body.categoricalRating,
 				});
@@ -51,7 +49,6 @@ class ReviewController {
 		try {
 			const response = await Review.findOneAndUpdate(
 				{
-					companyId: req.body.companyId,
 					_id: req.body.reviewId,
 				},
 				{
@@ -85,6 +82,7 @@ class ReviewController {
 			);
 			const companyReviews = await Review.find({
 				companyId: req.params.companyId,
+				isReviewApprovedByAdmin: "APPROVED",
 			});
 			let response = [];
 			for (let i = 0; i < companyReviews.length; i++) {
@@ -266,10 +264,10 @@ class ReviewController {
 									"Fetched reviews with kafka-backend"
 								);
 								console.log(results);
-								client.set(
-									`review/${req.query.companyId}/${req.query.sortBy}`,
-									JSON.stringify(results)
-								);
+								// client.set(
+								// 	`review/${req.query.companyId}/${req.query.sortBy}`,
+								// 	JSON.stringify(results)
+								// );
 								res.json(results);
 								res.end();
 							}
