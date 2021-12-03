@@ -170,13 +170,14 @@ export default function Candidates(props) {
 				setApplicantCountry(getJobSeekerProfile.data.address.country);
 				setApplicantZipcode(getJobSeekerProfile.data.address.zipcode);
 				setApplicationStatus(applicationStatus);
-				setOpen(true);
 			} else {
 			}
 		} catch (err) {
 			console.log("Error in fetching applied applicants" + err);
 		}
 		setApplicationStatus(event.target.value);
+        setOpen(true);
+
 	};
 
 	const initiateChat = async () => {
