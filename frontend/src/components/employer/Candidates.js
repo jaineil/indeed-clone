@@ -12,7 +12,7 @@ import axios from "axios";
 import endPointObj from '../../endPointUrl.js';
 import Button from '@mui/material/Button';
 import { Modal} from 'react-bootstrap';
-
+import { TextField } from '@material-ui/core';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -60,7 +60,7 @@ export default function Candidates(props) {
     const [applicantCountry, setApplicantCountry] = useState('');
     const [applicantZipcode, setApplicantZipcode] = useState('');
     const [applicationStatus, setApplicationStatus] = useState('');
-    const [message, setMessage] = useState('')
+    const [message, setMessage] = useState('');
 
     //const jobId = "619f92c5227cb6690426e43a";
     const jobId = props.location.state.rowId
@@ -77,6 +77,11 @@ export default function Candidates(props) {
     const handleChatClose = () => { setChatOpen(false);};
     const handleChatExistOpen = () => {setChatExistOpen(true);}
     const handleChatExistClose = () => { setChatExistOpen(false);};
+
+    const onMessageChange = (e) => {
+        e.preventDefault();
+		setMessage(e.target.value);
+	};
 
     const handleClickOpen = (rowId) => {
 
@@ -130,6 +135,7 @@ export default function Candidates(props) {
         const response = await axios.post(
             `${endPointObj.url}/employer/send-first-message`, data
         );
+        handleChatClose();
         console.log(response)
        
     }
@@ -290,7 +296,8 @@ export default function Candidates(props) {
                         {params.value}
                     </a> */}
                     <ForumIcon
-                    onClick = {()=>{
+                    onClick = {(e)=>{
+                        e.preventDefault();
                         handleChatClick(params.row.jobSeekerId);
                     }}/>
                     
@@ -316,7 +323,17 @@ export default function Candidates(props) {
                  Intiate Conversation with Candidate:
              </div>
              <div>
-                 <input type="text" value = {message} onChange={(e) => setMessage(e.target.value) }></input>
+             <TextField
+                variant="outlined"
+                label="Chat"
+                style={{ width: "100%", marginTop: "10px" }}
+                onChange={onMessageChange}
+                value={message}
+              />
+                 {/* <input type="text" value = {message} onChange={(e) =>{ 
+                                                                    e.preventDefault();
+                                                                    setMessage(e.target.value); 
+                                                                }}></input> */}
                  <button onClick= {initiateChat}>Send</button>
              </div>
          </Modal.Body>
