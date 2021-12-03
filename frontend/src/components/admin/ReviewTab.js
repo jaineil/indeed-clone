@@ -30,7 +30,7 @@ const ReviewTab = () => {
         `${endPointObj.url}/admin/update-review`,
         payload
       );
-      //   console.log(response);
+      console.log(response);
       getNewReviews();
     } catch (err) {
       console.error(err);

@@ -29,7 +29,7 @@ const PhotoTab = () => {
         `${endPointObj.url}/admin/update-photo`,
         payload
       );
-      // console.log(response);
+      console.log(response);
       getNewPhotos();
     } catch (err) {
       console.error(err);

@@ -17,40 +17,46 @@ export const Analytics = () => {
   const [top5jobseekerReviews, setTop5jobseekerReviews] = useState();
   const [top10ceoRatings, setTop10ceoRatings] = useState();
   const [top10viewedCompanies, setTop10viewedCompanies] = useState();
-  useEffect(async () => {
-    const [
-      reviewsPDay,
-      reviewedCompanies,
-      avgRatedCompanies,
-      jobseekerReviews,
-      ceoRatings,
-      viewedCompanies,
-    ] = await Promise.all([
-      axios.get(`${endPointObj.url}/admin/reviews-per-day/`),
-      axios.get(`${endPointObj.url}/admin/top-5-reviewed-companies`),
-      axios.get(`${endPointObj.url}/admin/top-5-companies-average-rating`),
-      axios.get(`${endPointObj.url}/admin/top-5-job-seekers-accepted-reviews`),
-      axios.get(`${endPointObj.url}/admin/top-ceos`),
-      axios.get(`${endPointObj.url}/job-seeker/top-10-viewed-companies`),
-    ]);
-    if (reviewsPDay.status === 200) {
-      setReviewsPerDay(reviewsPDay.data);
+
+  useEffect(() => {
+    async function fetchData() {
+      const [
+        reviewsPDay,
+        reviewedCompanies,
+        avgRatedCompanies,
+        jobseekerReviews,
+        ceoRatings,
+        viewedCompanies,
+      ] = await Promise.all([
+        axios.get(`${endPointObj.url}/admin/reviews-per-day/`),
+        axios.get(`${endPointObj.url}/admin/top-5-reviewed-companies`),
+        axios.get(`${endPointObj.url}/admin/top-5-companies-average-rating`),
+        axios.get(
+          `${endPointObj.url}/admin/top-5-job-seekers-accepted-reviews`
+        ),
+        axios.get(`${endPointObj.url}/admin/top-ceos`),
+        axios.get(`${endPointObj.url}/job-seeker/top-10-viewed-companies`),
+      ]);
+      if (reviewsPDay.status === 200) {
+        setReviewsPerDay(reviewsPDay.data);
+      }
+      if (reviewedCompanies.status === 200) {
+        setTop5reviewedCompanies(reviewedCompanies.data);
+      }
+      if (avgRatedCompanies.status === 200) {
+        setTop5avgRatedCompanies(avgRatedCompanies.data);
+      }
+      if (jobseekerReviews.status === 200) {
+        setTop5jobseekerReviews(jobseekerReviews.data);
+      }
+      if (ceoRatings.status === 200) {
+        setTop10ceoRatings(ceoRatings.data);
+      }
+      if (viewedCompanies.status === 200) {
+        setTop10viewedCompanies(viewedCompanies.data);
+      }
     }
-    if (reviewedCompanies.status === 200) {
-      setTop5reviewedCompanies(reviewedCompanies.data);
-    }
-    if (avgRatedCompanies.status === 200) {
-      setTop5avgRatedCompanies(avgRatedCompanies.data);
-    }
-    if (jobseekerReviews.status === 200) {
-      setTop5jobseekerReviews(jobseekerReviews.data);
-    }
-    if (ceoRatings.status === 200) {
-      setTop10ceoRatings(ceoRatings.data);
-    }
-    if (viewedCompanies.status === 200) {
-      setTop10viewedCompanies(viewedCompanies.data);
-    }
+    fetchData();
   }, []);
   return (
     <div>

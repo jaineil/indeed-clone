@@ -115,7 +115,7 @@ export default function AdminHeader() {
                 }}
                 component={NavLink}
                 variant="h6"
-                to="/home"
+                to="/login"
                 className={styleClasses.linkText}
               >
                 Logout
