@@ -22,12 +22,20 @@ const companyDetailsSchema = new Schema({
 	companyLocation: {
 		city: { type: String },
 		state: { type: String },
-		street: {type: String},
+		street: { type: String },
 		zipcode: { type: String },
 		country: { type: String },
 	},
 	reviewCount: { type: Number, default: 0 },
-
+	workHappinessScore: {
+		type: Number,
+		default: Math.floor(Math.random() * 50) + 50,
+	},
+	learning: { type: Number, default: Math.floor(Math.random() * 50) + 50 },
+	appreciation: {
+		type: Number,
+		default: Math.floor(Math.random() * 50) + 50,
+	},
 	featuredReviews: [
 		{
 			reviewId: { type: mongoose.Schema.Types.ObjectId, ref: "review" },

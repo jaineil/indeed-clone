@@ -243,9 +243,8 @@ export default function Profile() {
         }
         else {
             const updateEmployerProfile = axios.put(endPointObj.url + "/employer/update-profile/", 
-                updateEmployer
-            );
-            const createCompanyProfile = axios.post(endPointObj.url + "/employer/createCompany/",
+                updateEmployer);
+            const createCompanyProfile = axios.post(endPointObj.url + "/employer/createCompany/", 
                 createCompany
             );
 

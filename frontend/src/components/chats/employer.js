@@ -13,6 +13,7 @@ import {
 	Image,
 } from "react-bootstrap";
 import Header from "../common/Header";
+import Navbar from "../employer/Navbar";
 import endPointObj from "../../endPointUrl";
 import axios from "axios";
 
@@ -118,7 +119,7 @@ const EmployerChats = () => {
 	}, []);
 	return (
 		<>
-			<Header />
+			<Navbar />
 			<Container
 				fluid
 				style={{ backgroundColor: "#f6f6f6" }}

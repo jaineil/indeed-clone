@@ -37,9 +37,9 @@ class JobController {
 				location: `${jobDetails.jobLocation.city}, ${jobDetails.jobLocation.state}, ${jobDetails.jobLocation.zip}`,
 				jobType: jobDetails.jobType,
 				salaryDetails: jobDetails.salary,
-				yourRole: jobDetails.responsibilites,
-				whyYouWillLoveWorking: jobDetails.whyUs,
-				skillsNeeded: jobDetails.requirements,
+				yourRole: jobDetails.jobDescription.description,
+				whyYouWillLoveWorking: jobDetails.jobDescription.whyUs,
+				skillsNeeded: jobDetails.jobDescription.requirements,
 			};
 
 			return this.responseGenerator(200, result);

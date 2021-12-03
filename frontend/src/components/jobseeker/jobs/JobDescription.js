@@ -2,11 +2,12 @@ import { Box, makeStyles, Typography } from "@material-ui/core";
 import React, { useReducer, useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
+//import { makeApplyRequest } from '../../Redux/JobApply/actions';
+//import { ApplyModal } from './JobApplyModal/ApplyModal';
+//import jobDetails from "./jobdetails";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import endPointObj from "../../../endPointUrl";
-import { getProfile, updateProfile } from "../../../_actions/jobseekerActions";
-import { resumesSelector } from "../../../_reducers/jobseekerReducer";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -55,7 +56,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function JobDescription({ jobData }) {
+<<<<<<< HEAD
 	const dispatch = useDispatch();
+=======
+>>>>>>> 84a47466cf644a1d22012d5118e2240f05cadda5
 	const classes = useStyles();
 	const {
 		companyName,
@@ -70,8 +74,12 @@ function JobDescription({ jobData }) {
 	console.log(JSON.stringify(jobData));
 	const { isAuth } = useSelector((state) => state.login);
 
+<<<<<<< HEAD
 	const mongoId = 1234567890;
 	const resumes = useSelector(resumesSelector);
+=======
+	const mongoId = useSelector((state) => state.login.user.mongoId);
+>>>>>>> 84a47466cf644a1d22012d5118e2240f05cadda5
 	const [jobDetails, setJobDetails] = useState();
 
 	useEffect(() => {
@@ -91,8 +99,22 @@ function JobDescription({ jobData }) {
 				}
 			});
 	}, []);
-
+  
+	//fetchjobdetails
 	console.log("Job details - jobdescription", jobDetails);
+
+	// const handleApply=()=>{
+	//     applied_job[jobId] = {
+	//         jobkey,
+	//         location,
+	//         companyName,
+	//         jobTitle,
+	//         dateSaved:new Date()
+	//     }
+	//     //dispatch(makeApplyRequest({user_id:id,saved_jobs,applied_job}))
+	//     setOpen(false)
+	//     forceUpdate()
+	// }
 	const hiddenFileInput = React.useRef(null);
 
 	const saveJob = (jobId, jobTitle, companyId, companyName) => {
@@ -113,6 +135,7 @@ function JobDescription({ jobData }) {
 				console.log("Error in un-save job: ", err);
 			});
 	};
+<<<<<<< HEAD
 
 	const applyJob = (e) => {
 		e.preventDefault();
@@ -164,6 +187,56 @@ function JobDescription({ jobData }) {
 								jobDetails.companyId
 							)}
 
+=======
+	const applyJob = (e) => {
+		e.preventDefault();
+		isAuth ? hiddenFileInput.current.click() : <Redirect to="/login" />;
+	};
+
+	const handleChange = (e) => {
+		e.preventDefault();
+		const fileUploaded = e.target.files[0];
+		const formData = new FormData();
+		formData.append("file", fileUploaded);
+		console.log("apply job request",formData, mongoId,jobId, jobDetails.companyId, companyName)
+		axios
+			.post(
+				`${endPointObj.url}/job-seeker/job-details/apply?jobSeekerId=${mongoId}&resumeName="Resume1"&jobId=${jobId}&companyId=${jobDetails.companyId}&companyName=${companyName}`,
+				formData,
+				{
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				}
+			)
+			.then((res) => {
+				console.log(res);
+				alert("Applied to the job!")
+				// if (res.status === 200) dispatch(getProfile(mongoId));
+			})
+			.catch((err) => {
+				console.log("Error while uploading Resume: ", err);
+			});
+	};
+	return (
+		<>
+			{jobDetails ? (
+				<Box className={classes.container}>
+					<div>
+						<Typography
+							className={classes.job_title}
+							style={{ marginBottom: "10px" }}
+						>
+							{jobTitle}
+						</Typography>
+						<Box style={{ marginBottom: "5px" }}>
+							{/* Setting up current company id in locastorage to make it access to company homepage. */}
+							{localStorage.setItem(
+								"currentcompanyid",
+								jobDetails.companyId
+							)}
+
+>>>>>>> 84a47466cf644a1d22012d5118e2240f05cadda5
 							<Link
 								to={{
 									pathname: "/companyHome",
