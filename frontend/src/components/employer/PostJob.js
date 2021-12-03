@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useStyles } from './Styles';
 import Navbar from './Navbar';
 import { Redirect } from 'react-router';
+import RedirectUnauthorized from './RedirectUnauthorized';
 
 import {
     Box,
@@ -22,7 +23,7 @@ import axios from "axios";
 
 export default function PostJob() {
     const classes = useStyles();
-    const [companyName, setCompanyName] = useState("");
+    const [companyName, setCompanyName] = useState(localStorage.getItem('companyProfile')? JSON.parse(localStorage.getItem('companyProfile')).companyName : "");
     const [jobTitle, setJobTitle] = useState("");
     const [industry, setIndustry] = useState("");
     const [workType, setWorkType] = useState("");
@@ -43,8 +44,8 @@ export default function PostJob() {
         e.preventDefault();
           try {
             const saveJobResponse = await axios.post(endPointObj.url+ "/employer/postJob", {
-                companyId : "61a2f3ec6b3a62effbe5f222",
-                employerId : "61a05844336330b63c02effd", //Needed?
+                companyId : localStorage.getItem('companyId'),
+                employerId : localStorage.getItem('employerId'),
                 companyName: companyName,
                 jobTitle : jobTitle,
                 industry : industry,
@@ -69,7 +70,7 @@ export default function PostJob() {
             console.log(saveJobResponse.status);
             if(saveJobResponse.status === 200){
                 console.log("Here");
-                setRedirectVar(<Redirect to="/jobs" />);
+                setRedirectVar(<Redirect to="/employer/jobs" />);
             }
         }
         catch (err) {
@@ -87,6 +88,7 @@ export default function PostJob() {
 
     return (
         <Container className={classes.registrationContent} maxWidth="xl">
+             <RedirectUnauthorized />
             {console.log("Redirect Var is :"+ redirectVar)}
             {redirectVar}
             <Navbar />
@@ -109,6 +111,7 @@ export default function PostJob() {
                                         style={{ width: '100%' }}
                                         required
                                         value = {companyName}
+                                        disabled='true'
                                         onChange = {(e) =>{ setCompanyName(e.target.value) }}
                                     />
                                 </Grid>

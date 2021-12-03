@@ -134,9 +134,8 @@ export default function Header() {
               </IconButton>
 
               <IconButton edge="start" color="inherit" aria-label="open drawer">
-                <NotificationsIcon />
-              </IconButton>
               <UserMenu />
+              </IconButton>
               <Typography
                 style={{ display: "flex", alignItems: "center" }}
                 component={NavLink}

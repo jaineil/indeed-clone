@@ -22,6 +22,7 @@ const companyDetailsSchema = new Schema({
 	companyLocation: {
 		city: { type: String },
 		state: { type: String },
+		street: {type: String},
 		zipcode: { type: String },
 		country: { type: String },
 	},

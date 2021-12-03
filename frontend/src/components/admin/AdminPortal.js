@@ -5,15 +5,16 @@ import { Typography, Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink as HeaderNavLink,
-  Row,
-  Col,
-  Container,
+	TabContent,
+	TabPane,
+	Nav,
+	NavItem,
+	NavLink as HeaderNavLink,
+	Row,
+	Col,
+	Container,
 } from "reactstrap";
+import { Card } from "react-bootstrap";
 import classnames from "classnames";
 import { Link, NavLink } from "react-router-dom";
 import AdminHeader from "./AdminHeader";
@@ -22,6 +23,9 @@ import theme from "../common/MenuTheme";
 import endPointObj from "../../endPointUrl";
 import { Analytics } from "./components/Analytics";
 import { Companies } from "./components/Companies";
+import ReviewTab from "./ReviewTab";
+import PhotoTab from "./PhotoTab";
+
 export const AdminPortal = () => {
   const classes = useStyles();
   const [activeTab, setActiveTab] = useState("1");
@@ -178,11 +182,13 @@ export const AdminPortal = () => {
                   <Row className={classes.row}>
                     <Col className={classes.col}>Reviews</Col>
                   </Row>
+				  <ReviewTab />
                 </TabPane>
                 <TabPane tabId="4">
                   <Row className={classes.row}>
                     <Col className={classes.col}>Photos</Col>
                   </Row>
+				  <PhotoTab />
                 </TabPane>
               </TabContent>
             </Col>
