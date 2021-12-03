@@ -2,6 +2,10 @@ import { make_request } from "../../../../kafka/client.js";
 import JobSeekerApplications from "../../../db/models/mongo/jobSeekerApplications.js";
 import Jobs from "../../../db/models/mongo/jobs.js";
 import mongoose from "mongoose";
+import fs from "fs";
+import multiparty from "multiparty";
+import fileType from "file-type";
+import uploadFile from "../../../db/config/s3_config.js";
 
 export class JobApplicationController {
 	apply = async (req, res) => {
@@ -9,22 +13,46 @@ export class JobApplicationController {
 			"Inside job-application controller, about to make Kafka request"
 		);
 
-		const message = {};
-		message.body = req.body;
-		message.path = req.path;
+		const { jobSeekerId, resumeName } = req.query;
+		const form = new multiparty.Form();
 
-		make_request("job-application", message, (err, results) => {
-			if (err) {
-				console.error(err);
-				res.json({
-					status: "Error",
-					msg: "System error, try again",
-				});
+		form.parse(req, async (error, fields, files) => {
+			if (error) {
+				console.error(error);
+				return res.status(500).send("Could not parse resume file");
 			} else {
-				console.log("Applied to a job with kafka-backend");
-				console.log(results);
-				res.json(results);
-				res.end();
+				console.log(files);
+				const path = files.file[0].path;
+				const buffer = fs.readFileSync(path);
+				const type = await fileType.fromBuffer(buffer);
+				const fileName = `resume/${jobSeekerId}/${resumeName}`;
+				const s3res = await uploadFile(buffer, fileName, type);
+
+				if (s3res) {
+					const resumeUrl = s3res.Location;
+					const message = {};
+					message.body = {
+						resumeUrl: resumeUrl,
+						resumeName: resumeName,
+						jobSeekerId: jobSeekerId,
+					};
+					message.path = req.path;
+
+					make_request("job-application", message, (err, results) => {
+						if (err) {
+							console.error(err);
+							res.json({
+								status: "Error",
+								msg: "System error, try again",
+							});
+						} else {
+							console.log("Applied to a job with kafka-backend");
+							console.log(results);
+							res.json(results);
+							res.end();
+						}
+					});
+				}
 			}
 		});
 	};
@@ -133,7 +161,7 @@ export class JobApplicationController {
 		try {
 			const jobs = await Jobs.find(
 				{ companyId: req.params.companyId },
-				{ _id: 1 }
+				{ _id: 1, jobTitle: 1 }
 			);
 			let response = [];
 			let numberOfApplicants;
@@ -141,8 +169,10 @@ export class JobApplicationController {
 			let numberRejected;
 			let resp;
 			let jobId;
+			let jobTitle;
 			for (let i = 0; i < jobs.length; i++) {
 				jobId = jobs[i]._id;
+				jobTitle = jobs[i].jobTitle;
 				numberOfApplicants = await JobSeekerApplications.aggregate([
 					{
 						$match: {
@@ -189,6 +219,7 @@ export class JobApplicationController {
 				response.push({
 					...resp,
 					jobId: jobId,
+					jobTitle: jobTitle,
 				});
 			}
 			res.status(200).send(response);

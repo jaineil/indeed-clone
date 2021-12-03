@@ -31,7 +31,7 @@ export class EmployerController {
 			city,
 			state,
 			country,
-			zip,
+			zipcode,
 		} = req.body;
 
 		const companyLocation = {
@@ -40,7 +40,7 @@ export class EmployerController {
 			city: city,
 			state: state,
 			country: country,
-			zip: zip,
+			zipcode: zipcode,
 		};
 
 		const update = {

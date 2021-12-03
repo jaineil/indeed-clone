@@ -23,18 +23,14 @@ export const registerReducer = (state=initState,{type,payload})=>{
             ...state,
             isError:true,
             isLoading:false,
-            errorMsg:payload
-        }
-        case REGISTER_FAILURE: return {
-            ...state,
-            isError:true,
-            isLoading:false,
+            success:false,
             errorMsg:payload
         }
         case USER_ALREADY_EXISTS: return {
             ...state,
             isError:true,
             isLoading:false,
+            success:false,
             userAlreadyExistsMsg:payload
         }
         default: return state

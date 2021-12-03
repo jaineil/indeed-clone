@@ -31,9 +31,10 @@ class CompanyController {
 	};
 
 	postFeaturedReview = async (req, res) => {
+		console.log(req.body);
 		try {
 			const response = await CompanyDetails.updateOne(
-				{ companyId: req.body.companyId },
+				{ _id: req.body.companyId },
 				{ $push: { featuredReviews: { reviewId: req.body.reviewId } } }
 			);
 			res.status(200).send(response);

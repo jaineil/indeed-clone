@@ -1,10 +1,4 @@
-import {
-	Box,
-	Button,
-	Grid,
-	Typography,
-	OutlinedInput,
-} from "@material-ui/core";
+import { Box, Button, Grid, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,8 +8,6 @@ import {
 } from "../../../_actions/jobSearchActions";
 import { useHistory } from "react-router-dom";
 import SearchInput from "./SearchInput";
-import axios from "axios";
-import endPointObj from "../../../endPointUrl";
 
 const useStyles = makeStyles((theme) => ({
 	input: {
@@ -60,22 +52,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //Load search data
-function loadData(key) {
-	let data = window.localStorage.getItem(key);
-	data = JSON.parse(data);
-	return data;
-}
+// function loadData(key) {
+// 	let data = window.localStorage.getItem(key);
+// 	data = JSON.parse(data);
+// 	return data;
+// }
 
-function saveData(key, data) {
-	window.localStorage.setItem(key, JSON.queryStringingify(data));
-}
-{
-	/* <InputGrid setValue={setJob} value={job} label={'What?'} 
-    placeholder={'City, state, or pin code'} classes={classes}
-    options={job !== "" ?jobOptions:null}
-    setError = {setError}
-/> */
-}
+// function saveData(key, data) {
+// 	window.localStorage.setItem(key, JSON.queryStringingify(data));
+// }
 
 function InputGrid({
 	label,
@@ -107,13 +92,7 @@ function SearchJobForm(props) {
 	const classes = useStyles();
 	const [job, setJob] = useState("");
 	const [location, setLocation] = useState("San Jose");
-	const jobOptions = [
-		"Software Developer",
-		"Software development engineer",
-		"Data scientist",
-		"Data Engineer",
-		"Software Tester",
-	];
+	const jobOptions = [];
 	const locationOptions = [
 		"San Jose",
 		"San Francisco",
@@ -122,7 +101,6 @@ function SearchJobForm(props) {
 	];
 	const history = useHistory();
 	const [error, setError] = useState(false);
-	const [suggestion, setSuggestion] = useState("");
 	let searchedJobs = useSelector((state) => state.search.searchedJobs);
 
 	const handleSearch = (e) => {
@@ -148,48 +126,18 @@ function SearchJobForm(props) {
 		// console.log(queryString,"queryString")
 	};
 
-	const fetchJobSuggestionsHandler = (e) => {
-		setJob(e.target.value);
-		const searchQuery = e.target.value;
-		console.log("Checking => ", searchQuery);
-		if (job.length + 1 >= 3) {
-			axios.get(
-				endPointObj.url + "/job-seeker/search-suggestions",
-				{
-					params: {
-						searchQuery: searchQuery,
-					},
-				}
-					.then((response) => {
-						console.log("Get suggestion response", response.data);
-					})
-					.catch((error) => {
-						if (error.response && error.response.data) {
-							console.log("error", error.response);
-						}
-					})
-			);
-		}
-	};
-	console.log("Checking => ", suggestion);
 	return (
 		<>
 			<form onSubmit={handleSearch} lassName={classes.searchForm}>
 				<Grid container spacing={1}>
-					{/* <OutlinedInput type ="text" setValue={setJob} value={job} label={'What?'}
-                        placeholder={'Job title, keywords, or company'} classes={classes}
-                        options={job !== "" ? jobOptions : null}
-                        onChange={fetchJobSuggestionsHandler}
-                        setError={setError}
-                    /> */}
-
-					<OutlinedInput
-						type="text"
-						className={classes.borderlinedInput}
-						required
-						style={{ width: "500px" }}
-						onInput={fetchJobSuggestionsHandler}
+					<InputGrid
+						setValue={setJob}
 						value={job}
+						label={"What?"}
+						placeholder={"Job title, keywords, or company"}
+						classes={classes}
+						options={job !== "" ? jobOptions : null}
+						setError={setError}
 					/>
 
 					<InputGrid

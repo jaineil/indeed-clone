@@ -19,42 +19,28 @@ class JobSeekerApplicationController {
 							url: data.resumeUrl,
 							name: data.resumeName,
 						},
-						coverLetters: {
-							url: data.coverLetterUrl,
-							name: data.coverLetterName,
-						},
 					},
 				}
 			);
-			console.log("Added resume and cover letter to job seeker details");
+			console.log("Added resume to job seeker details");
 		} catch (err) {
-			console.error("Error when updating job seeker resumes ", err);
+			console.error("Error when updating job seeker resumeUrl ", err);
 		}
 
 		let resumeId;
-		let coverLetterId;
 
 		try {
 			const lastUsedResume = await JobSeekerDetails.findOne(
 				{ _id: data.jobSeekerId },
 				{ resumes: { $slice: -1 } }
 			);
-			const lastUsedCoverLetter = await JobSeekerDetails.findOne(
-				{ _id: data.jobSeekerId },
-				{ coverLetters: { $slice: -1 } }
-			);
 
 			resumeId = lastUsedResume.resumes[0].id;
-			coverLetterId = lastUsedCoverLetter.coverLetters[0].id;
 
-			console.log(
-				"Fetched resumeId and coverLetterId ",
-				resumeId,
-				coverLetterId
-			);
+			console.log("Fetched resumeId ", resumeId);
 		} catch (err) {
 			console.error(
-				"Error when fetching latest resume/cover letter details ",
+				"Error when fetching latest resume letter details ",
 				err
 			);
 		}
@@ -69,11 +55,6 @@ class JobSeekerApplicationController {
 				resumeId: resumeId,
 				url: data.resumeUrl,
 				name: data.resumeName,
-			},
-			coverLetter: {
-				coverLetterId: coverLetterId,
-				url: data.coverLetterUrl,
-				name: data.coverLetterName,
 			},
 		});
 
