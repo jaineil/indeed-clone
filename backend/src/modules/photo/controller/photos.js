@@ -46,9 +46,31 @@ class PhotoController {
 		try {
 			let photos = [];
 			if (req.query.filter) {
-				photos = await CompanyPhotos.find({
-					isPhotoApprovedByAdmin: req.query.filter,
-				});
+				photos = await CompanyPhotos.aggregate([
+					{
+						$match: {
+							isPhotoApprovedByAdmin: req.query.filter,
+						},
+					},
+					{
+						$lookup: {
+							from: "companydetails",
+							localField: "companyId",
+							foreignField: "_id",
+							as: "companyDetails",
+						},
+					},
+					{
+						$project: {
+							_id: 1,
+							jobSeekerId: 1,
+							companyId: 1,
+							companyPhotoUrl: 1,
+							isPhotoApprovedByAdmin: 1,
+							"companyDetails.companyName": 1,
+						},
+					},
+				]);
 			} else {
 				console.log("in else");
 				photos = await CompanyPhotos.find({});

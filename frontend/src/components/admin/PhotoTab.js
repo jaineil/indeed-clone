@@ -44,7 +44,9 @@ const PhotoTab = () => {
 			<Card style={{ width: "800px" }} className="my-3">
 				<Card.Header>
 					<Row>
-						<Col>Company: {photo.companyId}</Col>
+						<Col>
+							Company: {photo.companyDetails[0].companyName}
+						</Col>
 						<Col>Status: {photo.isPhotoApprovedByAdmin}</Col>
 					</Row>
 				</Card.Header>
