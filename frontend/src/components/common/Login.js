@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { 
     Box, 
     Container, 
@@ -92,9 +91,12 @@ export function Login() {
     const classes = useStyles();
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
+    const[err, setError] = useState("");
     const dispatch = useDispatch();
+   
     const onEmailChange = (e) => {
         setEmail(e.target.value)
+        // errMsg state: clear
     }
 
     const onPasswordChange = (e) => {
@@ -103,7 +105,11 @@ export function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(makeLoginRequest({emailId:email,pass:password}))
+        dispatch(makeLoginRequest({emailId:email,pass:password}));
+        console.log("isAuth", isAuth);
+        if(isAuth === false) {
+            setError("Username and password is not valid!")
+        }
     }
     localStorage.setItem("userEmailId", user.emailId);
     localStorage.setItem("role", user.userPersona);
@@ -134,17 +140,12 @@ export function Login() {
                             <FormHelperText className = {classes.formhelperText}>Password</FormHelperText>
                             <OutlinedInput  className = {classes.borderlinedInput} onChange = { onPasswordChange } value = { password } required type = "password" variant="outlined"/>
                             <br/><br/>
-                            <div style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
-                            {
-                                isLoading?<CircularProgress disableShrink />:<></>
-                            }
-                            </div>
-                            {isError ? 
+                            
                             <Box style={{cursor: "pointer",color: "#bb0707", fontSize: "15px"}}>
-                                <b>{errorMsg}</b>
-                            </Box> : <></>}
+                                <b>{err}</b>
+                            </Box> 
                             <br/>
-                            <SignInButton type = "submit" className = {classes.loginButton} variant = "contained" disabled={isLoading}>
+                            <SignInButton type = "submit" className = {classes.loginButton} variant = "contained">
                                 Sign In
                             </SignInButton>
                             
@@ -168,7 +169,8 @@ export function Login() {
                     </Grid>
                 </Grid>
             </Box>
-        </Container> : (user.userPersona === "jobseeker") ? <Redirect to="/home" /> : ((user.userPersona === "EMPLOYER")) ? <Redirect to="/employer" /> : <Redirect to="/admin" />
+        </Container> : 
+            (user.userPersona === "JOB_SEEKER") ? <Redirect to="/home" /> : ((user.userPersona === "EMPLOYER")) ? <Redirect to="/employer" /> : ((user.userPersona === "ADMIN"))? <Redirect to="/admin" /> :<Redirect to="/login" /> 
     )   
 }
 export default Login;

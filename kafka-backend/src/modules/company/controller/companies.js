@@ -116,19 +116,20 @@ class CompanyController {
 		const companyId = data.companyId;
 
 		try {
-			const salaries = await JobRecords.aggregate([
-				{
-					$match: {
-						companyId: companyId,
-					},
-				},
-				{
-					$project: {
-						jobTitle: 1,
-						salary: 1,
-					},
-				},
-			]);
+			const salaries = await JobRecords.find({companyId: companyId}, {jobTitle: 1, salary: 1})
+			// const salaries = await JobRecords.aggregate([
+			// 	{
+			// 		$match: {
+			// 			companyId: companyId,
+			// 		},
+			// 	},
+			// 	{
+			// 		$project: {
+			// 			jobTitle: 1,
+			// 			salary: 1,
+			// 		},
+			// 	},
+			// ]);
 			console.log(salaries);
 			return this.responseGenerator(200, salaries);
 		} catch (err) {

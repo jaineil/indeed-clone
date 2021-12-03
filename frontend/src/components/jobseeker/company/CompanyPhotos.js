@@ -3,10 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import endPointObj from '../../../endPointUrl.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-
-
-
 import {
     Container,
     Input,
@@ -150,7 +146,7 @@ export function CompanyPhotos(props) {
     
 
       useEffect(() => {
-        console.log("Inside get company salaries");
+        console.log("Inside get company photos");
 
         axios.get(`${endPointObj.url}/job-seeker/get-company-photos/${companyId}`)
             .then(response => {
