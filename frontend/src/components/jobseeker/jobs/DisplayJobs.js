@@ -146,7 +146,7 @@ function DisplayJobs(props) {
 				<SearchJobForm /> <br />
 				{isLoading ? (
 					<></>
-				) : jobs.length ? (
+				) : jobs ? (
 					<>
 						<Box className={classes.greyText}>
 							<b>Jobs in {location}</b>

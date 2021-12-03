@@ -58,12 +58,8 @@ export class JobSeekerController {
 			const update = {
 				firstName,
 				lastName,
-				profilePicture,
-				resumes,
-				coverLetters,
 				contactNumber,
 				address,
-				savedJobs,
 			};
 			const result = await JobSeekerDetails.findByIdAndUpdate(
 				jobseekerId,

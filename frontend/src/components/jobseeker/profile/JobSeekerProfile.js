@@ -389,7 +389,7 @@ const ContactInformation = () => {
                   e.preventDefault();
                   setCity(e.target.value);
                 }}
-                value={contactNumber}
+                value={city}
               />
               <TextField
                 variant="outlined"
@@ -399,7 +399,7 @@ const ContactInformation = () => {
                   e.preventDefault();
                   setState(e.target.value);
                 }}
-                value={contactNumber}
+                value={state}
               />
               <Button type="submit" className={classes.saveButton}>
                 Save
