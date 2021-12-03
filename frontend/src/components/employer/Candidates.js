@@ -174,6 +174,7 @@ export default function Candidates(props) {
         const response = await axios.post(
             `${endPointObj.url}/employer/send-first-message`, data
         );
+        alert("chat sent!")
         handleChatClose();
         console.log(response)
 
