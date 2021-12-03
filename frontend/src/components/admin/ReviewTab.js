@@ -18,6 +18,30 @@ const ReviewTab = () => {
 		}
 	};
 
+	const updateReviewStatus = async (e) => {
+		try {
+			// const response = await axios.put(`${endPointObj.url}/admin/update-review`, {
+			// 	companyId:
+			// })
+			const payload = {
+				reviewId: e.target.id,
+				companyId: e.target.name,
+				status:
+					e.target.innerText === "Accept review"
+						? "ACCEPTED"
+						: "REJECTED",
+			};
+			const response = await axios.put(
+				`${endPointObj.url}/admin/update-review`,
+				payload
+			);
+			console.log(response);
+			getNewReviews();
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	const createReviewCard = (review) => {
 		return (
 			<Card style={{ width: "1000px" }} className="my-3">
@@ -32,7 +56,6 @@ const ReviewTab = () => {
 					<Card.Text>{review.reviewBody}</Card.Text>
 					<Card.Text>
 						<b>Pros: </b>
-						{console.log("Review: ", review)}
 						{review.pros.join()}
 					</Card.Text>
 					<Card.Text>
@@ -55,14 +78,28 @@ const ReviewTab = () => {
 						<b>Unhelpful count: </b>
 						{review.reviewNotHelpfulCount}
 					</Card.Text>
-					<Button>Accept review</Button>
-					<Button className="mx-5">Reject review</Button>
+					<Button
+						id={review._id}
+						name={review.companyId}
+						onClick={updateReviewStatus}
+					>
+						Accept review
+					</Button>
+					<Button
+						id={review._id}
+						name={review.companyId}
+						onClick={updateReviewStatus}
+						className="mx-5"
+					>
+						Reject review
+					</Button>
 				</Card.Body>
 			</Card>
 		);
 	};
 
 	const [reviews, setReviews] = useState([]);
+	console.log("Rendering: ", reviews);
 	useEffect(() => {
 		getNewReviews();
 	}, []);
