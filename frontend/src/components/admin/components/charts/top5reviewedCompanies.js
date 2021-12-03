@@ -31,7 +31,7 @@ export const Top5ReviewedCompaniesChart = ({ companies }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: "right",
+        position: "bottom",
       },
       title: {
         display: true,

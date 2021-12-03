@@ -31,11 +31,11 @@ export const Top10CompaniesViewedChart = ({ companies }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: "right",
+        position: "bottom",
       },
       title: {
         display: true,
-        text: "Top 10 Viewed Companies",
+        text: "Top 10 Companies (Views)",
       },
     },
   };

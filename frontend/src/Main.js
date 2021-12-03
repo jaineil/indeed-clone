@@ -22,6 +22,7 @@ import myReviews from "./components/jobseeker/activity/myReviews/MyReviews";
 import JobSeekerChats from "./components/chats/jobSeeker";
 import EmployerChats from "./components/chats/employer";
 import { AdminPortal } from "./components/admin/AdminPortal";
+import { CompanyStats } from "./components/admin/components/CompanyStats";
 import employerReport from "./components/employer/Report";
 
 class Main extends Component {
@@ -54,6 +55,7 @@ class Main extends Component {
         <Route path="/companyjobs" component={CompanyJobs} />
         <Route path="/companyReviews" component={CompanyReviews} />
         <Route path="/admin" component={AdminPortal} />
+        <Route path="/companystats" component={CompanyStats} />
       </div>
     );
   }

@@ -31,7 +31,7 @@ export const Top10CeoRatingsChart = ({ ceos }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: "right",
+        position: "bottom",
       },
       title: {
         display: true,

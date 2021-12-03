@@ -11,7 +11,7 @@ import {
 import { Bar } from "react-chartjs-2";
 // import faker from "faker";
 
-export const Top5AvgRatedCompaniesChart = ({ companies }) => {
+export const ReviewsPerDayChart = ({ reviews }) => {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -35,12 +35,12 @@ export const Top5AvgRatedCompaniesChart = ({ companies }) => {
       },
       title: {
         display: true,
-        text: "Top 5 Companies (Ratings)",
+        text: "Reviews Per Day",
       },
     },
   };
 
-  const labels = companies.map((company) => {
+  const labels = reviews.map((company) => {
     return company.companyName;
   });
 
@@ -48,8 +48,8 @@ export const Top5AvgRatedCompaniesChart = ({ companies }) => {
     labels,
     datasets: [
       {
-        label: "Ratings",
-        data: companies.map((company) => {
+        label: "Reviews",
+        data: reviews.map((company) => {
           return company.averageRating;
         }),
         borderColor: "rgb(255, 99, 132)",

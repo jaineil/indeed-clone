@@ -8,6 +8,7 @@ export const useStyles = makeStyles((theme) => ({
     paddingTop: "10px",
     paddingLeft: "25px",
     paddingRight: "15px",
+    minHeight: "90vh",
   },
   flex: {
     display: "flex",
