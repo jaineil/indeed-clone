@@ -191,7 +191,8 @@ const CompanyCard = ({ jobTitle, location, topCompanies }) => {
                     >
                       <Link
                         to={{
-                          pathname: "/companyHome",
+                          pathname: "/companyhome",
+                          state: { companyId: company._id },
                         }}
                         style={{ textDecoration: "none" }}
                       >{`${company.companyName}`}</Link>

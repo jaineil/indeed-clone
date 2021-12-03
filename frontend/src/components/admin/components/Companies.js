@@ -54,15 +54,15 @@ export const Companies = () => {
   const searchChange = (e) => {
     e.preventDefault();
     setSearchName(e.target.value);
-    console.log({ searchName });
-    if (searchName === "") {
-      setFilteredCompanies(companies);
-    } else {
-      const searchedCompanies = companies.filter((company) =>
-        company.companyName.includes(searchName)
-      );
-      setFilteredCompanies(searchedCompanies);
-    }
+    // console.log({ searchName });
+    // if (searchName === "") {
+    //   setFilteredCompanies(companies);
+    // } else {
+    //   const searchedCompanies = companies.filter((company) =>
+    //     company.companyName.includes(searchName)
+    //   );
+    //   setFilteredCompanies(searchedCompanies);
+    // }
   };
   const handleSearch = (e) => {
     e.preventDefault();

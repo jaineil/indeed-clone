@@ -1,26 +1,19 @@
-import React, { useReducer, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ThemeProvider } from "@material-ui/core";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import { Typography, Button } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import {
-	TabContent,
-	TabPane,
-	Nav,
-	NavItem,
-	NavLink as HeaderNavLink,
-	Row,
-	Col,
-	Container,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink as HeaderNavLink,
+  Row,
+  Col,
 } from "reactstrap";
-import { Card } from "react-bootstrap";
 import classnames from "classnames";
-import { Link, NavLink } from "react-router-dom";
 import AdminHeader from "./AdminHeader";
 import { useStyles } from "./Styles";
 import theme from "../common/MenuTheme";
-import endPointObj from "../../endPointUrl";
 import { Analytics } from "./components/Analytics";
 import { Companies } from "./components/Companies";
 import ReviewTab from "./ReviewTab";
@@ -179,16 +172,26 @@ export const AdminPortal = () => {
                   <Companies />
                 </TabPane>
                 <TabPane tabId="3">
-                  <Row className={classes.row}>
-                    <Col className={classes.col}>Reviews</Col>
-                  </Row>
-				  <ReviewTab />
+                  {/* <Row className={classes.row}>
+                    <Col className={classes.col}>
+                      
+                    </Col>
+                  </Row> */}
+                  <h3 style={{ color: "#05164d" }}>
+                    <em>Reviews</em>
+                  </h3>
+                  <ReviewTab />
                 </TabPane>
                 <TabPane tabId="4">
-                  <Row className={classes.row}>
-                    <Col className={classes.col}>Photos</Col>
-                  </Row>
-				  <PhotoTab />
+                  {/* <Row className={classes.row}>
+                    <Col className={classes.col}>
+                      
+                    </Col>
+                  </Row> */}
+                  <h3 style={{ color: "#05164d" }}>
+                    <em>Photos</em>
+                  </h3>
+                  <PhotoTab />
                 </TabPane>
               </TabContent>
             </Col>
