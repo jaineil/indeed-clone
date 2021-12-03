@@ -14,7 +14,6 @@ import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
 import endPointObj from '../../../endPointUrl.js';
-import featureReviewDetails from './featuredReviewDetails.js';
 import {FeatureReviewCard} from './FeatureReviewCard';
 
 const useStyle = makeStyles((theme) => ({
@@ -47,6 +46,8 @@ export function CompanyHome(props) {
     const query = new URLSearchParams(props.location.search);
     const id = query.get('id')
     const [companyDetails, setCompany] = useState([]);
+    const [topFeaturedReview, setFeaturedReview] = useState([]);
+
     const companyId = localStorage.getItem("currentcompanyid")
 
 
@@ -56,6 +57,11 @@ export function CompanyHome(props) {
             .then(response => {
                 console.log("Get company details response", response.data.response);
                 setCompany(response.data.response);
+                let topFeaturedReview = [];
+                for(var i = 0; i < 5; i++) {
+                    topFeaturedReview.push(response.data.response.featuredReviews[i]);
+                }
+                setFeaturedReview(topFeaturedReview)
             })
             .catch(err => {
                 if (err.response && err.response.data) {
@@ -64,12 +70,9 @@ export function CompanyHome(props) {
             });
     }, []);
 
-    let topFeaturedReview = [];
-    for(var i = 0; i < 5; i++) {
-        topFeaturedReview.push(featureReviewDetails[i]);
-    }
 
-    console.log("Featured review details", topFeaturedReview);
+    console.log(topFeaturedReview);
+
 
     //fetch company id by localstorage
 
@@ -196,7 +199,6 @@ export function CompanyHome(props) {
 
                     <Grid container spacing={10} style={{ marginTop: "30px", marginBottom: "50px",marginLeft: '210px' }}>
                         {
-                        
                         topFeaturedReview.map((item) => {
                                 return (    
                                     <FeatureReviewCard

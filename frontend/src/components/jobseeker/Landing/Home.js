@@ -8,6 +8,7 @@ import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
 import { useDispatch, useSelector } from 'react-redux';
+import RedirectUnauthorized from '../RedirectUnauthorized';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -32,8 +33,9 @@ function Home() {
     console.log("isauth home", isAuth);
     console.log("Login user data: home", user);
     return (
-        isAuth ?
+        
         <ThemeProvider theme={theme}>
+            <RedirectUnauthorized />
             <Header />
             <hr />
             <Container className={styleClasses.container}>
@@ -50,7 +52,7 @@ function Home() {
                 </div>
             </Container>
             <hr />
-        </ThemeProvider> :  <Redirect to="/login" />
+        </ThemeProvider>
     );
 }
 

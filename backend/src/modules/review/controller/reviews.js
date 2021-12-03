@@ -27,7 +27,7 @@ class ReviewController {
 					pros: req.body.pros,
 					cons: req.body.cons,
 					ceoApprovalRating: parseInt(req.body.ceoApprovalRating),
-					interviewTips: req.body.interviewPrepTips,
+					interviewTips: req.body.interviewTips,
 					companyLocation: companyDetails.companyLocation,
 					categoricalRating: req.body.categoricalRating,
 				});
@@ -83,11 +83,24 @@ class ReviewController {
 				response.push({
 					jobSeekerId: companyReviews[i].jobSeekerId,
 					reviewId: companyReviews[i].id,
+					companyId: companyReviews[i].companyId,
+					companyName: companyReviews[i].companyName,
 					overallCompanyRatingByReviewer:
 						companyReviews[i].overallCompanyRatingByReviewer,
 					reviewerRole: companyReviews[i].reviewerRole,
 					reviewTitle: companyReviews[i].reviewTitle,
 					reviewBody: companyReviews[i].reviewBody,
+					pros: companyReviews[i].pros,
+					cons: companyReviews[i].cons,
+					ceoApprovalRating: companyReviews[i].ceoApprovalRating,
+					interviewTips: companyReviews[i].interviewTips,
+					companyLocation: companyReviews[i].companyLocation,
+					reviewHelpfulCount: companyReviews[i].reviewHelpfulCount,
+					reviewNotHelpfulCount:
+						companyReviews[i].reviewNotHelpfulCount,
+					categoricalRating: companyReviews[i].categoricalRating,
+					isReviewApprovedByAdmin:
+						companyReviews[i].isReviewApprovedByAdmin,
 					featuredReview: featuredReviews.includes(
 						companyReviews[i].id
 					),
