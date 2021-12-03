@@ -13,6 +13,8 @@ import CompanyHeader from './CompanyHeader';
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
+import endPointObj from '../../../endPointUrl.js';
+
 
 
 const useStyle = makeStyles((theme) => ({
@@ -46,10 +48,28 @@ export function CompanyHome(props) {
     const id = query.get('id')
     const dispatch = useDispatch()
     const { isAuth } = useSelector(state => state.login)
+    const [company, setCompany] = useState([]);
+    const companyId = localStorage.getItem("currentcompanyid")
+
 
     //Call Company snapshot API
+
+    useEffect(() => {
+        console.log("Company details: ", props.location.state.company);
+        console.log("Inside get company home");
+        axios.get(`${endPointObj.url}/job-seeker/company-home/${companyId}`)
+            .then(response => {
+                console.log("Get company details response", response.data.response);
+                setCompany(response.data.response);
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log("Error", err.response);
+                }
+            });
+    }, []);
+
     //fetch company id by localstorage
-    console.log("Company details: ", companyDetails);
 
     return (
 

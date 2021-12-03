@@ -99,7 +99,7 @@ export const AddCompanySalaryModal = ({ open, handleClose }) => {
       jobEndDate: jobEndDate,
       jobTitle:jobTitle,
       jobLocation : { city: jobCity, state: jobState},
-      annualSalary: annualSalary,
+      salary: annualSalary,
       yearsOfExperience: yearsOfExperience,
       benefits : {
         paidTimeoff: paidTimeof,
@@ -234,7 +234,7 @@ export const AddCompanySalaryModal = ({ open, handleClose }) => {
 
             <Grid item>
               <label style={{ display: "block" }}>
-                What’s your company name?
+                What’s your job title?
               </label>
               <OutlinedInput type="text" className={classes.borderlinedInput} required style={{ width: '500px' }}
                 onChange={onJobTitleChange} value={jobTitle} />
@@ -293,7 +293,7 @@ export const AddCompanySalaryModal = ({ open, handleClose }) => {
             </Grid>  
               
             {/* <UploadForm /> */}
-            <Button type="submit" color='primary' style={{ marginRight: '30px', marginLeft: '100px', backgroundColor: 'rgb(37, 87, 167)', color: '#ffffff' }}>Post Review</Button>
+            <Button type="submit" color='primary' style={{ marginRight: '30px', marginLeft: '100px', backgroundColor: 'rgb(37, 87, 167)', color: '#ffffff' }}>Post Salary</Button>
             <Button variant='outlined' onClick={handleClose}>cancel</Button>
           </form>
 
