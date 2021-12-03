@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     background: "#2d2d2d",
     boxSizing: "border-box",
-    paddingBottom: "15px",
+    paddingBottom: "10px",
   },
   toolbar: {
     minHeight: "45px",
@@ -45,10 +45,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "5px",
   },
   header_right: {
-    marginTop: "11px",
-    display: "flex",
-    width: "250px",
-    justifyContent: "flex-end",
+    cursor: "pointer",
+    color: "white",
+    margin: "10px",
+    padding: "10px",
+    "&:hover": {
+      color: "black",
+      background: "white",
+    },
   },
   link: {
     marginTop: "11px",
@@ -72,6 +76,10 @@ const useStyles = makeStyles((theme) => ({
 export default function AdminHeader() {
   const styleClasses = useStyles();
 
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
   return (
     <div className={styleClasses.root}>
       <AppBar
@@ -107,16 +115,14 @@ export default function AdminHeader() {
                 <em style={{ color: "white" }}>for admin</em>
               </p>
             </Box>
-            <Box className={styleClasses.header_right}>
+            <Box className={styleClasses.header_right} onClick={handleLogout}>
               <Typography
                 style={{
-                  display: "flex",
                   alignItems: "center",
+                  cursor: "pointer",
                 }}
-                component={NavLink}
+                component="div"
                 variant="h6"
-                to="/login"
-                className={styleClasses.linkText}
               >
                 Logout
                 <ExitToAppIcon style={{ marginLeft: "10px" }} />

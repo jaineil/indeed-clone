@@ -20,7 +20,10 @@ import Header from "../../../common/Header";
 import { useStyles } from "./Styles";
 import theme from "../../../common/MenuTheme";
 import { getProfile } from "../../../../_actions/jobseekerActions";
-import { savedJobsSelector } from "../../../../_reducers/jobseekerReducer";
+import {
+  savedJobsSelector,
+  appliedJobsSelector,
+} from "../../../../_reducers/jobseekerReducer";
 import endPointObj from "../../../../endPointUrl";
 import JobDescription from "../../jobs/JobDescription";
 
@@ -29,12 +32,12 @@ const MyJobs = () => {
   const classes = useStyles();
   const mongoId = useSelector((state) => state.login.user.mongoId);
   const savedJobs = useSelector(savedJobsSelector);
-  const appliedJobs = useSelector(savedJobsSelector);
+  const appliedJobs = useSelector(appliedJobsSelector);
 
   const [activeTab, setActiveTab] = useState("1");
   const [show, setShow] = useState(false);
   const [curJobId, setCurJobId] = useState("");
-  const {isAuth} = useSelector(state=>state.login);
+  const { isAuth } = useSelector((state) => state.login);
 
   const unsaveJob = (jobId) => {
     const body = {
@@ -58,8 +61,15 @@ const MyJobs = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      {isAuth ? (<Header />): <><br/><br/></> }
-			<br/>
+      {isAuth ? (
+        <Header />
+      ) : (
+        <>
+          <br />
+          <br />
+        </>
+      )}
+      <br />
       <hr />
       <div className={classes.jobsParent}>
         <div className={classes.headerWrapper}>
@@ -128,13 +138,6 @@ const MyJobs = () => {
                                 {job.jobTitle}
                               </Typography>
                               <div className={classnames(classes.flex)}>
-                                {/* <Button
-                                  variant="contained"
-                                  type="button"
-                                  className={classes.applyNow}
-                                >
-                                  Apply Now
-                                </Button> */}
                                 <TurnedInIcon
                                   fontSize="large"
                                   className={classes.deleteIcon}
@@ -202,18 +205,18 @@ const MyJobs = () => {
                   {appliedJobs !== undefined && appliedJobs.length > 0 ? (
                     appliedJobs.map((job) => {
                       return (
-                        <div>
+                        <div key={job.jobId}>
                           <li
                             className={classnames(
                               classes.flex,
-                              classes.spaceBetween,
+                              classes.column,
                               classes.bottomBorder
                             )}
                           >
                             <div
                               className={classnames(
                                 classes.flex,
-                                classes.column
+                                classes.spaceBetween
                               )}
                             >
                               <Typography
@@ -227,8 +230,11 @@ const MyJobs = () => {
                               >
                                 {job.jobTitle}
                               </Typography>
-                              <span>{job.companyName}</span>
+                              <div className={classnames(classes.flex)}>
+                                <em>{job.applicationStatus}</em>
+                              </div>
                             </div>
+                            <span>{job.companyName}</span>
                           </li>
                           {show && curJobId === job.jobId ? (
                             <Modal show={show} onHide={() => setShow(false)}>

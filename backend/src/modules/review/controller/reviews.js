@@ -82,6 +82,7 @@ class ReviewController {
 			);
 			const companyReviews = await Review.find({
 				companyId: req.params.companyId,
+				isReviewApprovedByAdmin: "APPROVED",
 			});
 			let response = [];
 			for (let i = 0; i < companyReviews.length; i++) {

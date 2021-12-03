@@ -35,7 +35,7 @@ export function ReviewCard({ reviewTitle, reviewerRole, reviewDescription, city,
                 console.log("Error in fetching company reviews" + err);
             }
         }
-    }, [])
+    }, [checked])
 
     return (
         <div>

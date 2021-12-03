@@ -16,6 +16,7 @@ import Header from "../common/Header";
 import Navbar from "../employer/Navbar";
 import endPointObj from "../../endPointUrl";
 import axios from "axios";
+import DashboardItems from "../employer/DashboardItems";
 
 const EmployerChats = () => {
 	const [activeChat, setActiveChat] = useState("");
@@ -119,10 +120,11 @@ const EmployerChats = () => {
 	}, []);
 	return (
 		<>
-			<Navbar />
+			<Navbar current="dashboard"/>
+			<DashboardItems current="messages"/>
 			<Container
 				fluid
-				style={{ backgroundColor: "#f6f6f6" }}
+				style={{ backgroundColor: "#f6f6f6", marginTop:'10%' }}
 				className="px-5"
 			>
 				<Row>

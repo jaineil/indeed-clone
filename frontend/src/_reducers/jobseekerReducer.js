@@ -8,6 +8,7 @@ const initState = {
   state: "",
   resumes: [],
   savedJobs: [],
+  appliedJobs: [],
 };
 
 export const firstNameSelector = (state) => state.jobseekerProfile.firstName;
@@ -18,6 +19,8 @@ export const citySelector = (state) => state.jobseekerProfile.city;
 export const stateSelector = (state) => state.jobseekerProfile.state;
 export const resumesSelector = (state) => state.jobseekerProfile.resumes;
 export const savedJobsSelector = (state) => state.jobseekerProfile.savedJobs;
+export const appliedJobsSelector = (state) =>
+  state.jobseekerProfile.appliedJobs;
 
 export const jobseekerReducer = (state = initState, { type, payload }) => {
   console.log("In getProfile Reducer: ", payload);
