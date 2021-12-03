@@ -70,7 +70,7 @@ export function CompanyReview(props) {
 
     useEffect(() => {
         console.log("Inside get Company Reviews");
-        axios.get(endPointObj.url + '/job-seeker/search-for-companies' + companyId)
+        axios.get(endPointObj.url + '/job-seeker/search-for-companies/' + companyId)
             .then(response => {
                 console.log("Get company reviews on landing page response", response.data);
                 setCompanyReviewDetails(response.data);
