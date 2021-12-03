@@ -4,6 +4,10 @@ import { make_request } from "../../../../kafka/client.js";
 import client from "../../../db/config/redis.config.js";
 import { response } from "express";
 
+// client.del("review/619f3868ef6dff3633f6d959/DATE");
+// client.del("review/619f3868ef6dff3633f6d959/HELPFULNESS");
+// client.del("review/619f3868ef6dff3633f6d959/RATING");
+
 class ReviewController {
 	create = async (req, res) => {
 		try {

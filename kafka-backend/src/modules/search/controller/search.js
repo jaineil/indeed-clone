@@ -86,7 +86,10 @@ export class SearchController {
 
 				jobs.map((job) => {
 					if (
-						job.jobTitle.toLowerCase() === searchQuery.toLowerCase()
+						job.jobTitle.toLowerCase() ===
+							searchQuery.toLowerCase() ||
+						job.companyName.toLowerCase() ===
+							searchQuery.toLowerCase()
 					) {
 						results.push({
 							jobId: job._id,

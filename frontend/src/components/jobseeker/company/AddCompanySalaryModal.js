@@ -90,7 +90,7 @@ export const AddCompanySalaryModal = ({ open, handleClose }) => {
   const postSalary = (e) => {
     e.preventDefault();
     console.log("Inside Post salary");
-
+    if (isAuth == true) {
     const data = {
       jobSeekerId: localStorage.getItem("userId"),
       companyId : localStorage.getItem("currentcompanyid"),
@@ -123,7 +123,10 @@ export const AddCompanySalaryModal = ({ open, handleClose }) => {
                     message: err.response.data
                 });
             }
-        });
+        })
+    } else if(isAuth == false) {   
+         <Redirect to="/login" />
+    }   
   }
 
   console.log("Addsalary -> User emailid", localStorage.getItem("userEmailId"));

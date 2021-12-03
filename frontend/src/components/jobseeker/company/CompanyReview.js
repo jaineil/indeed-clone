@@ -92,21 +92,19 @@ export function CompanyReview(props) {
 	const [reviews, setReviews] = useState([]);
 	const { isAuth } = useSelector((state) => state.login);
 	const companyId = localStorage.getItem("currentcompanyid");
+	console.log(companyId);
 	const [open, setOpen] = useState(false);
 	const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 	//const [helpfulness, setHelpfulness] = useState("");
 	//const [rating, setRating] = useState("");
-	const [sortBy, setSortBy] = useState("");
-
+	const [sortBy, setSortBy] = useState("DATE");
 	const [date, setDate] = useState("DATE");
 	let [pageOfItems, setPageOfItems] = useState([]);
 
-	useEffect(() => {
-		console.log("Inside get company reviews");
-
-		axios
+	const fetchCompanyReviews = async (sortParam) => {
+		await axios
 			.get(endPointObj.url + "/job-seeker/company-details/reviews", {
-				params: { companyId: companyId, sortBy: sortBy },
+				params: { companyId: companyId, sortBy: sortParam },
 			})
 			.then((response) => {
 				console.log(
@@ -120,6 +118,11 @@ export function CompanyReview(props) {
 					console.log("Error", err.response);
 				}
 			});
+	};
+
+	useEffect(() => {
+		console.log("Inside get company reviews");
+		fetchCompanyReviews(sortBy);
 	}, []);
 
 	//fetch company id by localstorage
@@ -139,20 +142,24 @@ export function CompanyReview(props) {
 		forceUpdate();
 	};
 
-	const onHelfulnessChange = () => {
+	const onHelfulnessChange = async () => {
 		setSortBy("HELPFULNESS");
+		await fetchCompanyReviews("HELPFULNESS");
 	};
 
-	const onRatingChange = () => {
+	const onRatingChange = async () => {
 		setSortBy("RATING");
+		await fetchCompanyReviews("RATING");
 	};
-	const onDateChange = () => {
+	const onDateChange = async () => {
 		setSortBy("DATE");
+		await fetchCompanyReviews("DATE");
 	};
 
 	return (
 		<ThemeProvider theme={theme}>
-			<Header />
+			{isAuth ? (<Header />): <><br/><br/></> }
+			<br/>
 			<hr />
 			<CompanyHeader />
 			<hr />

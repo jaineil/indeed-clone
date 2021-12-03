@@ -2,7 +2,7 @@ import { Box, makeStyles, Typography } from "@material-ui/core";
 import React, { useReducer, useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import endPointObj from "../../../endPointUrl";
 import { getProfile, updateProfile } from "../../../_actions/jobseekerActions";
@@ -68,6 +68,7 @@ function JobDescription({ jobData }) {
   } = jobData;
   console.log("salary", salary);
   console.log(JSON.stringify(jobData));
+  const { isAuth } = useSelector((state) => state.login);
 
   const mongoId = useSelector((state) => state.login.user.mongoId);
   const resumes = useSelector(resumesSelector);
@@ -91,9 +92,28 @@ function JobDescription({ jobData }) {
   console.log("Job details - jobdescription", jobDetails);
   const hiddenFileInput = React.useRef(null);
 
+  const saveJob = (jobId, jobTitle, companyId, companyName) => {
+    const body = {
+      jobSeekerId: mongoId,
+      jobId,
+      jobTitle,
+      companyId,
+      companyName,
+    };
+    axios
+      .post(`${endPointObj.url}/job-seeker/save-job`, body)
+      .then((res) => {
+        console.log("UnSave Response: ", res);
+        if (res.status === 200) alert("Job Saved");
+      })
+      .catch((err) => {
+        console.log("Error in un-save job: ", err);
+      });
+  };
+
   const applyJob = (e) => {
     e.preventDefault();
-    hiddenFileInput.current.click();
+    isAuth ? hiddenFileInput.current.click() : <Redirect to="/login" />;
   };
 
   const handleChange = (e) => {
@@ -161,6 +181,9 @@ function JobDescription({ jobData }) {
                 type="submit"
                 // className={classes.applyJob}
                 onClick={applyJob}
+                style={{
+                  marginRight: "10px",
+                }}
               >
                 Apply
               </Button>
@@ -172,6 +195,23 @@ function JobDescription({ jobData }) {
                 ref={hiddenFileInput}
                 onChange={handleChange}
               />
+              <Button
+                color={"primary"}
+                variant="contained"
+                type="submit"
+                // className={classes.applyJob}
+                onClick={(e) => {
+                  e.preventDefault();
+                  saveJob(
+                    jobId,
+                    jobDetails.jobTitle,
+                    jobDetails.companyId,
+                    jobDetails.companyName
+                  );
+                }}
+              >
+                Save
+              </Button>
             </div>
           </div>
           <hr />
