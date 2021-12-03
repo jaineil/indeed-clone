@@ -53,7 +53,7 @@ export const makeLoginRequest =
       .catch((error) => {
         if (error.response && error.response.data) {
           console.log("error", error.response);
-          dispatch(loginFailure(error.response.data.message));
+          //dispatch(loginFailure(error.response.data.message));
         }
       });
   };
