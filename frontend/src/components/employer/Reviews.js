@@ -37,10 +37,10 @@ export default function Reviews(props) {
         <div>
             <RedirectUnauthorized />
             <Navbar current='reviews' />
-            <div style={{ marginTop: '8%', height: '100vh', backgroundColor: '#f2f2f2' }}>
+            <div style={{ marginTop: '8%', height: '100%', backgroundColor: '#f2f2f2' }}>
                 <br />
-                <Grid container spacing={10} style={{ marginTop: "30px", marginBottom: "50px", marginLeft: '210px' }}>
-                    {(pageOfItems.length === 0) ? <div style={{ marginTop: '10%', marginLeft: '30%', width:'15%', textAlign:'center' }}>
+                <Grid container spacing={10} style={{ marginTop: "1%", marginBottom: "50px", marginLeft: '210px' }}>
+                    {(pageOfItems.length === 0) ? <div style={{ marginTop: '10%', marginLeft: '30%', width: '15%', textAlign: 'center' }}>
                         <Card sx={{ display: 'flex' }} style={{ width: '100%', marginTop: '1%', borderRadius: '15px' }}>
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <CardContent sx={{ flex: '1 0 auto' }} style={{ marginLeft: '10%', marginRight: '10%', marginTop: '1%' }}>
@@ -59,9 +59,8 @@ export default function Reviews(props) {
                                                 reviewTitle={item.reviewTitle}
                                                 reviewerRole={item.reviewerRole}
                                                 reviewDescription={item.reviewBody}
-                                                city={item.city}
-                                                state={item.state}
-                                                postedDate={item.postedDate}
+                                                city={item.companyLocation.city}
+                                                state={item.companyLocation.state}
                                                 overallStars={item.overallCompanyRatingByReviewer}
                                                 ratingInNumber={item.overallCompanyRatingByReviewer}
                                                 pros={item.pros}
@@ -77,7 +76,9 @@ export default function Reviews(props) {
                         })
                     }
                 </Grid>
-                <JwPagination pageSize={5} items={reviews} onChangePage={setPageOfItems} />
+                <div style={{ marginLeft: '40%' }}>
+                    <JwPagination  pageSize={5} items={reviews} onChangePage={setPageOfItems} />
+                </div>
             </div>
         </div>
     )
