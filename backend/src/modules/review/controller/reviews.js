@@ -390,13 +390,24 @@ class ReviewController {
 				},
 			});
 			const response = {
-				"2021-11-27": response1.length,
-				"2021-11-28": response2.length,
-				"2021-11-29": response3.length,
-				"2021-11-30": response4.length,
-				"2021-12-01": response5.length,
-				"2021-12-02": response6.length,
-				"2021-12-03": response7.length,
+				days: [
+					"2021-11-27",
+					"2021-11-28",
+					"2021-11-29",
+					"2021-11-30",
+					"2021-12-01",
+					"2021-12-02",
+					"2021-12-03",
+				],
+				reviewCount: [
+					response1.length,
+					response2.length,
+					response3.length,
+					response4.length,
+					response5.length,
+					response6.length,
+					response7.length,
+				],
 			};
 			res.status(200).send(response);
 		} catch (err) {
