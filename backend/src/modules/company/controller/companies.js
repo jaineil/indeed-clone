@@ -15,6 +15,7 @@ class CompanyController {
 			const companyLocation = {
 					city: req.body.city,
 					state: req.body.state,
+					street: req.body.street,
 					zipcode: req.body.zipcode,
 					country: req.body.country,
 			};
@@ -112,6 +113,7 @@ class CompanyController {
 				averageRating,
 				city,
 				state,
+				street,
 				zipcode,
 				country,
 				missionAndVision,
@@ -123,6 +125,7 @@ class CompanyController {
 			const companyLocation = {
 				city: city,
 				state: state,
+				street: street,
 				zipcode: zipcode,
 				country: country,
 			};
