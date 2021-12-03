@@ -1,44 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useStyles } from './Styles';
 import Navbar from './Navbar';
-import DashboardItems from './DashboardItems';
-import { DataGrid } from '@mui/x-data-grid';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import axios from "axios";
 import endPointObj from '../../endPointUrl.js';
 import { ReviewCard } from './ReviewCard';
-import reviewDetails from '../jobseeker/company/reviewDetails';
 import JwPagination from 'jw-react-pagination';
 import RedirectUnauthorized from './RedirectUnauthorized';
 
 import {
     Box,
     Grid,
-    Typography,
     Card,
     CardContent,
 } from '@material-ui/core';
 
-import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router';
-
-const showApplicant = (applicantId) => {
-    console.log(applicantId);
-}
-
-const bull = (
-    <Box
-        component="span"
-        sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-        •
-    </Box>
-);
-
-export default function Candidates(props) {
+export default function Reviews(props) {
 
     const companyId = localStorage.getItem('companyId');
     const [reviews, setReviews] = useState([]);
@@ -69,7 +44,7 @@ export default function Candidates(props) {
                         <Card sx={{ display: 'flex' }} style={{ width: '100%', marginTop: '1%', borderRadius: '15px' }}>
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <CardContent sx={{ flex: '1 0 auto' }} style={{ marginLeft: '10%', marginRight: '10%', marginTop: '1%' }}>
-                                    No Reviews Found
+                                    No Reviews Yet
                                 </CardContent>
                             </Box>
                         </Card>
