@@ -14,8 +14,8 @@ import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
 import endPointObj from '../../../endPointUrl.js';
-
-
+import featureReviewDetails from './featuredReviewDetails.js';
+import {FeatureReviewCard} from './FeatureReviewCard';
 
 const useStyle = makeStyles((theme) => ({
     imgCont: {
@@ -46,11 +46,8 @@ export function CompanyHome(props) {
     const classes = useStyle();
     const query = new URLSearchParams(props.location.search);
     const id = query.get('id')
-    const dispatch = useDispatch()
-    const { isAuth } = useSelector(state => state.login)
     const [companyDetails, setCompany] = useState([]);
     const companyId = localStorage.getItem("currentcompanyid")
-
 
 
     useEffect(() => {
@@ -67,11 +64,18 @@ export function CompanyHome(props) {
             });
     }, []);
 
+    let topFeaturedReview = [];
+    for(var i = 0; i < 5; i++) {
+        topFeaturedReview.push(featureReviewDetails[i]);
+    }
+
+    console.log("Featured review details", topFeaturedReview);
+
     //fetch company id by localstorage
 
     return (
 
-        isAuth ? (companyDetails ?
+        (companyDetails ?
             <ThemeProvider theme={theme}>
                 <Header /><hr />
                 <CompanyHeader /><hr />
@@ -189,9 +193,27 @@ export function CompanyHome(props) {
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
                         <Typography variant="h5"><b>Reviews</b></Typography>
                     </Grid>
+
+                    <Grid container spacing={10} style={{ marginTop: "30px", marginBottom: "50px",marginLeft: '210px' }}>
+                        {
+                        
+                        topFeaturedReview.map((item) => {
+                                return (    
+                                    <FeatureReviewCard
+                                        reviewTitle={item.reviewTitle}
+                                        city={item.city}
+                                        state={item.state}
+                                        postedDate={item.postedDate}
+                                        overallStars={item.overallStars}
+                                        ratingInNumber={item.ratingInNumber}
+                                    />
+                                )
+                            })
+                        }
+                    </Grid>
                 </Container>
             </ThemeProvider>
-            : <></>) : <Redirect to="/login" />
+            : <></>) 
     )
 }
 export default CompanyHome;
