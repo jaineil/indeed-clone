@@ -14,8 +14,7 @@ import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
 import endPointObj from '../../../endPointUrl.js';
-
-
+import {FeatureReviewCard} from './FeatureReviewCard';
 
 const useStyle = makeStyles((theme) => ({
     imgCont: {
@@ -46,11 +45,10 @@ export function CompanyHome(props) {
     const classes = useStyle();
     const query = new URLSearchParams(props.location.search);
     const id = query.get('id')
-    const dispatch = useDispatch()
-    const { isAuth } = useSelector(state => state.login)
     const [companyDetails, setCompany] = useState([]);
-    const companyId = localStorage.getItem("currentcompanyid")
+    const [topFeaturedReview, setFeaturedReview] = useState([]);
 
+    const companyId = localStorage.getItem("currentcompanyid")
 
 
     useEffect(() => {
@@ -59,6 +57,11 @@ export function CompanyHome(props) {
             .then(response => {
                 console.log("Get company details response", response.data.response);
                 setCompany(response.data.response);
+                let topFeaturedReview = [];
+                for(var i = 0; i < 5; i++) {
+                    topFeaturedReview.push(response.data.response.featuredReviews[i]);
+                }
+                setFeaturedReview(topFeaturedReview)
             })
             .catch(err => {
                 if (err.response && err.response.data) {
@@ -67,11 +70,15 @@ export function CompanyHome(props) {
             });
     }, []);
 
+
+    console.log(topFeaturedReview);
+
+
     //fetch company id by localstorage
 
     return (
 
-        isAuth ? (companyDetails ?
+        (companyDetails ?
             <ThemeProvider theme={theme}>
                 <Header /><hr />
                 <CompanyHeader /><hr />
@@ -189,9 +196,26 @@ export function CompanyHome(props) {
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
                         <Typography variant="h5"><b>Reviews</b></Typography>
                     </Grid>
+
+                    <Grid container spacing={10} style={{ marginTop: "30px", marginBottom: "50px",marginLeft: '210px' }}>
+                        {
+                        topFeaturedReview.map((item) => {
+                                return (    
+                                    <FeatureReviewCard
+                                        reviewTitle={item.reviewTitle}
+                                        city={item.city}
+                                        state={item.state}
+                                        postedDate={item.postedDate}
+                                        overallStars={item.overallStars}
+                                        ratingInNumber={item.ratingInNumber}
+                                    />
+                                )
+                            })
+                        }
+                    </Grid>
                 </Container>
             </ThemeProvider>
-            : <></>) : <Redirect to="/login" />
+            : <></>) 
     )
 }
 export default CompanyHome;

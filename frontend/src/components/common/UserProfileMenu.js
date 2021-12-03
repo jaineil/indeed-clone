@@ -15,6 +15,8 @@ import { logout } from "../../_actions/loginAction";
 import {
   REGISTER_FAILURE,
 } from "../../_actions/actionTypes";
+import { Link, Redirect } from 'react-router-dom';
+
 
 const StyledMenu = withStyles({
   paper: {
@@ -126,17 +128,18 @@ export default function UserMenu() {
           </ListItemIcon>
           <ListItemText primary="My Reviews" />
         </StyledMenuItem>
+        <Link to='/login'>
         <StyledMenuItem onClick={()=>{
             handleClose()
             dispatch(registerFailure())
             dispatch(logout())
-            
             }}>
           <ListItemIcon>
             <PowerSettingsNewIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="Sign Out" />
         </StyledMenuItem>
+        </Link>
       </StyledMenu>
     </div>
   );

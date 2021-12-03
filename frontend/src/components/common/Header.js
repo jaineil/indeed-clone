@@ -1,11 +1,11 @@
-import React from "react";
+import React, {  useState } from 'react';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import ForumIcon from "@material-ui/icons/Forum";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Box, Container } from "@material-ui/core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import UserMenu from "./UserProfileMenu";
@@ -71,7 +71,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
   const styleClasses = useStyles();
-
+  const role = localStorage.getItem("role")
+  var chatPath = ''
+  if (role === 'JOB_SEEKER'){
+    chatPath='/jobSeekerChats'
+  }
+  else if(role === 'JOB_SEEKER'){
+    chatPath='/employerChats'
+  }
+  
   return (
     <div className={styleClasses.root}>
       <AppBar elevation={0} color={"secondary"} position="static">
@@ -120,7 +128,9 @@ export default function Header() {
             </Box>
             <Box className={styleClasses.header_right}>
               <IconButton edge="start" color="inherit" aria-label="open drawer">
-                <ForumIcon />
+                <Link to={chatPath}>
+                <ForumIcon/>
+                </Link>
               </IconButton>
 
               <IconButton edge="start" color="inherit" aria-label="open drawer">
