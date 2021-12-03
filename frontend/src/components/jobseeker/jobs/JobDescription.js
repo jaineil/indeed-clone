@@ -67,8 +67,8 @@ function JobDescription({ jobData }) {
 		jobDescription,
 	} = jobData;
 	console.log("salary", salary);
-	console.log(JSON.stringify(jobData));
-    const {isAuth} = useSelector(state=>state.login);
+	// console.log(JSON.stringify(jobData));
+	const { isAuth } = useSelector((state) => state.login);
 
 	const mongoId = useSelector((state) => state.login.user.mongoId);
 	const [jobDetails, setJobDetails] = useState();
@@ -79,7 +79,7 @@ function JobDescription({ jobData }) {
 			.get(endPointObj.url + `/job-seeker/job-details/${jobId}`)
 			.then((response) => {
 				console.log(
-					"Get job description response => ",
+					"Get job details response => ",
 					response.data.response
 				);
 				setJobDetails(response.data.response);
@@ -127,9 +127,7 @@ function JobDescription({ jobData }) {
 	};
 	const applyJob = (e) => {
 		e.preventDefault();
-		isAuth ?
-		hiddenFileInput.current.click()
-		: <Redirect to="/login" /> 
+		isAuth ? hiddenFileInput.current.click() : <Redirect to="/login" />;
 	};
 
 	const handleChange = (e) => {
@@ -291,7 +289,7 @@ function JobDescription({ jobData }) {
 						<div className={classes.sub_details}>
 							What You’ll Do: <br />
 							<li>{jobDetails.yourRole}</li> <br />
-							Why You’ll love working for a: <br />
+							Why You’ll love working for us: <br />
 							<li>{jobDetails.whyYouWillLoveWorking}</li> <br />
 							Work Remotely <br />
 							<li>Temporarily due to COVID-19</li> <br />
