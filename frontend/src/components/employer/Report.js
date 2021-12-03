@@ -36,7 +36,7 @@ export default function Report(props) {
                     rows.push({
                         id: job.jobId,
                         jobId : job.jobId,
-                        jobTitle: 'Software Engineering', //TBD read from api response
+                        jobTitle: job.jobTitle,
                         applicantsApplied: job.numberOfApplicants,
                         applicantsHired: job.numberHired,
                         applicantsRejected: job.numberRejected
