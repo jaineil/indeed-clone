@@ -95,7 +95,7 @@ export default function Header() {
                 <Typography
                   component={NavLink}
                   variant="h6"
-                  to="/"
+                  to="/home"
                   className={styleClasses.linkText}
                 >
                   Find Jobs
