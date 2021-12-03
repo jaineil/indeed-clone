@@ -46,8 +46,8 @@ const useStyle = makeStyles((theme) => ({
 		alignItems: "center",
 		justifyContent: "center",
 		borderRadius: "10px",
-		height: "53px",
-		width: "150px",
+		height: "60px",
+		width: "200px",
 		padding: "0 25px",
 		fontSize: "15px",
 		color: theme.palette.primary.main,
@@ -158,33 +158,44 @@ export function CompanyReview(props) {
 
 	return (
 		<ThemeProvider theme={theme}>
-			{isAuth ? (<Header />): <><br/><br/></> }
-			<br/>
+			{isAuth ? (
+				<Header />
+			) : (
+				<>
+					<br />
+					<br />
+				</>
+			)}
+			<br />
 			<hr />
 			<CompanyHeader />
 			<hr />
 			<br />
 			<Container maxwidth="xl">
 				<Grid item style={{ marginTop: "20px", marginBottom: "30px" }}>
-					<Grid>
-						<Button
-							className={classes.link}
-							onClick={() => handleOpen(companyId)}
-							style={{
-								marginBottom: "50px",
-								marginLeft: "900px",
-								marginTop: "-40px",
-							}}
-						>
-							<b>Review this company</b>
-						</Button>
-						<AddReviewModal
-							open={open}
-							handleClose={() => handleClose()}
-							companyId={companyId}
-							handleApply={() => handleApply()}
-						/>
-					</Grid>
+					{isAuth ? (
+						<Grid>
+							<Button
+								className={classes.link}
+								onClick={() => handleOpen(companyId)}
+								style={{
+									marginBottom: "50px",
+									marginLeft: "900px",
+									marginTop: "-40px",
+								}}
+							>
+								<b>Review this company</b>
+							</Button>
+							<AddReviewModal
+								open={open}
+								handleClose={() => handleClose()}
+								companyId={companyId}
+								handleApply={() => handleApply()}
+							/>
+						</Grid>
+					) : (
+						<></>
+					)}
 				</Grid>
 
 				<Container maxwidth="xl" className={classes.reviewContainer}>
