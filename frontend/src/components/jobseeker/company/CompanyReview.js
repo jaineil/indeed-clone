@@ -102,24 +102,17 @@ export function CompanyReview(props) {
 	let [pageOfItems, setPageOfItems] = useState([]);
 
 	const fetchCompanyReviews = async (sortParam) => {
-		await axios
-			.get(endPointObj.url + "/job-seeker/company-details/reviews", {
-				params: { companyId: companyId, sortBy: sortParam },
-			})
-			.then((response) => {
-				console.log(
-					"Get company reviews response ",
-					response.data.response
-				);
-				setReviews(response.data.response);
-			})
-			.catch((err) => {
-				if (err.response && err.response.data) {
-					console.log("Error", err.response);
-				}
-			});
+		try {
+			const response = await axios.get(
+				`${endPointObj.url}/job-seeker/company-details/reviews`,
+				{ params: { companyId: companyId, sortBy: sortParam } }
+			);
+			console.log(response.data);
+			setReviews(response.data.response);
+		} catch (err) {
+			console.error(err);
+		}
 	};
-
 	useEffect(() => {
 		console.log("Inside get company reviews");
 		fetchCompanyReviews(sortBy);
@@ -135,6 +128,7 @@ export function CompanyReview(props) {
 
 	const handleClose = () => {
 		setOpen(false);
+		forceUpdate();
 	};
 
 	const handleApply = () => {
@@ -274,14 +268,14 @@ export function CompanyReview(props) {
 									reviewId={item.reviewId}
 									reviewTitle={item.reviewTitle}
 									reviewerRole={item.reviewerRole}
-									reviewDescription="Dummy description"
+									reviewDescription={item.reviewBody}
 									city={item.city}
 									state={item.state}
 									postedDate={item.postedOn}
 									overallStars={item.rating}
 									ratingInNumber={item.rating}
-									pros="Dummy pro"
-									cons="Dummy cons"
+									pros={item.pros}
+									cons={item.cons}
 									reviewHelpfulCount={item.reviewHelpfulCount}
 									reviewNotHelpfulCount={
 										item.reviewNotHelpfulCount

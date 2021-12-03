@@ -34,18 +34,20 @@ export const ReviewsPerDayChart = ({ reviews }) => {
     },
   };
 
-  const labels = reviews.map((review) => {
-    return review.companyName;
-  });
+  const labels = reviews.days;
+  // map((review) => {
+  //   return review.companyName;
+  // });
 
   const data = {
     labels,
     datasets: [
       {
         label: "Reviews",
-        data: reviews.map((company) => {
-          return company.averageRating;
-        }),
+        data: reviews.reviewCount,
+        // map((company) => {
+        //   return company.averageRating;
+        // }),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },

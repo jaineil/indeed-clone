@@ -49,5 +49,30 @@ export const getJobSearchData =
 					console.log("error", error.response);
 				}
 			});
+	};
 
+export const getJobTabData =
+	(job = "", location = "", companyId) =>
+	(dispatch) => {
+		console.log("Inside get job tab search data", job, location, companyId);
+
+		axios
+			.get(endPointObj.url + "/job-seeker/get-jobs-for-company", {
+				params: {
+					companyId: companyId,
+					jobTitle: job,
+					location: location,
+				},
+			})
+			.then((response) => {
+				console.log("Get job tab response", response.data.response);
+				dispatch(searchSuccess(response.data.response));
+				dispatch(setSearchCount(response.data.response.length));
+			})
+			.catch((error) => {
+				console.log("Errorrr", error);
+				if (error.response && error.response.data) {
+					console.log("error", error.response);
+				}
+			});
 	};

@@ -54,15 +54,6 @@ export const Companies = () => {
   const searchChange = (e) => {
     e.preventDefault();
     setSearchName(e.target.value);
-    // console.log({ searchName });
-    // if (searchName === "") {
-    //   setFilteredCompanies(companies);
-    // } else {
-    //   const searchedCompanies = companies.filter((company) =>
-    //     company.companyName.includes(searchName)
-    //   );
-    //   setFilteredCompanies(searchedCompanies);
-    // }
   };
   const handleSearch = (e) => {
     e.preventDefault();
@@ -79,7 +70,6 @@ export const Companies = () => {
   useEffect(() => {
     axios.get(`${endPointObj.url}/admin/get-companies`).then((res) => {
       if (res.status === 200) {
-        console.log(res.data);
         setCompanies(res.data);
         setFilteredCompanies(res.data);
       }
@@ -111,16 +101,14 @@ export const Companies = () => {
         </Form>
       </div>
       <div>
-        {console.log({ companies })}
-
         {filteredCompanies?.map((company) => {
           return company?.companyName ? (
             <Card
               variant="outlined"
-              key={company._id}
               style={{
                 margin: "10px",
               }}
+              key={company._id}
             >
               <CardContent
                 style={{

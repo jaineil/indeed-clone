@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function JobDescription({ jobData }) {
+	console.log("TOP");
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const {

@@ -17,47 +17,53 @@ export const Analytics = () => {
   const [top5jobseekerReviews, setTop5jobseekerReviews] = useState();
   const [top10ceoRatings, setTop10ceoRatings] = useState();
   const [top10viewedCompanies, setTop10viewedCompanies] = useState();
-  useEffect(async () => {
-    const [
-      reviewsPDay,
-      reviewedCompanies,
-      avgRatedCompanies,
-      jobseekerReviews,
-      ceoRatings,
-      viewedCompanies,
-    ] = await Promise.all([
-      axios.get(`${endPointObj.url}/admin/reviews-per-day/`),
-      axios.get(`${endPointObj.url}/admin/top-5-reviewed-companies`),
-      axios.get(`${endPointObj.url}/admin/top-5-companies-average-rating`),
-      axios.get(`${endPointObj.url}/admin/top-5-job-seekers-accepted-reviews`),
-      axios.get(`${endPointObj.url}/admin/top-ceos`),
-      axios.get(`${endPointObj.url}/job-seeker/top-10-viewed-companies`),
-    ]);
-    if (reviewsPDay.status === 200) {
-      setReviewsPerDay(reviewsPDay.data);
+
+  useEffect(() => {
+    async function fetchData() {
+      const [
+        reviewsPDay,
+        reviewedCompanies,
+        avgRatedCompanies,
+        jobseekerReviews,
+        ceoRatings,
+        viewedCompanies,
+      ] = await Promise.all([
+        axios.get(`${endPointObj.url}/admin/reviews-per-day/`),
+        axios.get(`${endPointObj.url}/admin/top-5-reviewed-companies`),
+        axios.get(`${endPointObj.url}/admin/top-5-companies-average-rating`),
+        axios.get(
+          `${endPointObj.url}/admin/top-5-job-seekers-accepted-reviews`
+        ),
+        axios.get(`${endPointObj.url}/admin/top-ceos`),
+        axios.get(`${endPointObj.url}/job-seeker/top-10-viewed-companies`),
+      ]);
+      if (reviewsPDay.status === 200) {
+        setReviewsPerDay(reviewsPDay.data);
+      }
+      if (reviewedCompanies.status === 200) {
+        setTop5reviewedCompanies(reviewedCompanies.data);
+      }
+      if (avgRatedCompanies.status === 200) {
+        setTop5avgRatedCompanies(avgRatedCompanies.data);
+      }
+      if (jobseekerReviews.status === 200) {
+        setTop5jobseekerReviews(jobseekerReviews.data);
+      }
+      if (ceoRatings.status === 200) {
+        setTop10ceoRatings(ceoRatings.data);
+      }
+      if (viewedCompanies.status === 200) {
+        setTop10viewedCompanies(viewedCompanies.data);
+      }
     }
-    if (reviewedCompanies.status === 200) {
-      setTop5reviewedCompanies(reviewedCompanies.data);
-    }
-    if (avgRatedCompanies.status === 200) {
-      setTop5avgRatedCompanies(avgRatedCompanies.data);
-    }
-    if (jobseekerReviews.status === 200) {
-      setTop5jobseekerReviews(jobseekerReviews.data);
-    }
-    if (ceoRatings.status === 200) {
-      setTop10ceoRatings(ceoRatings.data);
-    }
-    if (viewedCompanies.status === 200) {
-      setTop10viewedCompanies(viewedCompanies.data);
-    }
+    fetchData();
   }, []);
   return (
     <div>
       <h3 style={{ color: "#05164d" }}>
         <em>Analytics Dashboard</em>
       </h3>
-      <Container fluid classeName="content-wrapper">
+      <Container fluid className="content-wrapper">
         <Row
           md="auto"
           style={{
@@ -79,9 +85,9 @@ export const Analytics = () => {
                 animation: "alternate 2sec",
               }}
             >
-              {top5reviewedCompanies ? (
+              {reviewsPerDay ? (
                 <div style={{ font: "1.475rem", fontWeight: "bold" }}>
-                  <ReviewsPerDayChart reviews={[]} />
+                  <ReviewsPerDayChart reviews={reviewsPerDay} />
                 </div>
               ) : (
                 <div style={{ font: "1.475rem", fontWeight: "bold" }}>
@@ -174,34 +180,6 @@ export const Analytics = () => {
               )}
             </Card>
           </Col>
-          <Col className="top-5-accepted-reviews-jobseeker" md="auto">
-            <Card
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                borderRadius: "20px",
-                boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)",
-                margin: "10px",
-                padding: "20px",
-                animation: "fade 3s",
-                backgroundColor: "#ffffff",
-                animation: "alternate 2sec",
-              }}
-            >
-              {top5jobseekerReviews ? (
-                <div style={{ font: "1.475rem", fontWeight: "bold" }}>
-                  <Top5JobSeekerReviewsChart jobseekers={[]} />
-                </div>
-              ) : (
-                <>
-                  <div style={{ font: "1.475rem", fontWeight: "bold" }}>
-                    <Top5JobSeekerReviewsChart jobseekers={[]} />
-                  </div>
-                </>
-              )}
-            </Card>
-          </Col>
           <Col className="top-10-ceos-on-rating" md="auto">
             <Card
               style={{
@@ -225,6 +203,34 @@ export const Analytics = () => {
                 <>
                   <div style={{ font: "1.475rem", fontWeight: "bold" }}>
                     <Top10CeoRatingsChart ceos={[]} />
+                  </div>
+                </>
+              )}
+            </Card>
+          </Col>
+          <Col className="top-5-accepted-reviews-jobseeker" md="auto">
+            <Card
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                borderRadius: "20px",
+                boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)",
+                margin: "10px",
+                padding: "20px",
+                animation: "fade 3s",
+                backgroundColor: "#ffffff",
+                animation: "alternate 2sec",
+              }}
+            >
+              {top5jobseekerReviews ? (
+                <div style={{ font: "1.475rem", fontWeight: "bold" }}>
+                  <Top5JobSeekerReviewsChart jobseekers={[]} />
+                </div>
+              ) : (
+                <>
+                  <div style={{ font: "1.475rem", fontWeight: "bold" }}>
+                    <Top5JobSeekerReviewsChart jobseekers={[]} />
                   </div>
                 </>
               )}
