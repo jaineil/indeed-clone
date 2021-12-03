@@ -56,10 +56,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function JobDescription({ jobData }) {
-<<<<<<< HEAD
 	const dispatch = useDispatch();
-=======
->>>>>>> 84a47466cf644a1d22012d5118e2240f05cadda5
 	const classes = useStyles();
 	const {
 		companyName,
@@ -74,12 +71,7 @@ function JobDescription({ jobData }) {
 	console.log(JSON.stringify(jobData));
 	const { isAuth } = useSelector((state) => state.login);
 
-<<<<<<< HEAD
-	const mongoId = 1234567890;
-	const resumes = useSelector(resumesSelector);
-=======
 	const mongoId = useSelector((state) => state.login.user.mongoId);
->>>>>>> 84a47466cf644a1d22012d5118e2240f05cadda5
 	const [jobDetails, setJobDetails] = useState();
 
 	useEffect(() => {
@@ -99,7 +91,7 @@ function JobDescription({ jobData }) {
 				}
 			});
 	}, []);
-  
+
 	//fetchjobdetails
 	console.log("Job details - jobdescription", jobDetails);
 
@@ -135,59 +127,6 @@ function JobDescription({ jobData }) {
 				console.log("Error in un-save job: ", err);
 			});
 	};
-<<<<<<< HEAD
-
-	const applyJob = (e) => {
-		e.preventDefault();
-		console.log("isAuth", isAuth);
-		!isAuth ? <Redirect to="/login" /> : hiddenFileInput.current.click();
-	};
-
-	const handleChange = (e) => {
-		e.preventDefault();
-		const fileUploaded = e.target.files[0];
-		const formData = new FormData();
-		formData.append("file", fileUploaded);
-		const applyData = {
-			companyName: "",
-		};
-		axios
-			.post(
-				`${endPointObj.url}/job-seeker/job-details/apply?jobSeekerId=${mongoId}&resumeName=${fileUploaded.name}&jobId=${jobId}&companyId=${jobDetails.companyId}&companyName=${companyName}`,
-				formData,
-				{
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				}
-			)
-			.then((res) => {
-				console.log(res);
-				if (res.status === 200) dispatch(getProfile(mongoId));
-			})
-			.catch((err) => {
-				console.log("Error while uploading Resume: ", err);
-			});
-	};
-	return (
-		<>
-			{jobDetails ? (
-				<Box className={classes.container}>
-					<div>
-						<Typography
-							className={classes.job_title}
-							style={{ marginBottom: "10px" }}
-						>
-							{jobTitle}
-						</Typography>
-						<Box style={{ marginBottom: "5px" }}>
-							{/* Setting up current company id in locastorage to make it access to company homepage. */}
-							{localStorage.setItem(
-								"currentcompanyid",
-								jobDetails.companyId
-							)}
-
-=======
 	const applyJob = (e) => {
 		e.preventDefault();
 		isAuth ? hiddenFileInput.current.click() : <Redirect to="/login" />;
@@ -198,7 +137,14 @@ function JobDescription({ jobData }) {
 		const fileUploaded = e.target.files[0];
 		const formData = new FormData();
 		formData.append("file", fileUploaded);
-		console.log("apply job request",formData, mongoId,jobId, jobDetails.companyId, companyName)
+		console.log(
+			"apply job request",
+			formData,
+			mongoId,
+			jobId,
+			jobDetails.companyId,
+			companyName
+		);
 		axios
 			.post(
 				`${endPointObj.url}/job-seeker/job-details/apply?jobSeekerId=${mongoId}&resumeName="Resume1"&jobId=${jobId}&companyId=${jobDetails.companyId}&companyName=${companyName}`,
@@ -211,7 +157,7 @@ function JobDescription({ jobData }) {
 			)
 			.then((res) => {
 				console.log(res);
-				alert("Applied to the job!")
+				alert("Applied to the job!");
 				// if (res.status === 200) dispatch(getProfile(mongoId));
 			})
 			.catch((err) => {
@@ -236,7 +182,6 @@ function JobDescription({ jobData }) {
 								jobDetails.companyId
 							)}
 
->>>>>>> 84a47466cf644a1d22012d5118e2240f05cadda5
 							<Link
 								to={{
 									pathname: "/companyHome",
