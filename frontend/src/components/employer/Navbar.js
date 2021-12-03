@@ -10,6 +10,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import PersonIcon from '@material-ui/icons/Person';
 import { Link, Redirect } from 'react-router-dom';
 import employerLogo from './Indeed_employer_icon.png'; 
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,6 +56,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const handleLogout = () =>{
+    localStorage.clear();
+    window.location.href="/";
+}
+
 export default function Navbar(props) {
     const classes = useStyles();
 
@@ -87,16 +93,7 @@ export default function Navbar(props) {
                                 <hr hidden= {!(props.current==='reviews')} style={{marginLeft: '10%',marginTop:'20%', borderColor : '#1e6ce8', width:'100%'}} /> 
                             </Box>
                         </Box>
-                        <Box className={classes.header_right} >
-                            <IconButton
-                                edge="start"
-                                color="inherit"
-                                aria-label="open drawer"
-                                style={{marginRight:'5%'}}
-                                component={Link} to="/employer/messages"
-                            >
-                                <NotificationsIcon />
-                            </IconButton>
+                        <Box className={classes.header_right}>
                             <IconButton
                                 edge="start"
                                 color="inherit"
@@ -105,6 +102,15 @@ export default function Navbar(props) {
                                 component={Link} to="/employer/profile"
                             >
                                 <PersonIcon />
+                            </IconButton>
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="open drawer"
+                                style={{marginRight:'5%'}}
+                                onClick={handleLogout}
+                            >
+                                <ExitToAppIcon style={{ marginLeft: "10px" }} />
                             </IconButton>
                         </Box>
                     </Container>

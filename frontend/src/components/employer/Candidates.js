@@ -58,14 +58,6 @@ export default function Candidates(props) {
     const [applicantZipcode, setApplicantZipcode] = useState('');
     const [applicationStatus, setApplicationStatus] = useState('');
 
-    const handleChange = (event) => {
-        setApplicationStatus(event.target.value);
-    };
-
-
-    const emailId = 'harperlee@gmail.com';
-    const city = 'San Jose';
-
     const jobId = "619f92c5227cb6690426e43a";
 
     const [open, setOpen] = React.useState(false);

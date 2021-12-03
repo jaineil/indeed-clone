@@ -21,7 +21,7 @@ export default function DashboardItems(props) {
                 <Container className={classes.header_container} disableGutters maxWidth={false}>
                     <Box className={classes.header_left} style={{ marginTop: '1%' }}>
                         <Box style={{ marginLeft: '10%' }} >
-                            <Typography variant='h6' component={Link} to='/employer/jobs' style={{ textDecoration:'none', fontSize: '100%', fontFamily: 'Open Sans', color: props.current === "jobs" ? '#2557a7' : '#2d2d2d', fontWeight: 'bold' }}>
+                            <Typography variant='h6' component={Link} to='/employer' style={{ textDecoration:'none', fontSize: '100%', fontFamily: 'Open Sans', color: props.current === "jobs" ? '#2557a7' : '#2d2d2d', fontWeight: 'bold' }}>
                                 Jobs
                             </Typography>
                         </Box>
@@ -33,11 +33,6 @@ export default function DashboardItems(props) {
                         <Box style={{ marginLeft: props.current === "candidates" ? '25%' : '0%' }} >
                             <Typography variant='h6' component={Link} to='/employer/messages' style={{ textDecoration:'none', fontSize: '100%', fontFamily: 'Open Sans', color: props.current === "messages" ? '#2557a7' : '#2d2d2d', fontWeight: 'bold' }}>
                                 Messages
-                            </Typography>
-                        </Box>
-                        <Box style={{ marginLeft: '25%' }} >
-                            <Typography variant='h6' component={Link} to='/employer/reviews' style={{ textDecoration:'none', fontSize: '100%', fontFamily: 'Open Sans', color: props.current === "reviews" ? '#2557a7' : '#2d2d2d', fontWeight: 'bold' }}>
-                                Reviews
                             </Typography>
                         </Box>
                     </Box>

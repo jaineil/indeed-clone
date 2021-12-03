@@ -21,11 +21,12 @@ import employerCandidates from "./components/employer/Candidates";
 import myJobs from "./components/jobseeker/activity/myJobs/MyJobs";
 import myReviews from "./components/jobseeker/activity/myReviews/MyReviews";
 import JobSeekerChats from "./components/chats/jobSeeker";
-import EmployerChats from "./components/chats/employer";
+import employerChats from "./components/chats/employer";
 import { AdminPortal } from "./components/admin/AdminPortal";
 import employerReport from "./components/employer/Report";
 import employerReviews from "./components/employer/Reviews";
 import employerPostJob from "./components/employer/PostJob";
+import employerLandingPage from "./components/employer/LandingPage";
 
 class Main extends Component {
 	render() {
@@ -44,7 +45,6 @@ class Main extends Component {
 				<Route path="/career/salaries" component={findSalaries} />
 				<Route path="/savedjobs" component={myJobs} />
 				<Route path="/jobSeekerChats" component={JobSeekerChats} />
-				<Route path="/employerChats" component={EmployerChats} />
 				<Route path="/companyphotos" component={CompanyPhotos} />
 				<Route path="/reviews" component={myReviews} />
 
@@ -53,13 +53,15 @@ class Main extends Component {
 				<Route path="/companyReviews" component={CompanyReviews} />
 				<Route path="/admin" component={AdminPortal} />
 
-				<Route path="/employer" component={employerJobs} />
-				<Route path="/employer/profile" component={employerProfile} />
-				<Route path="/employer/candidates" component={employerCandidates} />
-				<Route path="/employer/jobs" component={employerJobs} />
-				<Route path="/employer/reports" component={employerReport} />
-				<Route path="/employer/reviews" component={employerReviews} />
-				<Route path="/employer/postJob" component={employerPostJob} />
+				
+				<Route exact path="/employer/profile" component={employerProfile} />
+				<Route exact path="/employer/candidates" component={employerCandidates} />
+				<Route exact path="/employer/jobs" component={employerJobs} />
+				<Route exact path="/employer/reports" component={employerReport} />
+				<Route exact path="/employer/reviews" component={employerReviews} />
+				<Route exact path="/employer/postJob" component={employerPostJob} />
+				<Route exact path="/employer/messages" component={employerChats} />
+				<Route exact path="/employer" component={employerLandingPage} />
 			</div>
 		);
 	}

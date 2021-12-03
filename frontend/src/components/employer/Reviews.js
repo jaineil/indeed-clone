@@ -9,6 +9,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from "axios";
 import endPointObj from '../../endPointUrl.js';
+import { ReviewCard } from './ReviewCard';
+import reviewDetails from '../jobseeker/company/reviewDetails';
+import JwPagination from 'jw-react-pagination';
 
 import {
     Box,
@@ -36,9 +39,64 @@ const bull = (
 
 export default function Candidates(props) {
 
+    const companyId = "61a0d2db04888bba118f5eea";  //TBA from local storage
+    const [reviews, setReviews] = useState([]);
+    const [pageOfItems, setPageOfItems] = useState([]);
+
+    useEffect(async () => {
+        try {
+            const reviews = await axios.get(endPointObj.url + "/employer/view-reviews/" + companyId);
+
+            console.log("Returned reviews for company: " + JSON.stringify(reviews.data));
+            if (reviews.data) {
+                setReviews(reviews.data);
+            }
+            else {
+                
+            }
+
+        }
+        catch (err) {
+            console.log("Error in fetching company reviews" + err);
+        }
+    }, [])
+
     return (
         <div>
             <Navbar current='reviews' />
+            <div style={{ marginTop: '8%', height: '100vh', backgroundColor: '#f2f2f2' }}>
+                <br />
+                <Grid container spacing={10} style={{ marginTop: "30px", marginBottom: "50px", marginLeft: '210px' }}>
+                {
+                    pageOfItems.map((item) => {
+                        return (
+                            <Card sx={{ display: 'flex' }} style={{ width: '75%', marginTop: '1%',borderRadius: '15px' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                    <CardContent sx={{ flex: '1 0 auto' }} style={{ marginLeft: '10%', marginRight: '10%', marginTop: '1%' }}>
+                                        <ReviewCard
+                                            reviewTitle={item.reviewTitle}
+                                            reviewerRole={item.reviewerRole}
+                                            reviewDescription={item.reviewBody}
+                                            city={item.city}
+                                            state={item.state}
+                                            postedDate={item.postedDate}
+                                            overallStars={item.overallCompanyRatingByReviewer}
+                                            ratingInNumber={item.overallCompanyRatingByReviewer}
+                                            pros={item.pros}
+                                            cons={item.cons}
+                                            reviewId = {item.reviewId}
+                                            featuredReview={item.featuredReview}
+                                            companyId = {companyId}
+                                        />
+                                    </CardContent>
+                                </Box>
+                            </Card>
+                        )
+                    })
+                }
+            </Grid>
+            <JwPagination pageSize={5} items={reviews} onChangePage={setPageOfItems} />
+            </div>
         </div>
     )
 
