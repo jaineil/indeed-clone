@@ -95,8 +95,10 @@ export function CompanyReview(props) {
 	const companyId = localStorage.getItem("currentcompanyid");
 	const [open, setOpen] = useState(false);
 	const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-	const [helpfulness, setHelpfulness] = useState("");
-	const [rating, setRating] = useState("");
+	//const [helpfulness, setHelpfulness] = useState("");
+	//const [rating, setRating] = useState("");
+	const [sortBy, setSortBy] = useState("");
+
 	const [date, setDate] = useState("DATE");
 	let [pageOfItems, setPageOfItems] = useState([]);
 
@@ -105,7 +107,7 @@ export function CompanyReview(props) {
 
 		axios
 			.get(endPointObj.url + "/job-seeker/company-details/reviews", {
-				params: { companyId: companyId, sortBy: "HELPFULNESS" },
+				params: { companyId: companyId, sortBy: sortBy },
 			})
 			.then((response) => {
 				console.log(
@@ -139,14 +141,14 @@ export function CompanyReview(props) {
 	};
 
 	const onHelfulnessChange = () => {
-		setHelpfulness("HELPFULNESS");
+		setSortBy("HELPFULNESS");
 	};
 
 	const onRatingChange = () => {
-		setRating("RATING");
+		setSortBy("RATING");
 	};
 	const onDateChange = () => {
-		setDate("DATE");
+		setSortBy("DATE");
 	};
 
 	return (
