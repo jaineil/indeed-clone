@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useStyles } from './Styles';
-import Navbar from './Navbar';
 
-import JobsTable from './RenderTable';
+import Navbar from './Navbar';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from "axios";
 import endPointObj from '../../endPointUrl.js';
+import RedirectUnauthorized from './RedirectUnauthorized';
 
 import {
     Box,
-    Container,
-    Grid,
-    Typography,
     Card,
     CardContent,
-    OutlinedInput,
-    FormHelperText,
-    TextField,
     Button
 } from '@material-ui/core';
 
@@ -32,7 +25,7 @@ export default function Report(props) {
         try {
             let rows = [];
 
-            const companyId = '619f3868ef6dff3633f6d959'; //TBD from localStorage
+            const companyId = localStorage.getItem('companyId');
 
             const jobStatistics = await axios.get(endPointObj.url + "/employer/get-applicants-for-each-job/" + companyId);
 
@@ -43,7 +36,7 @@ export default function Report(props) {
                     rows.push({
                         id: job.jobId,
                         jobId : job.jobId,
-                        jobTitle: 'Software Engieering', //TBD read from api response
+                        jobTitle: 'Software Engineering', //TBD read from api response
                         applicantsApplied: job.numberOfApplicants,
                         applicantsHired: job.numberHired,
                         applicantsRejected: job.numberRejected
@@ -149,6 +142,7 @@ export default function Report(props) {
 
     return (
         <div>
+            <RedirectUnauthorized />
             <Navbar current='reports' />
             <div style={{ marginTop: '8%', height: '100vh', backgroundColor: '#f2f2f2' }}>
                 <br />

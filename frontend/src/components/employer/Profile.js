@@ -3,6 +3,7 @@ import { useStyles } from './Styles';
 import Navbar from './Navbar';
 import axios from "axios";
 import endPointObj from '../../endPointUrl.js';
+import RedirectUnauthorized from './RedirectUnauthorized';
 
 import {
   Box,
@@ -131,7 +132,7 @@ export default function Profile() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const companyProfile = {
-            companyId: '61a2f3ec6b3a62effbe5f222',
+            companyId: localStorage.getItem('companyId'),
             companyName,
             websiteUrl: companyWebsite,
             companyType,
@@ -150,12 +151,11 @@ export default function Profile() {
         }
 
         const employerProfile = {
-            employerId: "61a2935f773d3378523d18f7", //TBD
+            employerId: localStorage.getItem('employerId'),
             firstName: employerFirstName,
             lastName: employerLastName,
             role: employerRole,
             street: employerStreet,
-            apt: "something", //Needed? TBD
             city: employerCity,
             state: employerState,
             country: employerCountry,
@@ -177,13 +177,12 @@ export default function Profile() {
                 console.log("Employer Response: " + JSON.stringify(employerResponse));
                 console.log("Company Response: " + JSON.stringify(companyResponse));
                 localStorage.setItem('employerProfile', JSON.stringify({
-                    employerId: "61a2935f773d3378523d18f7", //TBD
+                    employerId: localStorage.getItem('employerId'),
                     firstName: employerFirstName,
                     lastName: employerLastName,
                     role: employerRole,
                     companyLocation: {
                         street: employerStreet,
-                        apt: "something", //Needed? TBD
                         city: employerCity,
                         state: employerState,
                         country: employerCountry,
@@ -232,13 +231,12 @@ export default function Profile() {
                 console.log("Employer Response: " + JSON.stringify(employerResponse));
                 console.log("Company Response: " + JSON.stringify(companyResponse));
                 localStorage.setItem('employerProfile', JSON.stringify({
-                    employerId: "61a2935f773d3378523d18f7", //TBD
+                    employerId: localStorage.getItem('employerId'),
                     firstName: employerFirstName,
                     lastName: employerLastName,
                     role: employerRole,
                     companyLocation: {
                         street: employerStreet,
-                        apt: "something", //Needed? TBD
                         city: employerCity,
                         state: employerState,
                         country: employerCountry,
@@ -277,6 +275,7 @@ export default function Profile() {
     
     return (
         <Container className={classes.registrationContent} maxWidth="xl">
+            <RedirectUnauthorized />
             <Navbar />
             <Card sx={{ display: 'flex' }} style={{ width: '50%', marginTop: '5%', borderRadius: '15px' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>

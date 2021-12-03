@@ -12,6 +12,7 @@ import endPointObj from '../../endPointUrl.js';
 import { ReviewCard } from './ReviewCard';
 import reviewDetails from '../jobseeker/company/reviewDetails';
 import JwPagination from 'jw-react-pagination';
+import RedirectUnauthorized from './RedirectUnauthorized';
 
 import {
     Box,
@@ -39,7 +40,7 @@ const bull = (
 
 export default function Candidates(props) {
 
-    const companyId = "61a0d2db04888bba118f5eea";  //TBA from local storage
+    const companyId = localStorage.getItem('companyId');
     const [reviews, setReviews] = useState([]);
     const [pageOfItems, setPageOfItems] = useState([]);
 
@@ -51,10 +52,6 @@ export default function Candidates(props) {
             if (reviews.data) {
                 setReviews(reviews.data);
             }
-            else {
-                
-            }
-
         }
         catch (err) {
             console.log("Error in fetching company reviews" + err);
@@ -63,39 +60,49 @@ export default function Candidates(props) {
 
     return (
         <div>
+            <RedirectUnauthorized />
             <Navbar current='reviews' />
             <div style={{ marginTop: '8%', height: '100vh', backgroundColor: '#f2f2f2' }}>
                 <br />
                 <Grid container spacing={10} style={{ marginTop: "30px", marginBottom: "50px", marginLeft: '210px' }}>
-                {
-                    pageOfItems.map((item) => {
-                        return (
-                            <Card sx={{ display: 'flex' }} style={{ width: '75%', marginTop: '1%',borderRadius: '15px' }}>
-                                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                    <CardContent sx={{ flex: '1 0 auto' }} style={{ marginLeft: '10%', marginRight: '10%', marginTop: '1%' }}>
-                                        <ReviewCard
-                                            reviewTitle={item.reviewTitle}
-                                            reviewerRole={item.reviewerRole}
-                                            reviewDescription={item.reviewBody}
-                                            city={item.city}
-                                            state={item.state}
-                                            postedDate={item.postedDate}
-                                            overallStars={item.overallCompanyRatingByReviewer}
-                                            ratingInNumber={item.overallCompanyRatingByReviewer}
-                                            pros={item.pros}
-                                            cons={item.cons}
-                                            reviewId = {item.reviewId}
-                                            featuredReview={item.featuredReview}
-                                            companyId = {companyId}
-                                        />
-                                    </CardContent>
-                                </Box>
-                            </Card>
-                        )
-                    })
-                }
-            </Grid>
-            <JwPagination pageSize={5} items={reviews} onChangePage={setPageOfItems} />
+                    {(pageOfItems.length === 0) ? <div style={{ marginTop: '10%', marginLeft: '30%', width:'15%', textAlign:'center' }}>
+                        <Card sx={{ display: 'flex' }} style={{ width: '100%', marginTop: '1%', borderRadius: '15px' }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                <CardContent sx={{ flex: '1 0 auto' }} style={{ marginLeft: '10%', marginRight: '10%', marginTop: '1%' }}>
+                                    No Reviews Found
+                                </CardContent>
+                            </Box>
+                        </Card>
+                    </div> : null}
+                    {
+                        pageOfItems.map((item) => {
+                            return (
+                                <Card sx={{ display: 'flex' }} style={{ width: '75%', marginTop: '1%', borderRadius: '15px' }}>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                        <CardContent sx={{ flex: '1 0 auto' }} style={{ marginLeft: '10%', marginRight: '10%', marginTop: '1%' }}>
+                                            <ReviewCard
+                                                reviewTitle={item.reviewTitle}
+                                                reviewerRole={item.reviewerRole}
+                                                reviewDescription={item.reviewBody}
+                                                city={item.city}
+                                                state={item.state}
+                                                postedDate={item.postedDate}
+                                                overallStars={item.overallCompanyRatingByReviewer}
+                                                ratingInNumber={item.overallCompanyRatingByReviewer}
+                                                pros={item.pros}
+                                                cons={item.cons}
+                                                reviewId={item.reviewId}
+                                                featuredReview={item.featuredReview}
+                                                companyId={companyId}
+                                            />
+                                        </CardContent>
+                                    </Box>
+                                </Card>
+                            )
+                        })
+                    }
+                </Grid>
+                <JwPagination pageSize={5} items={reviews} onChangePage={setPageOfItems} />
             </div>
         </div>
     )

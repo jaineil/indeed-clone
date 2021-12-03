@@ -132,8 +132,13 @@ export default function Candidates(props) {
 
     let redirectComponent = null;
     if (!props.location.state) {
-        alert('Select a job to view candidates');
-        redirectComponent = <Redirect to="/jobs" />
+        if (localStorage.getItem('role') === "EMPLOYER") {
+            alert('Select a job to view candidates');
+            redirectComponent = <Redirect to="/employer/jobs" />
+        }
+        else{
+            redirectComponent = <Redirect to="/login" />
+        }
     }
 
     const columns = [

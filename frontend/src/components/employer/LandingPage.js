@@ -3,13 +3,11 @@ import { useEffect } from "react";
 import endPointObj from '../../endPointUrl.js';
 import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
-import { createEmployerAndCompanyProfile, getEmployerProfile, getCompanyProfile } from '../../_actions/employerAction';
+import RedirectUnauthorized from './RedirectUnauthorized';
 
 export default function LandingPage(props) {
 
-    const dispatch = useDispatch();
-    const mongoId = "61a2935f773d3378523d18f7";
-    // const mongoId = localStorage.getItem('userId'); TBA by Vineet Batthina
+    const mongoId = localStorage.getItem('userId');
     useEffect(async() => {
         try {
             const employer = await axios.get(endPointObj.url+ "/employer/get-profile?employerId=" + mongoId);
@@ -44,6 +42,7 @@ export default function LandingPage(props) {
 
     return (
         <div>
+             <RedirectUnauthorized />
             <Jobs />
         </div>
     );
