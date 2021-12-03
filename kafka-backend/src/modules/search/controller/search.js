@@ -193,6 +193,7 @@ export class SearchController {
 					results.push({
 						companyId: company.id,
 						companyName: company.companyName,
+						averageRating: company.averageRating,
 					})
 				);
 				return this.responseGenerator(200, results);
@@ -219,6 +220,7 @@ export class SearchController {
 					results.push({
 						companyId: company.id,
 						companyName: company.companyName,
+						averageRating: company.averageRating,
 					})
 				);
 				return this.responseGenerator(200, results);
