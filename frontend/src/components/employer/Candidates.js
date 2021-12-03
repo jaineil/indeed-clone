@@ -190,6 +190,8 @@ export default function Candidates(props) {
 			`${endPointObj.url}/employer/send-first-message`,
 			data
 		);
+        handleChatClose();
+        alert("message sent")
 		console.log(response);
 	};
 
