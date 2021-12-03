@@ -160,27 +160,25 @@ export default function Candidates(props) {
 
             console.log("Returned applications from backend: " + JSON.stringify(applications));
 
-            if (applications) {
-                applications.map((application) => {
-                    console.log(application);
-                    console.log(application._id);
-                    console.log(application.jobSeekerDetails.firstName);
-                    console.log(application.jobSeekerDetails.lastName);
+            if (applications.data) {
+                applications.data.map((application) => {
+                    const firstName = application.jobSeekerDetails.firstName? application.jobSeekerDetails.firstName : "John"
+                    const lastName= application.jobSeekerDetails.lastName? application.jobSeekerDetails.lastName : "Doe"
+
                     const app = {
                         id: application._id,
                         resume: "View Resume",
                         coverLetter: "View Cover Letter",
-                        applicantName: application.jobSeekerDetails.firstName + ' ' + application.jobSeekerDetails.lastName,
+                        applicantName: firstName + ' ' +lastName,
+                        //applicantName:"Ratika",
                         resumeName: application.resume.name,
                         resumeUrl: application.resume.url,
-                        coverLetterName: application.coverLetter.name,
-                        coverLetterUrl: application.coverLetter.url,
                         rowId: application._id,
                         jobSeekerId: application.jobSeekerDetails._id
                     }
                     console.log("app", app)
                     rows.push(app);
-                    console.log(rows)
+                    console.log("rows",rows)
                 })
                 setApplicants(rows);
             }
