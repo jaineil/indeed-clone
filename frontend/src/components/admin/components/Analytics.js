@@ -57,7 +57,7 @@ export const Analytics = () => {
       <h3 style={{ color: "#05164d" }}>
         <em>Analytics Dashboard</em>
       </h3>
-      <Container fluid classeName="content-wrapper">
+      <Container fluid className="content-wrapper">
         <Row
           md="auto"
           style={{
@@ -79,9 +79,9 @@ export const Analytics = () => {
                 animation: "alternate 2sec",
               }}
             >
-              {top5reviewedCompanies ? (
+              {reviewsPerDay ? (
                 <div style={{ font: "1.475rem", fontWeight: "bold" }}>
-                  <ReviewsPerDayChart reviews={[]} />
+                  <ReviewsPerDayChart reviews={reviewsPerDay} />
                 </div>
               ) : (
                 <div style={{ font: "1.475rem", fontWeight: "bold" }}>
@@ -174,34 +174,6 @@ export const Analytics = () => {
               )}
             </Card>
           </Col>
-          <Col className="top-5-accepted-reviews-jobseeker" md="auto">
-            <Card
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                borderRadius: "20px",
-                boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)",
-                margin: "10px",
-                padding: "20px",
-                animation: "fade 3s",
-                backgroundColor: "#ffffff",
-                animation: "alternate 2sec",
-              }}
-            >
-              {top5jobseekerReviews ? (
-                <div style={{ font: "1.475rem", fontWeight: "bold" }}>
-                  <Top5JobSeekerReviewsChart jobseekers={[]} />
-                </div>
-              ) : (
-                <>
-                  <div style={{ font: "1.475rem", fontWeight: "bold" }}>
-                    <Top5JobSeekerReviewsChart jobseekers={[]} />
-                  </div>
-                </>
-              )}
-            </Card>
-          </Col>
           <Col className="top-10-ceos-on-rating" md="auto">
             <Card
               style={{
@@ -225,6 +197,34 @@ export const Analytics = () => {
                 <>
                   <div style={{ font: "1.475rem", fontWeight: "bold" }}>
                     <Top10CeoRatingsChart ceos={[]} />
+                  </div>
+                </>
+              )}
+            </Card>
+          </Col>
+          <Col className="top-5-accepted-reviews-jobseeker" md="auto">
+            <Card
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                borderRadius: "20px",
+                boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.3)",
+                margin: "10px",
+                padding: "20px",
+                animation: "fade 3s",
+                backgroundColor: "#ffffff",
+                animation: "alternate 2sec",
+              }}
+            >
+              {top5jobseekerReviews ? (
+                <div style={{ font: "1.475rem", fontWeight: "bold" }}>
+                  <Top5JobSeekerReviewsChart jobseekers={[]} />
+                </div>
+              ) : (
+                <>
+                  <div style={{ font: "1.475rem", fontWeight: "bold" }}>
+                    <Top5JobSeekerReviewsChart jobseekers={[]} />
                   </div>
                 </>
               )}
