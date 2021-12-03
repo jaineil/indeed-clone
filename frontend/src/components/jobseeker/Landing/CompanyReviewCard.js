@@ -4,6 +4,7 @@ import Rating from '@material-ui/lab/Rating';
 import { Link, Redirect } from 'react-router-dom';
 
 export function CompanyReviewCard({companyId, companyName, ratingNumber}) {
+    localStorage.setItem("currentcompanyid",companyId);
     return (
         <Grid item container spacing={6}>
             <Grid item container spacing={6}>
@@ -11,7 +12,9 @@ export function CompanyReviewCard({companyId, companyName, ratingNumber}) {
                     <h6>{companyName}</h6>
                     <Grid item>
                     <Rating style={{ color: "#6b0337" }} name="half-rating-read" defaultValue={0} value={ratingNumber} size="small" readOnly /><br/>
-                    <Link>Reviews</Link>&nbsp;<Link>Salaries</Link>&nbsp;<Link>Jobs</Link>
+                    <Link style={{ color: "#000000" }} to='/companyreview'>Reviews</Link>
+                    &nbsp;&nbsp;<Link style={{ color: "#000000" }} to='/companysalary'>Salaries</Link>
+                    &nbsp;&nbsp;<Link style={{ color: "#000000" }} to='/companyjobs'>Jobs</Link>
                     </Grid>
                 </Grid>
                 

@@ -63,7 +63,7 @@ const useStyle = makeStyles((theme) => ({
 
 export function CompanyReview(props) {
     const classes = useStyle();
-    const [reviews, setReviews] = useState([]);
+    const [salaryDetails, setSalaries] = useState([]);
     const { isAuth } = useSelector(state => state.login);
     const companyId = localStorage.getItem("currentcompanyid");
     const [open, setOpen] = useState(false);
@@ -71,42 +71,42 @@ export function CompanyReview(props) {
 
     useEffect(() => {
         console.log("Inside get company salaries");
-        // axios.get(endPointObj.url + '/job-seeker/company-details/reviews/' + companyId)
-        //     .then(response => {
-        //         console.log("Get company reviews response", response.data);
-        //         setReviews(response.data);
-        //     })
-        //     .catch(err => {
-        //         if (err.response && err.response.data) {
-        //             console.log("Error", err.response);
-        //         }
-        //     });
+        axios.get(endPointObj.url + '/job-seeker/get-salaries-by-company-id/'+companyId)
+            .then(response => {
+                console.log("Get company salary response", response.data.response);
+                setSalaries(response.data.response);
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log("Error", err.response);
+                }
+            });
         
 
     }, [])
 
-    var salaryDetails= [
-        {
-            "roleName": "Software Development Engineer",
-            "annualSalary":14.34
-        },
-        {
-            "roleName": "Quality Assurance",
-            "annualSalary":20.00
-        },
-        {
-            "roleName": "Software Engineer - Test",
-            "annualSalary":15.45
-        },
-        {
-            "roleName": "Software Engineer - Test",
-            "annualSalary":15.45
-        },
-        {
-            "roleName": "Software Engineer - Test",
-            "annualSalary":15.45
-        }   
-    ]
+    // var salaryDetails= [
+    //     {
+    //         "roleName": "Software Development Engineer",
+    //         "annualSalary":14.34
+    //     },
+    //     {
+    //         "roleName": "Quality Assurance",
+    //         "annualSalary":20.00
+    //     },
+    //     {
+    //         "roleName": "Software Engineer - Test",
+    //         "annualSalary":15.45
+    //     },
+    //     {
+    //         "roleName": "Software Engineer - Test",
+    //         "annualSalary":15.45
+    //     },
+    //     {
+    //         "roleName": "Software Engineer - Test",
+    //         "annualSalary":15.45
+    //     }   
+    // ]
 
     //fetch company id by localstorage
     //Call fetch company details API
@@ -161,8 +161,8 @@ export function CompanyReview(props) {
                                 return (
                                     <Col md={4}>
                                     <SalaryCard
-                                        roleName = {item.roleName}
-                                        annualSalary = {item.annualSalary}    
+                                        roleName = {item.jobTitle}
+                                        annualSalary = {item.salary}    
                                     /><br/><br/><br/>
                                     </Col>
                                 )

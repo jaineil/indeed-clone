@@ -11,7 +11,7 @@ class JobRecordController {
 				jobEndDate: req.body.jobEndDate,
 				jobTitle: req.body.jobTitle,
 				jobLocation: req.body.jobLocation,
-				annualSalary: parseInt(req.body.annualSalary),
+				salary: parseInt(req.body.salary),
 				yearsOfExperience: req.body.yearsOfExperience,
 				benefits: {
 					paidTimeOff:

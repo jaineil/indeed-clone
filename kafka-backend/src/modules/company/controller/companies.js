@@ -1,7 +1,9 @@
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
 import CompanyPhotos from "../../../db/models/mongo/companyPhotos.js";
 import JobRecords from "../../../db/models/mongo/jobRecords.js";
-import mongoose from "mongoose";
+import CompanyClicks from "../../../db/models/mongo/companyClicks.js";
+import moment from "moment";
+
 class CompanyController {
 	responseGenerator = (statusCode, message) => ({
 		status: statusCode,
@@ -34,6 +36,7 @@ class CompanyController {
 			}
 
 			const snapshot = {
+				name: company.companyName,
 				avgWorkHappinessScore: company.avgWorkHappinessScore,
 				avgLearningScore: company.avgLearningScore,
 				avgAppreciationScore: company.avgAppreciationScore,
@@ -113,23 +116,49 @@ class CompanyController {
 		const companyId = data.companyId;
 
 		try {
-			const salaries = await JobRecords.aggregate([
-				{
-					$match: {
-						companyId: companyId,
-					},
-				},
-				{
-					$project: {
-						jobTitle: 1,
-						salary: 1,
-					},
-				},
-			]);
+			const salaries = await JobRecords.find({companyId: companyId}, {jobTitle: 1, salary: 1})
+			// const salaries = await JobRecords.aggregate([
+			// 	{
+			// 		$match: {
+			// 			companyId: companyId,
+			// 		},
+			// 	},
+			// 	{
+			// 		$project: {
+			// 			jobTitle: 1,
+			// 			salary: 1,
+			// 		},
+			// 	},
+			// ]);
 			console.log(salaries);
 			return this.responseGenerator(200, salaries);
 		} catch (err) {
 			console.error("Error when fetching salaries of a company ", err);
+		}
+	};
+
+	addClick = async (data) => {
+		console.log(data);
+		const companyId = data.companyId;
+		const date = moment().format("MM-DD-YYYY");
+		try {
+			const res = await CompanyClicks.updateOne(
+				{ companyId: companyId, date: date },
+				{
+					$set: {
+						companyId: companyId,
+						date: date,
+					},
+					$inc: { clicks: 1 },
+				},
+				{ upsert: true }
+			);
+			console.log(res);
+		} catch (err) {
+			console.error(
+				"Error when adding click count to company view ",
+				err
+			);
 		}
 	};
 }
