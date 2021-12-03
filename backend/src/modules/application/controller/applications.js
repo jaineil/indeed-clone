@@ -161,7 +161,7 @@ export class JobApplicationController {
 		try {
 			const jobs = await Jobs.find(
 				{ companyId: req.params.companyId },
-				{ _id: 1 }
+				{ _id: 1, jobTitle: 1 }
 			);
 			let response = [];
 			let numberOfApplicants;
@@ -169,8 +169,10 @@ export class JobApplicationController {
 			let numberRejected;
 			let resp;
 			let jobId;
+			let jobTitle;
 			for (let i = 0; i < jobs.length; i++) {
 				jobId = jobs[i]._id;
+				jobTitle = jobs[i].jobTitle;
 				numberOfApplicants = await JobSeekerApplications.aggregate([
 					{
 						$match: {
@@ -217,6 +219,7 @@ export class JobApplicationController {
 				response.push({
 					...resp,
 					jobId: jobId,
+					jobTitle: jobTitle,
 				});
 			}
 			res.status(200).send(response);
