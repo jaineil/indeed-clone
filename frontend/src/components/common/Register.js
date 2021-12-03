@@ -93,9 +93,11 @@ export function Register() {
         dispatch(userRegistration({emailId:email ,pass: password,userPersona:role}))   
     }
     console.log("role", role);
+    console.log("Register success", success);
 
     return (
         
+
         <Container className = {classes.registrationContainer} maxWidth = "xl">
             {
                 success ? <Redirect to="/login" /> : <></>
