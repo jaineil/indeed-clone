@@ -50,8 +50,7 @@ const useStyles = makeStyles((theme) => ({
   header_right: {
     marginTop: "11px",
     display: "flex",
-    width: "250px",
-    justifyContent: "space-between",
+    width: "250px"
   },
   link: {
     marginTop: "11px",
@@ -133,18 +132,9 @@ export default function Header() {
                 </Link>
               </IconButton>
 
-              <IconButton edge="start" color="inherit" aria-label="open drawer">
+              <IconButton edge="start" color="inherit" aria-label="open drawer" style={{marginLeft:'10%'}}>
               <UserMenu />
               </IconButton>
-              <Typography
-                style={{ display: "flex", alignItems: "center" }}
-                component={NavLink}
-                variant="h6"
-                to="/postjob"
-                className={styleClasses.linkText}
-              >
-                Employers/Jobs
-              </Typography>
             </Box>
           </Container>
         </Toolbar>

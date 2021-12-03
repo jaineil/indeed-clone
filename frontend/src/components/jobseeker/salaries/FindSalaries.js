@@ -228,7 +228,7 @@ const FindSalaries = () => {
   const [location, setLocation] = useState("");
   const [averageSalary, setAverageSalary] = useState("");
   const [topCompanies, setTopCompanies] = useState([]);
-  const {isAuth} = useSelector(state=>state.login);
+  const isAuth = localStorage.getItem('userId') ? true : false;
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Search Criteria: ", jobTitle, location);
