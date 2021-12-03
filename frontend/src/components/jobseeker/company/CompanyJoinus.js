@@ -90,7 +90,7 @@ export function CompanyJoinus(props) {
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
-                        <Typography><p>about the company</p></Typography>
+                        <Typography><p>{companyDetails.about}</p></Typography>
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "30px" }}>
@@ -98,14 +98,14 @@ export function CompanyJoinus(props) {
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
-                        <Typography><p>Work culture</p></Typography>
+                        <Typography><p>{companyDetails.workCulture}</p></Typography>
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
                         <Typography variant="h5"><b>Company values</b></Typography>
                     </Grid>
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
-                        <Typography><p>Company values</p></Typography>
+                        <Typography><p>{companyDetails.values}</p></Typography>
                     </Grid>
                 </Container>
             </ThemeProvider>

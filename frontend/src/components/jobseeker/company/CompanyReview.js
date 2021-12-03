@@ -106,10 +106,12 @@ export function CompanyReview(props) {
 
     useEffect(() => {
         console.log("Inside get company reviews");
-        axios.get(endPointObj.url + '/job-seeker/company-details/reviews/' + companyId)
+        
+        axios.get(endPointObj.url +'/job-seeker/company-details/reviews', {params: {companyId: companyId,
+        sortBy: "DATE"}})
             .then(response => {
-                console.log("Get company reviews response", response.data);
-                setReviews(response.data);
+                console.log("Get company reviews response", response.data.response);
+                setReviews(response.data.response);
             })
             .catch(err => {
                 if (err.response && err.response.data) {
@@ -158,7 +160,7 @@ export function CompanyReview(props) {
                     <Grid item style={{ marginTop: "20px", marginBottom: "30px" }}>
                         <Grid>
                             <Button className={classes.link} onClick={() => handleOpen(companyId)}
-                                style={{ marginBottom: '30px', marginLeft: '900px', marginTop: '-40px' }}>
+                                style={{ marginBottom: '50px', marginLeft: '900px', marginTop: '-40px' }}>
                                 <b>Review this company</b>
                             </Button>
                             <AddReviewModal
@@ -200,20 +202,20 @@ export function CompanyReview(props) {
                                     <ReviewCard
                                         reviewTitle={item.reviewTitle}
                                         reviewerRole={item.reviewerRole}
-                                        reviewDescription={item.reviewDescription}
+                                        reviewDescription="Dummy description"
                                         city={item.city}
                                         state={item.state}
-                                        postedDate={item.postedDate}
-                                        overallStars={item.overallStars}
-                                        ratingInNumber={item.ratingInNumber}
-                                        pros={item.pros}
-                                        cons={item.cons}
+                                        postedDate={item.postedOn}
+                                        overallStars={item.rating}
+                                        ratingInNumber={item.rating}
+                                        pros="Dummy pro"
+                                        cons="Dummy cons"
                                     />
                                 )
                             })
                         }
                     </Grid>
-                    <JwPagination pageSize={5} items={reviewdetails} onChangePage={setPageOfItems} />
+                    <JwPagination pageSize={5} items={reviews} onChangePage={setPageOfItems} />
                     </>
                 </Container>
             </ThemeProvider>
