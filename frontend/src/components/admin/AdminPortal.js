@@ -21,6 +21,7 @@ import { useStyles } from "./Styles";
 import theme from "../common/MenuTheme";
 import endPointObj from "../../endPointUrl";
 import ReviewTab from "./ReviewTab";
+import PhotoTab from "./PhotoTab";
 
 export const AdminPortal = () => {
 	const classes = useStyles();
@@ -135,6 +136,7 @@ export const AdminPortal = () => {
 											Photos
 										</Col>
 									</Row>
+									<PhotoTab />
 								</TabPane>
 							</TabContent>
 						</Col>

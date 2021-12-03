@@ -5,6 +5,20 @@ import { make_request } from "../../../../kafka/client.js";
 class CompanyController {
 	create = async (req, res) => {
 		try {
+			console.log(req.body)
+			const description = {
+				missionAndVision: req.body.missionAndVision,
+				about: req.body.about,
+				workCulture: req.body.workCulture,
+				values: req.body.values}
+
+			const companyLocation = {
+					city: req.body.city,
+					state: req.body.state,
+					zipcode: req.body.zipcode,
+					country: req.body.country,
+			};
+
 			const newCompany = new CompanyDetails({
 				companyName: req.body.companyName,
 				websiteUrl: req.body.websiteUrl,
@@ -14,10 +28,10 @@ class CompanyController {
 				headquarters: req.body.headquarters,
 				industry: req.body.industry,
 				founded: req.body.founded,
-				missionAndVision: req.body.missionAndVision,
+				description : description,
 				ceoName: req.body.ceoName,
-				averageRating: parseInt(req.body.averageRating),
-				companyLocation: req.body.companyLocation,
+				averageRating: req.body.averageRating? parseInt(req.body.averageRating):0,
+				companyLocation: companyLocation
 			});
 			const response = await newCompany.save();
 			await EmployerDetails.findByIdAndUpdate(req.body.employerId, {
@@ -83,6 +97,7 @@ class CompanyController {
 
 	updateCompany = async (req, res) => {
 		try {
+			
 			const {
 				companyId,
 				companyName,
@@ -93,13 +108,16 @@ class CompanyController {
 				headquarters,
 				industry,
 				founded,
-				missionAndVision,
 				ceoName,
 				averageRating,
 				city,
 				state,
 				zipcode,
 				country,
+				missionAndVision,
+				about, 
+				workCulture,
+				values,
 				featuredReviews = [],
 			} = req.body;
 			const companyLocation = {
@@ -108,6 +126,11 @@ class CompanyController {
 				zipcode: zipcode,
 				country: country,
 			};
+			const description = {
+				missionAndVision: missionAndVision,
+				about: about,
+				workCulture: workCulture,
+				values: values};
 
 			const update = {
 				companyName,
@@ -118,10 +141,10 @@ class CompanyController {
 				headquarters,
 				industry,
 				founded,
-				missionAndVision,
 				ceoName,
 				averageRating,
 				companyLocation,
+				description
 			};
 
 			const response = await CompanyDetails.findOneAndUpdate(
