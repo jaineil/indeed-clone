@@ -29,7 +29,6 @@ import {
     CardContent,
 } from '@material-ui/core';
 
-import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 
 const showApplicant = (applicantId) => {
@@ -52,7 +51,7 @@ export default function Candidates(props) {
     const [applicants, setApplicants] = useState([]);
     const [jobSeekerId, setJobSeekerId] = useState([])
 
-    const [applicantId, setApplicantId] = useState('');
+    const [applicationId, setApplicationId] = useState('');
     const [applicantName, setApplicantName] = useState('');
     const [applicantEmailId, setApplicantEmailId] = useState('');
     const [applicantStreet, setApplicantStreet] = useState('');
@@ -73,63 +72,103 @@ export default function Candidates(props) {
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
 
-    const handleChatOpen = () => {setChatOpen(true);}
-    const handleChatClose = () => { setChatOpen(false);};
-    const handleChatExistOpen = () => {setChatExistOpen(true);}
-    const handleChatExistClose = () => { setChatExistOpen(false);};
+    const handleChatOpen = () => { setChatOpen(true); }
+    const handleChatClose = () => { setChatOpen(false); };
+    const handleChatExistOpen = () => { setChatExistOpen(true); }
+    const handleChatExistClose = () => { setChatExistOpen(false); };
 
     const onMessageChange = (e) => {
         e.preventDefault();
 		setMessage(e.target.value);
 	};
 
-    const handleClickOpen = (rowId) => {
+    const handleClickOpen = async () => {
 
-        //MAC
+        try {
+            const getJobSeekerProfile = await axios.get(endPointObj.url + "/job-seeker/get-profile?" + "jobseekerId=" + jobSeekerId);
 
-        setApplicantId(rowId);
-        setApplicantName('Harper Lee');
-        setApplicantEmailId('harperlee@gmail.com');
-        setApplicantStreet('360 S Market St');
-        setApplicantCity('San Jose');
-        setApplicantCountry('United States');
-        setApplicantZipcode('95113');
-        setApplicationStatus('HIRED');
-        setOpen(true);
+            console.log("Returned profile from backend: " + JSON.stringify(getJobSeekerProfile.data));
+
+            if (getJobSeekerProfile.data) {
+                setApplicationId(applicationId);
+                setApplicantName(getJobSeekerProfile.data.firstName + " " + getJobSeekerProfile.data.lastName );
+                setApplicantEmailId(getJobSeekerProfile.data.emailId);
+                setApplicantStreet(getJobSeekerProfile.data.address.street);
+                setApplicantCity(getJobSeekerProfile.data.address.street);
+                setApplicantCountry(getJobSeekerProfile.data.address.country);
+                setApplicantZipcode(getJobSeekerProfile.data.address.zipcode);
+                setApplicationStatus(applicationStatus);
+                setOpen(true);
+            }
+            else {
+
+            }
+
+        }
+        catch (err) {
+            console.log("Error in fetching applied applicants" + err);
+        }
     };
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleChatClick = async (jobSeekerId) =>{
-        console.log("jobseekerid",jobSeekerId)
+    const handleChatClick = async (jobSeekerId) => {
+        console.log("jobseekerid", jobSeekerId)
         setJobSeekerId(jobSeekerId);
         const response = await axios.get(
             `${endPointObj.url}/employer/get-chats/${localStorage.getItem('userId')}/${jobSeekerId}`
         );
-        console.log("get chat response",response)
-        if(response.data.status === 404){
+        console.log("get chat response", response)
+        if (response.data.status === 404) {
             console.log("chat not found");
             handleChatOpen();
         }
-        else{
+        else {
             handleChatExistOpen();
         }
     }
 
-    const handleApplicationStatusChange = (event) => {
+    const handleApplicationStatusChange = async (event) => {
 
-        //MAC
+        console.log(event.target.value);
+        try {
+            const getJobSeekerProfile = await axios.put(endPointObj.url + "/employer/change-applicant-status",{
+                jobApplicationId : applicationId,
+		        updatedStatus : event.target.value
+            });
+
+            console.log("Returned profile from backend: " + JSON.stringify(getJobSeekerProfile.data));
+
+            if (getJobSeekerProfile.data) {
+                setApplicationId(getJobSeekerProfile.data._id);
+                setApplicantName(getJobSeekerProfile.data.firstName + " " + getJobSeekerProfile.data.lastName );
+                setApplicantEmailId(getJobSeekerProfile.data.emailId);
+                setApplicantStreet(getJobSeekerProfile.data.address.street);
+                setApplicantCity(getJobSeekerProfile.data.address.street);
+                setApplicantCountry(getJobSeekerProfile.data.address.country);
+                setApplicantZipcode(getJobSeekerProfile.data.address.zipcode);
+                setApplicationStatus(applicationStatus);
+                setOpen(true);
+            }
+            else {
+
+            }
+
+        }
+        catch (err) {
+            console.log("Error in fetching applied applicants" + err);
+        }
         setApplicationStatus(event.target.value);
     };
 
-    const initiateChat = async () =>{
+    const initiateChat = async () => {
 
         const data = {
-            employerId:localStorage.getItem('userId'),
-            jobSeekerId:jobSeekerId,
-            message:message
+            employerId: localStorage.getItem('userId'),
+            jobSeekerId: jobSeekerId,
+            message: message
         }
         console.log("data", data)
         const response = await axios.post(
@@ -137,30 +176,30 @@ export default function Candidates(props) {
         );
         handleChatClose();
         console.log(response)
-       
+
     }
 
-    useEffect( async () => {
+    useEffect(async () => {
 
         try {
             let rows = [];
-            const testrows= [{
-                _id:81263,
-                jobSeekerDetails:{
-                    firstName:"Ratika",
-                    lastName:"Bhuwalka",
-                    _id:"61a9e159c3372184f5262e6b"
+            const testrows = [{
+                _id: 81263,
+                jobSeekerDetails: {
+                    firstName: "Ratika",
+                    lastName: "Bhuwalka",
+                    _id: "61a9e159c3372184f5262e6b"
                 },
-                resume:{
-                    name:"test resume",
-                    url:"test url"
+                resume: {
+                    name: "test resume",
+                    url: "test url"
                 },
-                coverLetter:{
-                    name:"test resume",
-                    url:"test url"
+                coverLetter: {
+                    name: "test resume",
+                    url: "test url"
                 },
-                chat:"",
-                rowId:132334,
+                chat: "",
+                rowId: 132334,
             }]
             const applications = await axios.get(endPointObj.url + "/employer/get-job-applicants?jobId=" + jobId);
 
@@ -168,28 +207,28 @@ export default function Candidates(props) {
 
             if (applications.data) {
                 applications.data.map((application) => {
-                    const firstName = application.jobSeekerDetails.firstName? application.jobSeekerDetails.firstName : "John"
-                    const lastName= application.jobSeekerDetails.lastName? application.jobSeekerDetails.lastName : "Doe"
+                    const firstName = application.jobSeekerDetails.firstName ? application.jobSeekerDetails.firstName : "John"
+                    const lastName = application.jobSeekerDetails.lastName ? application.jobSeekerDetails.lastName : "Doe"
 
                     const app = {
                         id: application._id,
                         resume: "View Resume",
-                        coverLetter: "View Cover Letter",
-                        applicantName: firstName + ' ' +lastName,
+                        applicantName: firstName + ' ' + lastName,
                         //applicantName:"Ratika",
                         resumeName: application.resume.name,
                         resumeUrl: application.resume.url,
                         rowId: application._id,
-                        jobSeekerId: application.jobSeekerDetails._id
+                        jobSeekerId: application.jobSeekerDetails._id,
+                        applicationStatus: application.applicationStatus
                     }
                     console.log("app", app)
                     rows.push(app);
-                    console.log("rows",rows)
+                    console.log("rows", rows)
                 })
                 setApplicants(rows);
             }
             else {
-                    console.log("test rows not found")
+                console.log("test rows not found")
             }
 
         }
@@ -198,14 +237,14 @@ export default function Candidates(props) {
         }
     }, [])
 
-    console.log("applicant details",applicants)
+    console.log("applicant details", applicants)
     let redirectComponent = null;
     if (!props.location.state) {
         if (localStorage.getItem('role') === "EMPLOYER") {
             alert('Select a job to view candidates');
             redirectComponent = <Redirect to="/employer/jobs" />
         }
-        else{
+        else {
             redirectComponent = <Redirect to="/login" />
         }
     }
@@ -232,27 +271,6 @@ export default function Candidates(props) {
                 </strong>
             ),
         },
-        // {
-        //     field: 'coverLetter',
-        //     headerName: 'Cover Letter',
-        //     width: 300,
-        //     headerAlign: 'center',
-        //     align: 'center',
-        //     renderCell: (params) => (
-        //         <strong>
-        //             <a
-        //                 variant="contained"
-        //                 color="primary"
-        //                 size="small"
-        //                 style={{ marginLeft: 16, textDecoration: 'none', cursor: 'pointer' }}
-        //                 href={params.row.coverLetterUrl}
-        //                 target="_blank"
-        //             >
-        //                 {params.row.coverLetterName}
-        //             </a>
-        //         </strong>
-        //     ),
-        // },
         {
             field: 'applicantName',
             headerName: 'Applicant Name',
@@ -267,7 +285,8 @@ export default function Candidates(props) {
                         size="small"
                         style={{ marginLeft: 16, textDecoration: 'none', cursor: 'pointer' }}
                         onClick={() => {
-                            handleClickOpen(params.row.rowId);
+                            console.log("params:" + JSON.stringify(params.row));
+                            handleClickOpen(params.row.id,params.row.jobSeekerId,params.row.applicationStatus);
                         }}
                     >
                         {params.value}
@@ -275,7 +294,6 @@ export default function Candidates(props) {
                 </strong>
             ),
         },
-
         {
             field: 'chat',
             headerName: 'Chat Messages',
@@ -303,6 +321,10 @@ export default function Candidates(props) {
                     
                    
 
+                    <ForumIcon
+                        onClick={() => {
+                            handleChatClick(params.row.jobSeekerId);
+                        }} />
                 </strong>
             ),
         },
@@ -347,27 +369,27 @@ export default function Candidates(props) {
 
        const ChatExistsModal = () => {
         return (
-         <Modal show={chatExistOpen} onHide={handleChatExistClose} animation={false} >
-         <Modal.Header>
-           <Modal.Title>Chat with Candidate</Modal.Title>
-         </Modal.Header>
-         <Modal.Body>
-             <div><h5>Chat Exists!</h5></div>
-             <div>
-                Chat history with Candidate Found
-             </div>
-             <div>
-                <a href = "/employer/messages">Go to Chats</a>
-             </div>
-         </Modal.Body>
-         <Modal.Footer>
-             <Button variant="light" onClick={handleChatExistClose}>Cancel</Button>
-             
-         </Modal.Footer>
-       </Modal>
-         ) 
-       };
-     
+            <Modal show={chatExistOpen} onHide={handleChatExistClose} animation={false} >
+                <Modal.Header>
+                    <Modal.Title>Chat with Candidate</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div><h5>Chat Exists!</h5></div>
+                    <div>
+                        Chat history with Candidate Found
+                    </div>
+                    <div>
+                        <a href="/employer/messages">Go to Chats</a>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="light" onClick={handleChatExistClose}>Cancel</Button>
+
+                </Modal.Footer>
+            </Modal>
+        )
+    };
+
 
     return (
         <div>
@@ -456,7 +478,7 @@ export default function Candidates(props) {
                                         id: 'max-width',
                                     }}
                                 >
-                                    <MenuItem value="SUBMITTED">Submitted</MenuItem>
+                                    <MenuItem value="APPLIED">Applied</MenuItem>
                                     <MenuItem value="REVIEWED">Reviewed</MenuItem>
                                     <MenuItem value="INITIAL_SCREENING">Initial Screening</MenuItem>
                                     <MenuItem value="INTERVIEWING">Interviewing</MenuItem>
@@ -482,8 +504,8 @@ export default function Candidates(props) {
                     </DialogActions>
                 </Dialog>
             </React.Fragment>
-            <ChatModal/>
-            <ChatExistsModal/>
+            <ChatModal />
+            <ChatExistsModal />
 
         </div>
     )

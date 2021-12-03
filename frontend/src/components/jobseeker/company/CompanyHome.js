@@ -307,7 +307,7 @@ export function CompanyHome(props) {
 
 				<Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
 					<Typography variant="h5">
-						<b>Reviews</b>
+						{topFeaturedReview.length ? <b>Reviews</b> : <></>}
 					</Typography>
 				</Grid>
 
