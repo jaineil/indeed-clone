@@ -138,13 +138,6 @@ const MyJobs = () => {
                                 {job.jobTitle}
                               </Typography>
                               <div className={classnames(classes.flex)}>
-                                {/* <Button
-                                  variant="contained"
-                                  type="button"
-                                  className={classes.applyNow}
-                                >
-                                  Apply Now
-                                </Button> */}
                                 <TurnedInIcon
                                   fontSize="large"
                                   className={classes.deleteIcon}
@@ -212,18 +205,18 @@ const MyJobs = () => {
                   {appliedJobs !== undefined && appliedJobs.length > 0 ? (
                     appliedJobs.map((job) => {
                       return (
-                        <div>
+                        <div key={job.jobId}>
                           <li
                             className={classnames(
                               classes.flex,
-                              classes.spaceBetween,
+                              classes.column,
                               classes.bottomBorder
                             )}
                           >
                             <div
                               className={classnames(
                                 classes.flex,
-                                classes.column
+                                classes.spaceBetween
                               )}
                             >
                               <Typography
@@ -237,8 +230,11 @@ const MyJobs = () => {
                               >
                                 {job.jobTitle}
                               </Typography>
-                              <span>{job.companyName}</span>
+                              <div className={classnames(classes.flex)}>
+                                <em>{job.applicationStatus}</em>
+                              </div>
                             </div>
+                            <span>{job.companyName}</span>
                           </li>
                           {show && curJobId === job.jobId ? (
                             <Modal show={show} onHide={() => setShow(false)}>
