@@ -50,6 +50,7 @@ export default function Candidates(props) {
     const classes = useStyles();
 
     const [applicants, setApplicants] = useState([]);
+    const [jobSeekerId, setJobSeekerId] = useState([])
 
     const [applicantId, setApplicantId] = useState('');
     const [applicantName, setApplicantName] = useState('');
@@ -97,7 +98,7 @@ export default function Candidates(props) {
 
     const handleChatClick = async (jobSeekerId) =>{
         console.log(jobSeekerId)
-        setApplicantId(jobSeekerId);
+        setJobSeekerId(jobSeekerId);
         const response = await axios.get(
             `${endPointObj.url}/employer/get-chats/${localStorage.getItem('userId')}/${jobSeekerId}`
         );
@@ -121,7 +122,7 @@ export default function Candidates(props) {
 
         const data = {
             employerId:localStorage.getItem('userId'),
-            jobSeekerId:applicantId,
+            jobSeekerId:jobSeekerId,
             message:message
         }
         console.log("data", data)
@@ -132,7 +133,7 @@ export default function Candidates(props) {
        
     }
 
-    useEffect( () => {
+    useEffect( async () => {
 
         try {
             let rows = [];
@@ -154,12 +155,12 @@ export default function Candidates(props) {
                 chat:"",
                 rowId:132334,
             }]
-            //const applications = await axios.get(endPointObj.url + "/employer/get-job-applicants?jobId=" + jobId);
+            const applications = await axios.get(endPointObj.url + "/employer/get-job-applicants?jobId=" + jobId);
 
             //console.log("Returned applications from backend: " + JSON.stringify(applications.data));
 
-            if (testrows) {
-                testrows.map((application) => {
+            if (applications.data) {
+                applications.data.map((application) => {
                     console.log(application);
                     console.log(application._id);
                     console.log(application.jobSeekerDetails.firstName);
