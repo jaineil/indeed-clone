@@ -36,6 +36,7 @@ class CompanyController {
 			}
 
 			const snapshot = {
+				name: company.companyName,
 				avgWorkHappinessScore: company.avgWorkHappinessScore,
 				avgLearningScore: company.avgLearningScore,
 				avgAppreciationScore: company.avgAppreciationScore,
