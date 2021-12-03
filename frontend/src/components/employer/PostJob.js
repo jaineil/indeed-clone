@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useStyles } from './Styles';
 import Navbar from './Navbar';
 import { Redirect } from 'react-router';
+import RedirectUnauthorized from './RedirectUnauthorized';
 
 import {
     Box,
@@ -43,8 +44,8 @@ export default function PostJob() {
         e.preventDefault();
           try {
             const saveJobResponse = await axios.post(endPointObj.url+ "/employer/postJob", {
-                companyId : "61a2f3ec6b3a62effbe5f222",
-                employerId : "61a05844336330b63c02effd", //Needed?
+                companyId : localStorage.getItem('companyId'),
+                employerId : localStorage.getItem('employerId'),
                 companyName: companyName,
                 jobTitle : jobTitle,
                 industry : industry,
@@ -87,6 +88,7 @@ export default function PostJob() {
 
     return (
         <Container className={classes.registrationContent} maxWidth="xl">
+             <RedirectUnauthorized />
             {console.log("Redirect Var is :"+ redirectVar)}
             {redirectVar}
             <Navbar />

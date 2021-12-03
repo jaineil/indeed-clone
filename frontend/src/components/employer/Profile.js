@@ -3,6 +3,7 @@ import { useStyles } from './Styles';
 import Navbar from './Navbar';
 import axios from "axios";
 import endPointObj from '../../endPointUrl.js';
+import RedirectUnauthorized from './RedirectUnauthorized';
 
 import {
   Box,
@@ -22,10 +23,9 @@ import { Link, Redirect } from 'react-router-dom';
 export default function Profile() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const mongoId = "61a2935f773d3378523d18f7";
     let employerProfile = null;
     let companyProfile = null;
-    // const mongoId = localStorage.getItem('userId'); TBA by Vineet Batthina
+
     useEffect(() => {
         employerProfile = JSON.parse(localStorage.getItem('employerProfile'));
         companyProfile = JSON.parse(localStorage.getItem('companyProfile'));
@@ -41,6 +41,7 @@ export default function Profile() {
                 setEmployerFirstName(employerProfile.firstName);
                 setEmployerLastName(employerProfile.lastName);
                 setEmployerRole(employerProfile.role ? employerProfile.role : "");
+                setEmployerContactNumber(employerProfile.contactNumber ? employerProfile.contactNumber : "");
                 setEmployerStreet(employerProfile.companyLocation.street ? employerProfile.companyLocation.street : "");
                 setEmployerCity(employerProfile.companyLocation.city ? employerProfile.companyLocation.city : "");
                 setEmployerState(employerProfile.companyLocation.state ? employerProfile.companyLocation.state : "");
@@ -51,6 +52,7 @@ export default function Profile() {
                 setEmployerFirstName("");
                 setEmployerLastName("");
                 setEmployerRole("");
+                setEmployerContactNumber("")
                 setEmployerStreet("");
                 setEmployerCity("");
                 setEmployerState("");
@@ -62,6 +64,7 @@ export default function Profile() {
             setEmployerFirstName("");
             setEmployerLastName("");
             setEmployerRole("");
+            setEmployerContactNumber("");
             setEmployerStreet("");
             setEmployerCity("");
             setEmployerState("");
@@ -71,7 +74,7 @@ export default function Profile() {
     }, [employerProfile])
 
     useEffect(() => {
-        if (companyProfile) {
+        if (JSON.stringify(companyProfile) !== '{}') {
             setCompanyName(companyProfile.companyName);
             setCompanyWebsite(companyProfile.websiteUrl);
             setCompanyRevenue(companyProfile.revenue);
@@ -90,14 +93,22 @@ export default function Profile() {
             setCompanyMissionAndVision(companyProfile.missionAndVision);
         }
         else {
-            setEmployerFirstName("");
-            setEmployerLastName("");
-            setEmployerRole("");
-            setEmployerStreet("");
-            setEmployerCity("");
-            setEmployerState("");
-            setEmployerCountry("");
-            setEmployerZipcode("");
+            setCompanyName("");
+            setCompanyWebsite("");
+            setCompanyRevenue("");
+            setCompanySize("");
+            setCompanyHeadquarters("");
+            setCompanyCeoName("");
+            setCompanyType("");
+            setCompanyStreet("");
+            setCompanyCity("");
+            setCompanyZipcode("");
+            setCompanyState("");
+            setCompanyCountry("");
+
+            setCompanyIndustry("");
+            setCompanyFounded("");
+            setCompanyMissionAndVision("");
         }
     }, [companyProfile])
 
@@ -120,6 +131,7 @@ export default function Profile() {
     const [employerFirstName, setEmployerFirstName] = useState("");
     const [employerLastName, setEmployerLastName] = useState("");
     const [employerRole, setEmployerRole] = useState("");
+    const [employerContactNumber, setEmployerContactNumber] = useState("");
     const [employerStreet, setEmployerStreet] = useState("");
     const [employerCity, setEmployerCity] = useState("");
     const [employerState, setEmployerState] = useState("");
@@ -130,8 +142,27 @@ export default function Profile() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const companyProfile = {
-            companyId: '61a2f3ec6b3a62effbe5f222',
+        const createCompany ={
+            employerId: localStorage.getItem('employerId'),
+            companyName,
+            websiteUrl: companyWebsite,
+            companyType,
+            revenue: companyRevenue,
+            companySize,
+            headquarters: companyHeadquarters,
+            ceoName: companyCeoName,
+            companyStreet,
+            city: companyCity,
+            zipcode: companyZipcode,
+            state: companyState,
+            country: companyCountry,
+            industry: companyIndustry,
+            founded: companyFounded,
+            missionAndVision: companyMissionAndVision,
+            averageRating: 0
+        }
+        const updateCompany = {
+            companyId: localStorage.getItem('companyId'),
             companyName,
             websiteUrl: companyWebsite,
             companyType,
@@ -149,48 +180,39 @@ export default function Profile() {
             missionAndVision: companyMissionAndVision
         }
 
-        const employerProfile = {
-            employerId: "61a2935f773d3378523d18f7", //TBD
+        const updateEmployer = {
+            employerId: localStorage.getItem('employerId'),
             firstName: employerFirstName,
             lastName: employerLastName,
             role: employerRole,
+            contactNumber: employerContactNumber,
             street: employerStreet,
-            apt: "something", //Needed? TBD
             city: employerCity,
             state: employerState,
             country: employerCountry,
-            zip: employerZipcode, //TBD change according to backend
-            contactNumber: "something" //Needed ? TBD change according to backend
+            zipcode: employerZipcode,
         }
-        console.log(companyProfile);
-        console.log(employerProfile);
         if (companyProfile) {
-            const updateEmployerProfile = axios.put(endPointObj.url + "/employer/update-profile/", {
-                employerProfile
-            });
-            const updateCompanyProfile = axios.put(endPointObj.url + "/employer/update-company/", {
-                companyProfile
-            });
+            const updateEmployerProfile = axios.put(endPointObj.url + "/employer/update-profile/", updateEmployer);
+            const updateCompanyProfile = axios.put(endPointObj.url + "/employer/update-company/", updateCompany);
 
             try {
                 const [employerResponse, companyResponse] = await axios.all([updateEmployerProfile, updateCompanyProfile]);
                 console.log("Employer Response: " + JSON.stringify(employerResponse));
                 console.log("Company Response: " + JSON.stringify(companyResponse));
                 localStorage.setItem('employerProfile', JSON.stringify({
-                    employerId: "61a2935f773d3378523d18f7", //TBD
+                    employerId: localStorage.getItem('employerId'),
                     firstName: employerFirstName,
                     lastName: employerLastName,
                     role: employerRole,
+                    contactNumber: employerContactNumber,
                     companyLocation: {
                         street: employerStreet,
-                        apt: "something", //Needed? TBD
                         city: employerCity,
                         state: employerState,
                         country: employerCountry,
-                        zip: employerZipcode
+                        zipcode: employerZipcode
                     },
-                    //TBD change according to backend
-                    contactNumber: "something" //Needed ? TBD change according to backend
                 }));
 
                 localStorage.setItem('companyProfile', JSON.stringify({
@@ -221,31 +243,29 @@ export default function Profile() {
         }
         else {
             const updateEmployerProfile = axios.put(endPointObj.url + "/employer/update-profile/", {
-                employerProfile
+                updateEmployer
             });
-            const updateCompanyProfile = axios.put(endPointObj.url + "/employer/createCompany/", {
-                companyProfile
+            const createCompanyProfile = axios.post(endPointObj.url + "/employer/createCompany/", {
+                createCompany
             });
 
             try {
-                const [employerResponse, companyResponse] = await axios.all([updateEmployerProfile, updateCompanyProfile]);
+                const [employerResponse, companyResponse] = await axios.all([updateEmployerProfile, createCompanyProfile]);
                 console.log("Employer Response: " + JSON.stringify(employerResponse));
                 console.log("Company Response: " + JSON.stringify(companyResponse));
                 localStorage.setItem('employerProfile', JSON.stringify({
-                    employerId: "61a2935f773d3378523d18f7", //TBD
+                    employerId: localStorage.getItem('employerId'),
                     firstName: employerFirstName,
                     lastName: employerLastName,
                     role: employerRole,
+                    contactNumber : employerContactNumber,
                     companyLocation: {
                         street: employerStreet,
-                        apt: "something", //Needed? TBD
                         city: employerCity,
                         state: employerState,
                         country: employerCountry,
-                        zip: employerZipcode
+                        zipcode: employerZipcode
                     },
-                    //TBD change according to backend
-                    contactNumber: "something" //Needed ? TBD change according to backend
                 }));
 
                 localStorage.setItem('companyProfile', JSON.stringify({
@@ -277,6 +297,7 @@ export default function Profile() {
     
     return (
         <Container className={classes.registrationContent} maxWidth="xl">
+            <RedirectUnauthorized />
             <Navbar />
             <Card sx={{ display: 'flex' }} style={{ width: '50%', marginTop: '5%', borderRadius: '15px' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -482,6 +503,16 @@ export default function Profile() {
                                         style={{ width: '100%' }}
                                         onChange={(e) => { setEmployerRole(e.target.value) }}
                                         value={employerRole}
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        variant="outlined"
+                                        label="Contact Number"
+                                        style={{ width: '100%' }}
+                                        onChange={(e) => { setEmployerContactNumber(e.target.value) }}
+                                        value={employerContactNumber}
                                         required
                                     />
                                 </Grid>
