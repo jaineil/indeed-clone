@@ -23,6 +23,7 @@ const companyDetailsSchema = new Schema({
 		city: { type: String },
 		state: { type: String },
 		zipcode: { type: String },
+		street : { type: String },
 		country: { type: String },
 	},
 	reviewCount: { type: Number, default: 0 },

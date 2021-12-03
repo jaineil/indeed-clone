@@ -134,7 +134,8 @@ export function CompanyReview(props) {
 
 	return companyDetails ? (
 		<ThemeProvider theme={theme}>
-			<Header />
+			{isAuth ? (<Header />): <><br/><br/></> }
+			<br/>
 			<hr />
 			<Container maxwidth="xl">
 				{/* This needs to be done */}

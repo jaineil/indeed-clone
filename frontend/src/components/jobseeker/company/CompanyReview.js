@@ -158,7 +158,8 @@ export function CompanyReview(props) {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<Header />
+			{isAuth ? (<Header />): <><br/><br/></> }
+			<br/>
 			<hr />
 			<CompanyHeader />
 			<hr />

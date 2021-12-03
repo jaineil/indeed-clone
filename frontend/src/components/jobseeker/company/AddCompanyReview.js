@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useSelector } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { Grid, OutlinedInput } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import axios from "axios";
+import { Redirect } from 'react-router-dom';
 import endPointObj from '../../../endPointUrl.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +44,8 @@ export const AddReviewModal = ({ open, handleClose }) => {
     const [cons, setCons] = React.useState("");
     const [ceoApproval, setCeoApproval] = React.useState("");
     const [interviewPrepTips, setInterviewPrepTips] = React.useState("");
+    const { isAuth } = useSelector(state => state.login);
+
 
     console.log("Rating selected", rating);
     const postReview = (e) => {
@@ -50,6 +53,7 @@ export const AddReviewModal = ({ open, handleClose }) => {
         console.log("Inside postreview");
         console.log("Rating selected", rating);
         e.preventDefault();
+        if (isAuth == true) {
         const data = {
             companyId: localStorage.getItem("currentcompanyid"),
             rating: rating,
@@ -77,6 +81,9 @@ export const AddReviewModal = ({ open, handleClose }) => {
                     });
                 }
             });
+        } else if(isAuth == false) {   
+            <Redirect to="/login" />
+       }    
     }
 
     const onReviewTitleChange = (e) => {

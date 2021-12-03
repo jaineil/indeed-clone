@@ -51,4 +51,14 @@ reviewRouter.get(
 	reviewController.fetchTopJobSeekersByAcceptedReviews
 );
 
+reviewRouter.get(
+	"/admin/reviews-per-day/",
+	reviewController.fetchReviewsPerDay
+);
+
+reviewRouter.get(
+	"/admin/get-accepted-rejected-reviews-for-company/:companyId",
+	reviewController.getAcceptedRejectedReviewsForCompany
+);
+
 export default reviewRouter;

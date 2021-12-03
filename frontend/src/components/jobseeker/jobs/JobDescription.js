@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 //import { makeApplyRequest } from '../../Redux/JobApply/actions';
 //import { ApplyModal } from './JobApplyModal/ApplyModal';
 //import jobDetails from "./jobdetails";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import endPointObj from "../../../endPointUrl";
 
@@ -68,6 +68,7 @@ function JobDescription({ jobData }) {
 	} = jobData;
 	console.log("salary", salary);
 	console.log(JSON.stringify(jobData));
+    const {isAuth} = useSelector(state=>state.login);
 
 	const mongoId = useSelector((state) => state.login.user.mongoId);
 	const [jobDetails, setJobDetails] = useState();
@@ -126,7 +127,9 @@ function JobDescription({ jobData }) {
 	};
 	const applyJob = (e) => {
 		e.preventDefault();
-		hiddenFileInput.current.click();
+		isAuth ?
+		hiddenFileInput.current.click()
+		: <Redirect to="/login" /> 
 	};
 
 	const handleChange = (e) => {

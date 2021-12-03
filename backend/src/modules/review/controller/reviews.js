@@ -2,6 +2,7 @@ import Review from "../../../db/models/mongo/reviews.js";
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
 import { make_request } from "../../../../kafka/client.js";
 import client from "../../../db/config/redis.config.js";
+import { response } from "express";
 
 // client.del("review/619f3868ef6dff3633f6d959/DATE");
 // client.del("review/619f3868ef6dff3633f6d959/HELPFULNESS");
@@ -337,6 +338,83 @@ class ReviewController {
 					},
 				},
 			]);
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	fetchReviewsPerDay = async (req, res) => {
+		try {
+			// console.log(new Date(2021, 11, 1));
+			const response1 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 10, 27),
+					$lt: new Date(2021, 10, 28),
+				},
+			});
+			const response2 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 10, 28),
+					$lt: new Date(2021, 10, 29),
+				},
+			});
+			const response3 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 10, 29),
+					$lt: new Date(2021, 10, 30),
+				},
+			});
+			const response4 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 10, 30),
+					$lt: new Date(2021, 11, 1),
+				},
+			});
+			const response5 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 11, 1),
+					$lt: new Date(2021, 11, 2),
+				},
+			});
+			const response6 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 11, 2),
+					$lt: new Date(2021, 11, 3),
+				},
+			});
+			const response7 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 11, 3),
+					$lt: new Date(2021, 11, 4),
+				},
+			});
+			const response = {
+				"2021-11-27": response1.length,
+				"2021-11-28": response2.length,
+				"2021-11-29": response3.length,
+				"2021-11-30": response4.length,
+				"2021-12-01": response5.length,
+				"2021-12-02": response6.length,
+				"2021-12-03": response7.length,
+			};
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	getAcceptedRejectedReviewsForCompany = async (req, res) => {
+		try {
+			const { companyId } = req.params;
+			const response = await Review.find({
+				companyId: companyId,
+				isReviewApprovedByAdmin: {
+					$in: ["APPROVED", "REJECTED"],
+				},
+			}).sort({
+				postedOn: -1,
+			});
 			res.status(200).send(response);
 		} catch (err) {
 			console.error(err);

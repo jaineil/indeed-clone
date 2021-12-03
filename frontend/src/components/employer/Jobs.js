@@ -30,7 +30,7 @@ export default function Jobs() {
     
     useEffect(async () => {
         console.log("Jobs Fetch");
-        const employerId = localStorage.getItem('employerId');
+        const employerId = localStorage.getItem('userId');
         try {
             const employerJobs = await axios.get(endPointObj.url+ "/employer/get-job-list/" + employerId);
     
@@ -58,7 +58,7 @@ export default function Jobs() {
             console.log("Error in fetching employer"+err);
         }
         
-    }, [])
+    }, [jobs])
 
     return (
         <div>

@@ -34,6 +34,7 @@ const MyJobs = () => {
   const [activeTab, setActiveTab] = useState("1");
   const [show, setShow] = useState(false);
   const [curJobId, setCurJobId] = useState("");
+  const {isAuth} = useSelector(state=>state.login);
 
   const unsaveJob = (jobId) => {
     const body = {
@@ -57,7 +58,8 @@ const MyJobs = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Header />
+      {isAuth ? (<Header />): <><br/><br/></> }
+			<br/>
       <hr />
       <div className={classes.jobsParent}>
         <div className={classes.headerWrapper}>
