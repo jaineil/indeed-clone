@@ -159,7 +159,7 @@ export default function Profile() {
             industry: companyIndustry,
             founded: companyFounded,
             missionAndVision: companyMissionAndVision,
-            averageRating: 0
+            averageRating: "0"
         }
         const updateCompany = {
             companyId: localStorage.getItem('companyId'),
