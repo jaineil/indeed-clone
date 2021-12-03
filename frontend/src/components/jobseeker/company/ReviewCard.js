@@ -32,6 +32,7 @@ export function ReviewCard({
 					helpful: true,
 				}
 			);
+			window.location.reload(false);
 		} catch (err) {
 			console.error(err);
 		}
@@ -40,10 +41,15 @@ export function ReviewCard({
 
 	const setNotHelpfulHandler = async () => {
 		try {
-			await axios.post("/job-seeker/company-details/helpfulness-count", {
-				reviewId: reviewId,
-				helpful: false,
-			});
+			await axios.put(
+				endPointObj.url +
+					"/job-seeker/company-details/helpfulness-count",
+				{
+					reviewId: reviewId,
+					helpful: false,
+				}
+			);
+			window.location.reload(false);
 		} catch (err) {
 			console.error(err);
 		}
