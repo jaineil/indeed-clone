@@ -9,6 +9,15 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from "axios";
 import endPointObj from '../../endPointUrl.js';
+import Button from '@mui/material/Button';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 import {
     Box,
@@ -39,20 +48,47 @@ export default function Candidates(props) {
     const classes = useStyles();
 
     const [applicants, setApplicants] = useState([]);
-    const [applicantId, setApplicantId] = useState('');
-    const [showApplicant, setShowApplicant] = useState(false);
-    const [applicationStatus, setApplicationStatus] = React.useState('');
-    const [jobName, setJobName] = useState(props.location.state ? (props.location.state.jobTitle ? props.location.state.jobTitle : '') : '')
 
-    const handleChange = (event) => {
+    const [applicantId, setApplicantId] = useState('');
+    const [applicantName, setApplicantName] = useState('');
+    const [applicantEmailId, setApplicantEmailId] = useState('');
+    const [applicantStreet, setApplicantStreet] = useState('');
+    const [applicantCity, setApplicantCity] = useState('');
+    const [applicantCountry, setApplicantCountry] = useState('');
+    const [applicantZipcode, setApplicantZipcode] = useState('');
+    const [applicationStatus, setApplicationStatus] = useState('');
+
+    const jobId = "619f92c5227cb6690426e43a";
+
+    const [open, setOpen] = React.useState(false);
+    const [fullWidth, setFullWidth] = React.useState(true);
+    const [maxWidth, setMaxWidth] = React.useState('sm');
+
+    const handleClickOpen = (rowId) => {
+
+        //MAC
+
+        setApplicantId(rowId);
+        setApplicantName('Harper Lee');
+        setApplicantEmailId('harperlee@gmail.com');
+        setApplicantStreet('360 S Market St');
+        setApplicantCity('San Jose');
+        setApplicantCountry('United States');
+        setApplicantZipcode('95113');
+        setApplicationStatus('HIRED');
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleApplicationStatusChange = (event) => {
+
+        //MAC
         setApplicationStatus(event.target.value);
     };
 
-
-    const emailId = 'harperlee@gmail.com';
-    const city = 'San Jose';
-
-    const jobId = "619f92c5227cb6690426e43a";
     useEffect(async () => {
 
         try {
@@ -96,8 +132,13 @@ export default function Candidates(props) {
 
     let redirectComponent = null;
     if (!props.location.state) {
-        alert('Select a job to view candidates');
-        redirectComponent = <Redirect to="/jobs" />
+        if (localStorage.getItem('role') === "EMPLOYER") {
+            alert('Select a job to view candidates');
+            redirectComponent = <Redirect to="/employer/jobs" />
+        }
+        else{
+            redirectComponent = <Redirect to="/login" />
+        }
     }
 
     const columns = [
@@ -157,10 +198,8 @@ export default function Candidates(props) {
                         size="small"
                         style={{ marginLeft: 16, textDecoration: 'none', cursor: 'pointer' }}
                         onClick={() => {
-                            setApplicantId(params.row.rowId);
-                            setShowApplicant(true);
-                        }
-                        }
+                            handleClickOpen(params.row.rowId);
+                        }}
                     >
                         {params.value}
                     </a>
@@ -184,8 +223,8 @@ export default function Candidates(props) {
                 >
                     <Grid item xs={3}>
                         <div >
-                            <br/>
-                            Applicants for Job : {jobName}
+                            <br />
+                            Applicants for Job : {props.location.state ? (props.location.state.jobTitle ? props.location.state.jobTitle : '') : ''}
                         </div>
                     </Grid>
 
@@ -197,46 +236,90 @@ export default function Candidates(props) {
                             <div style={{ height: '100%', width: '100%' }} className={classes.root}>
                                 <DataGrid rows={applicants} columns={columns} disableColumnMenu hideFooterSelectedRowCount={true} />
                             </div>
+
                         </CardContent>
                     </Box>
                 </Card>
 
             </div>
-            <div hidden={!showApplicant} style={{ marginTop: '8%', height: '100vh', backgroundColor: '#f2f2f2' }}>
-                <br />
-                <Card sx={{ display: 'flex' }} style={{ width: '75%', marginTop: '1%', marginLeft: '15%', borderRadius: '15px', height: '50%' }}>
-                    <Grid container style={{ marginTop: '5%' }}>
-                        <Grid item xs={6}>
-                            <Grid item xs={12} style={{ marginRight: '60%' }}>
-                                <Typography className={classes.h5} variant="h5" style={{ fontWeight: "bolder", color: "#000000", fontFamily: 'Open Sans', fontSize: 'xx-large' }}>Harper Lee</Typography>
+
+            <React.Fragment>
+
+                <Dialog
+                    fullWidth={fullWidth}
+                    maxWidth={maxWidth}
+                    open={open}
+                    onClose={handleClose}
+                >
+                    <DialogTitle style={{ fontWeight: 'bolder', backgroundColor: 'rgb(37, 87, 167)', color: '#ffffff', fontSize: 'xx-large' }}>{applicantName}</DialogTitle>
+                    <DialogContent>
+                        <Grid container>
+                            <Grid item xs={12}>
+                                <Typography variant="h6" style={{ fontWeight: 'bolder', color: "#000000", fontFamily: 'Open Sans', marginTop: '2%', marginBottom: '2%' }}>{applicantEmailId}</Typography>
                             </Grid>
-                            <Grid item xs={12} style={{ marginLeft: '6.5%', textAlign: 'left' }}>
-                                {emailId} {bull} {city}
+                            <br />
+                            <Grid item xs={12}>
+                                <Typography variant="h6" style={{ color: "#000000", fontFamily: 'Open Sans' }}>{applicantStreet}</Typography>
                             </Grid>
+                            <Grid item xs={12}>
+                                <Typography variant="h6" style={{ color: "#000000", fontFamily: 'Open Sans' }}>{applicantCity}</Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography variant="h6" style={{ color: "#000000", fontFamily: 'Open Sans' }}>{applicantZipcode}</Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography variant="h6" style={{ color: "#000000", fontFamily: 'Open Sans' }}>{applicantCountry}</Typography>
+                            </Grid>
+
                         </Grid>
-                        <Grid item xs={6}>
-                            <FormControl style={{ width: '50%' }}>
-                                <InputLabel id="application-status">Application Status</InputLabel>
+                        <Box
+                            noValidate
+                            component="form"
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                m: 'auto',
+                                width: 'fit-content',
+                            }}
+                        >
+                            <FormControl sx={{ mt: 2, minWidth: 120 }}>
+                                <InputLabel htmlFor="max-width">Application Status </InputLabel>
                                 <Select
-                                    labelId="application-status"
-                                    id="status_select"
+                                    autoFocus
                                     value={applicationStatus}
-                                    label="Application Status"
-                                    onChange={handleChange}
+                                    onChange={handleApplicationStatusChange}
+                                    label="applicationStatus"
+                                    inputProps={{
+                                        name: 'applicationStatus',
+                                        id: 'max-width',
+                                    }}
                                 >
-                                    <MenuItem value="submitted">Submitted</MenuItem>
-                                    <MenuItem value="reviewed">Reviewed</MenuItem>
-                                    <MenuItem value="initialScreening">Initial Screening</MenuItem>
-                                    <MenuItem value="interviewing">Interviewing</MenuItem>
-                                    <MenuItem value="hired">Hired</MenuItem>
+                                    <MenuItem value="SUBMITTED">Submitted</MenuItem>
+                                    <MenuItem value="REVIEWED">Reviewed</MenuItem>
+                                    <MenuItem value="INITIAL_SCREENING">Initial Screening</MenuItem>
+                                    <MenuItem value="INTERVIEWING">Interviewing</MenuItem>
+                                    <MenuItem value="HIRED">Hired</MenuItem>
+                                    <MenuItem value="REJECTED">Rejected</MenuItem>
                                 </Select>
                             </FormControl>
-                        </Grid>
-                    </Grid>
-
-                </Card>
-
-            </div>
+                        </Box>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button style={{
+                            width: "100%",
+                            borderRadius: '8px',
+                            height: "40px",
+                            color: "#ffffff",
+                            backgroundColor: "rgb(37, 87, 167)",
+                            cursor: "pointer",
+                            textTransform: 'none',
+                            fontWeight: 'bold',
+                            fontSize: '100%',
+                        }} onClick={handleClose}>Close
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </React.Fragment>
         </div>
     )
 
