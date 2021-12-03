@@ -6,6 +6,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
 } from "./actionTypes";
+import { clearProfile } from "./jobseekerActions.js";
 
 const loginRequest = () => {
   return {
@@ -28,9 +29,9 @@ const loginFailure = (errorMsg) => {
 };
 
 export const logout = () => {
-  // window.localStorage.clear();
+  clearProfile();
   return {
-    type: LOGOUT
+    type: LOGOUT,
   };
 };
 

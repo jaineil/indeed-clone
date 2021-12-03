@@ -244,8 +244,10 @@ const ContactInformation = () => {
   const jobseekerId = useSelector((state) => state.jobseekerProfile._id);
 
   const [editProfile, setEditStatus] = useState(false);
-  const [firstName, setFirstName] = useState(useSelector(firstNameSelector));
-  const [lastName, setLastName] = useState(useSelector(lastNameSelector));
+  const userFName = useSelector(firstNameSelector);
+  const userLName = useSelector(lastNameSelector);
+  const [firstName, setFirstName] = useState(userFName);
+  const [lastName, setLastName] = useState(userLName);
   const [contactNumber, setContactNumber] = useState(
     useSelector(contactNumberSelector)
   );
