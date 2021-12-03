@@ -1,5 +1,6 @@
 import JobSeekerDetails from "../../../db/models/mongo/jobSeekerDetails.js";
 import JobSeekerApplications from "../../../db/models/mongo/jobSeekerApplications.js";
+import Jobs from "../../../db/models/mongo/jobs.js";
 import fs from "fs";
 import multiparty from "multiparty";
 import fileType from "file-type";
@@ -20,10 +21,17 @@ export class JobSeekerController {
 				const appliedJobs = await JobSeekerApplications.find({
 					jobSeekerId: req.query.jobseekerId,
 				});
-				res.status(200).send({
-					...jobSeekerDetails._doc,
-					appliedJobs: appliedJobs,
-				});
+				let finalRes = { ...jobSeekerDetails._doc, appliedJobs: [] };
+				for (let i = 0; i < appliedJobs.length; i++) {
+					const job = await Jobs.findById(appliedJobs[i].jobId, {
+						jobTitle: 1,
+					});
+					finalRes.appliedJobs.push({
+						...appliedJobs[i]._doc,
+						jobTitle: job.jobTitle,
+					});
+				}
+				res.status(200).send(finalRes);
 			}
 		} catch (err) {
 			console.error(err);
