@@ -14,7 +14,6 @@ import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
 import endPointObj from '../../../endPointUrl.js';
-import featureReviewDetails from './featuredReviewDetails.js';
 import {FeatureReviewCard} from './FeatureReviewCard';
 
 const useStyle = makeStyles((theme) => ({
@@ -64,9 +63,10 @@ export function CompanyHome(props) {
             });
     }, []);
 
+
     let topFeaturedReview = [];
     for(var i = 0; i < 5; i++) {
-        topFeaturedReview.push(featureReviewDetails[i]);
+        topFeaturedReview.push(companyDetails.featuredReviews[i]);
     }
 
     console.log("Featured review details", topFeaturedReview);
