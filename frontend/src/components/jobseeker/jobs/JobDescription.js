@@ -135,9 +135,10 @@ function JobDescription({ jobData }) {
 		const fileUploaded = e.target.files[0];
 		const formData = new FormData();
 		formData.append("file", fileUploaded);
+		console.log("apply job request",formData, mongoId,jobId, jobDetails.companyId, companyName)
 		axios
 			.post(
-				`${endPointObj.url}/job-seeker/upload-resume?jobSeekerId=${mongoId}&resumeName=${fileUploaded.name}`,
+				`${endPointObj.url}/job-seeker/job-details/apply?jobSeekerId=${mongoId}&resumeName="Resume1"&jobId=${jobId}&companyId=${jobDetails.companyId}&companyName=${companyName}`,
 				formData,
 				{
 					headers: {
@@ -147,6 +148,7 @@ function JobDescription({ jobData }) {
 			)
 			.then((res) => {
 				console.log(res);
+				alert("Applied to the job!")
 				// if (res.status === 200) dispatch(getProfile(mongoId));
 			})
 			.catch((err) => {
