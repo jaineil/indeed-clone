@@ -51,4 +51,9 @@ reviewRouter.get(
 	reviewController.fetchTopJobSeekersByAcceptedReviews
 );
 
+reviewRouter.get(
+	"/admin/reviews-per-day/",
+	reviewController.fetchReviewsPerDay
+);
+
 export default reviewRouter;
