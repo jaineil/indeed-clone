@@ -10,7 +10,7 @@ import {
 	Typography,
 	Button,
 } from "@material-ui/core";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import CompanyHeader from "./CompanyHeader";
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
@@ -18,6 +18,7 @@ import theme from "../../common/MenuTheme";
 import { AddReviewModal } from "./AddCompanyReview";
 import { ReviewCard } from "./ReviewCard";
 import JwPagination from "jw-react-pagination";
+import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
 
 const useStyle = makeStyles((theme) => ({
 	imgCont: {
@@ -88,11 +89,23 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 export function CompanyReview(props) {
+	const location = useLocation();
 	const classes = useStyle();
 	const [reviews, setReviews] = useState([]);
 	const { isAuth } = useSelector((state) => state.login);
-	const companyId = localStorage.getItem("currentcompanyid");
-	console.log(companyId);
+	let companyId = "";
+	let companyName = "";
+	if (location.state) {
+		companyId = location.state.companyId;
+		companyName = location.state.companyName;
+		if (companyId) {
+			localStorage.setItem("currentcompanyid", companyId);
+			localStorage.setItem("currentcompanyname", companyName);
+		}
+	} else {
+		companyId = localStorage.getItem("currentcompanyid");
+		companyName = localStorage.getItem("currentcompanyname");
+	}
 	const [open, setOpen] = useState(false);
 	const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 	//const [helpfulness, setHelpfulness] = useState("");

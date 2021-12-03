@@ -55,7 +55,7 @@ export function ReviewCard({
 		}
 		console.log("Set review as helpful");
 	};
-
+	const date = new Date(postedDate);
 	return (
 		<Grid item container spacing={4}>
 			<Grid item container spacing={2}>
@@ -81,7 +81,10 @@ export function ReviewCard({
 							color: "#595959",
 						}}
 					>
-						{reviewerRole} - {city},{state} - posted on {postedDate}
+						{reviewerRole} - {city},{state} - posted on{" "}
+						{`${
+							date.getMonth() + 1
+						}/${date.getDate()}/${date.getFullYear()}`}
 					</Typography>
 					<br />
 					<Typography variant="subtitle1">

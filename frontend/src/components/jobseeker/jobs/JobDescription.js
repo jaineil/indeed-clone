@@ -69,7 +69,7 @@ function JobDescription({ jobData }) {
 		jobDescription,
 	} = jobData;
 	console.log("salary", salary);
-	console.log(JSON.stringify(jobData));
+	console.log("IN JB DESC", JSON.stringify(jobData));
 	const { isAuth } = useSelector((state) => state.login);
 
 	const mongoId = useSelector((state) => state.login.user.mongoId);
@@ -182,11 +182,18 @@ function JobDescription({ jobData }) {
 								"currentcompanyid",
 								jobDetails.companyId
 							)}
+							{localStorage.setItem(
+								"currentcompanyname",
+								jobDetails.companyName
+							)}
 
 							<Link
 								to={{
 									pathname: "/companyHome",
-									state: { company: jobDetails.companyId },
+									state: {
+										companyId: jobDetails.companyId,
+										companyName: jobDetails.companyName,
+									},
 								}}
 								style={{
 									textDecoration: "none",

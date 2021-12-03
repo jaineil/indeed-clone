@@ -152,31 +152,34 @@ export default function Candidates(props) {
 				}
 			);
 
+			setApplicationStatus(event.target.value);
+
 			console.log(
 				"Returned profile from backend: " +
 					JSON.stringify(getJobSeekerProfile.data)
 			);
 
 			if (getJobSeekerProfile.data) {
-				setApplicationId(getJobSeekerProfile.data._id);
-				setApplicantName(
-					getJobSeekerProfile.data.firstName +
-						" " +
-						getJobSeekerProfile.data.lastName
-				);
-				setApplicantEmailId(getJobSeekerProfile.data.emailId);
-				setApplicantStreet(getJobSeekerProfile.data.address.street);
-				setApplicantCity(getJobSeekerProfile.data.address.street);
-				setApplicantCountry(getJobSeekerProfile.data.address.country);
-				setApplicantZipcode(getJobSeekerProfile.data.address.zipcode);
+				// setApplicationId(getJobSeekerProfile.data._id);
+				// setApplicantName(
+				// 	getJobSeekerProfile.data.firstName +
+				// 		" " +
+				// 		getJobSeekerProfile.data.lastName
+				// );
+				// setApplicantEmailId(getJobSeekerProfile.data.emailId);
+				// setApplicantStreet(getJobSeekerProfile.data.address.street);
+				// setApplicantCity(getJobSeekerProfile.data.address.street);
+				// setApplicantCountry(getJobSeekerProfile.data.address.country);
+				// setApplicantZipcode(getJobSeekerProfile.data.address.zipcode);
 				setApplicationStatus(applicationStatus);
-				setOpen(true);
 			} else {
 			}
 		} catch (err) {
 			console.log("Error in fetching applied applicants" + err);
 		}
 		setApplicationStatus(event.target.value);
+		setOpen(true);
+		window.location.reload(false);
 	};
 
 	const initiateChat = async () => {
@@ -190,8 +193,8 @@ export default function Candidates(props) {
 			`${endPointObj.url}/employer/send-first-message`,
 			data
 		);
-        handleChatClose();
-        alert("message sent")
+		handleChatClose();
+		alert("message sent");
 		console.log(response);
 	};
 

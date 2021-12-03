@@ -141,6 +141,10 @@ export const AddCompanySalaryModal = ({ open, handleClose }) => {
 		console.log("IsCurrentEmployeeChange", isCurrentEmployee);
 		setIsCurrentEmployee(e.target.value);
 	};
+	const onIsCurrentDateChange = (e) => {
+		console.log("IsCurrentDate", isCurrentEmployee);
+		setJobEndDate(e.target.value);
+	};
 
 	const onJobTitleChange = (e) => {
 		setJobTitle(e.target.value);
@@ -234,8 +238,8 @@ export const AddCompanySalaryModal = ({ open, handleClose }) => {
 							</select>{" "}
 							<br />
 						</Grid>
-
-						{isCurrentEmployee === false ? (
+						{console.log("currtne", isCurrentEmployee)}
+						{isCurrentEmployee === "false" ? (
 							<Grid item>
 								<label style={{ display: "block" }}>
 									End Date
@@ -245,7 +249,8 @@ export const AddCompanySalaryModal = ({ open, handleClose }) => {
 									className={classes.borderlinedInput}
 									required
 									style={{ width: "500px" }}
-									onChange={onIsCurrentEmployeeChange}
+									onChange={onIsCurrentDateChange}
+									value={jobEndDate}
 								/>
 							</Grid>
 						) : (

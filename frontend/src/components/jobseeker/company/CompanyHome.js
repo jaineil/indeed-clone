@@ -10,6 +10,7 @@ import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
 import endPointObj from "../../../endPointUrl.js";
 import { FeatureReviewCard } from "./FeatureReviewCard";
+import { useLocation } from "react-router";
 
 const useStyle = makeStyles((theme) => ({
 	imgCont: {
@@ -36,13 +37,25 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 export function CompanyHome(props) {
+	const location = useLocation();
 	const classes = useStyle();
 	const query = new URLSearchParams(props.location.search);
 	const id = query.get("id");
 	const [companyDetails, setCompany] = useState([]);
 	const [topFeaturedReview, setFeaturedReview] = useState([]);
-
-	const companyId = localStorage.getItem("currentcompanyid");
+	let companyId = "";
+	let companyName = "";
+	if (location.state) {
+		companyId = location.state.companyId;
+		companyName = location.state.companyName;
+		if (companyId) {
+			localStorage.setItem("currentcompanyid", companyId);
+			localStorage.setItem("currentcompanyname", companyName);
+		}
+	} else {
+		companyId = localStorage.getItem("currentcompanyid");
+		companyName = localStorage.getItem("currentcompanyname");
+	}
 
 	useEffect(() => {
 		axios
