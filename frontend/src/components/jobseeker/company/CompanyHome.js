@@ -8,7 +8,7 @@ import {
     Typography,
 } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
-import companyDetails from './companyDetails';
+//import companyDetails from './companyDetails';
 import CompanyHeader from './CompanyHeader';
 import Header from "../../common/Header";
 import { ThemeProvider } from "@material-ui/core";
@@ -48,7 +48,7 @@ export function CompanyHome(props) {
     const id = query.get('id')
     const dispatch = useDispatch()
     const { isAuth } = useSelector(state => state.login)
-    const [company, setCompany] = useState([]);
+    const [companyDetails, setCompany] = useState([]);
     const companyId = localStorage.getItem("currentcompanyid")
 
 
@@ -79,7 +79,7 @@ export function CompanyHome(props) {
                 <CompanyHeader /><hr />
                 <Container maxwidth="xl">
                     <Grid item style={{ marginTop: "20px", marginBottom: "30px" }} >
-                        <Typography variant="caption" >{companyDetails[0].companyName}</Typography>
+                        <Typography variant="caption" >{companyDetails.name}</Typography>
                     </Grid>
 
                     {/* Work happiness */}
@@ -89,15 +89,15 @@ export function CompanyHome(props) {
 
                     <Grid container style={{ height: "40px", paddingLeft: "250px", marginBottom: "130px" }}>
                         <Grid item className={classes.optionTab} style={{ height: "20px", width: "60px" }}>
-                            <div className={classes.scoreTest}>{companyDetails[0].avgWorkHappinessScore}</div> <br />
+                            <div className={classes.scoreTest}>{companyDetails.avgWorkHappinessScore}</div> <br />
                             <div style={{ height: "20px", width: "160px", fontSize: "20px" }}>Work Happiness Score </div>
                         </Grid>
                         <Grid item className={classes.optionTab} style={{ height: "20px", width: "60px", marginLeft: "100px" }}>
-                            <div className={classes.scoreTest}>{companyDetails[0].avgLearningScore}</div> <br />
+                            <div className={classes.scoreTest}>{companyDetails.avgLearningScore}</div> <br />
                             <div style={{ height: "20px", width: "160px", fontSize: "20px" }}>Learning</div>
                         </Grid>
                         <Grid item className={classes.optionTab} style={{ height: "20px", width: "60px", marginLeft: "100px" }}>
-                            <div className={classes.scoreTest}>{companyDetails[0].avgAppreciationScore}</div> <br />
+                            <div className={classes.scoreTest}>{companyDetails.avgAppreciationScore}</div> <br />
                             <div style={{ height: "20px", width: "160px", fontSize: "20px" }}>Appreciation</div>
                         </Grid>
                     </Grid>
@@ -107,7 +107,7 @@ export function CompanyHome(props) {
                         <Typography variant="h5"><b>About the company</b></Typography>
 
                         <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
-                            <Typography><p>{companyDetails[0].aboutTheCompany}</p></Typography>
+                            <Typography><p>{companyDetails.aboutTheCompany}</p></Typography>
                         </Grid>
 
                         <Grid container style={{ height: "40px", paddingRight: "100px", marginBottom: "380px" }} spacing={1}>
@@ -119,7 +119,7 @@ export function CompanyHome(props) {
                                                 <h5> CEO </h5>
                                             </div>
                                             <div>
-                                                {companyDetails[0].ceo}
+                                                {companyDetails.ceo}
                                             </div>
                                         </Grid>
                                     </td>
@@ -129,7 +129,7 @@ export function CompanyHome(props) {
                                                 <h5> Founded </h5>
                                             </div>
                                             <div>
-                                                {companyDetails[0].founded}
+                                                {companyDetails.founded}
                                             </div>
                                         </Grid>
                                     </td>
@@ -139,7 +139,7 @@ export function CompanyHome(props) {
                                                 <h5> Revenue </h5>
                                             </div>
                                             <div>
-                                                {companyDetails[0].revenue}
+                                                {companyDetails.revenue}
                                             </div>
                                         </Grid>
                                     </td>
@@ -153,7 +153,7 @@ export function CompanyHome(props) {
                                                 <h5> Industry </h5>
                                             </div>
                                             <div>
-                                                {companyDetails[0].industry}
+                                                {companyDetails.industry}
                                             </div>
                                         </Grid>
                                     </td>
@@ -163,7 +163,7 @@ export function CompanyHome(props) {
                                                 <h5> Company Size </h5>
                                             </div>
                                             <div>
-                                                {companyDetails[0].companySize}
+                                                {companyDetails.companySize}
                                             </div>
                                         </Grid>
                                     </td>
@@ -179,7 +179,7 @@ export function CompanyHome(props) {
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
-                        <Typography><p>{companyDetails[0].companyDescription}</p></Typography>
+                        <Typography><p>{companyDetails.companyDescription}</p></Typography>
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "30px" }}>
@@ -187,7 +187,7 @@ export function CompanyHome(props) {
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
-                        <Typography><p>{companyDetails[0].companyMission}</p></Typography>
+                        <Typography><p>{companyDetails.companyMission}</p></Typography>
                     </Grid>
 
                     <Grid item style={{ marginTop: "20px", marginBottom: "50px" }}>
