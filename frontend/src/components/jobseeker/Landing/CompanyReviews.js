@@ -16,6 +16,7 @@ import { ThemeProvider } from "@material-ui/core";
 import theme from "../../common/MenuTheme";
 import companydetails from '../company/companyDetails';
 import { CompanyReviewCard } from './CompanyReviewCard.js';
+import SearchJobForm from '../Landing/SearchJobForm.js';
 
 const useStyle = makeStyles((theme) => ({
     imgCont: {
@@ -130,7 +131,7 @@ export function CompanyReview(props) {
 
     return (
 
-        isAuth ? (companyDetails ?
+         (companyDetails ?
             <ThemeProvider theme={theme}>
                 <Header /><hr />
                 <Container maxwidth="xl">
@@ -139,7 +140,8 @@ export function CompanyReview(props) {
                     <Grid item style={{ marginTop: "40px", marginBottom: "50px", marginLeft: "200px" }}>
                         <Typography variant="h3"><b>Find great places to work</b></Typography> <br/>
                         <Typography variant="subtitle">Get access to millions of company reviews</Typography>
-
+                        <br/><br/>
+                        <SearchJobForm />
                     </Grid>
                     <Grid container spacing={-30} style={{ marginTop: "30px", marginBottom: "60px", marginLeft: "180px" }} >
                         {
@@ -158,7 +160,7 @@ export function CompanyReview(props) {
                     </Grid>
                 </Container>
             </ThemeProvider>
-            : <></>) : <Redirect to="/login" />
+            : <></>)
     )
 }
 export default CompanyReview;
