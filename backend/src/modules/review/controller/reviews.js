@@ -56,6 +56,9 @@ class ReviewController {
 					},
 				}
 			);
+			client.del(`review/${req.body.companyId}/DATE`);
+			client.del(`review/${req.body.companyId}/HELPFULNESS`);
+			client.del(`review/${req.body.companyId}/RATING`);
 			res.status(200).send({
 				reviewHelpfulCount:
 					response.reviewHelpfulCount + (req.body.helpful ? 1 : 0),
