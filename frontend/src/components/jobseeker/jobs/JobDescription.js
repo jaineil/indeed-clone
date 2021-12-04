@@ -159,6 +159,7 @@ function JobDescription({ jobData }) {
 			.then((res) => {
 				console.log(res);
 				alert("Applied to the job!");
+				window.location.reload(false);
 				// if (res.status === 200) dispatch(getProfile(mongoId));
 			})
 			.catch((err) => {
