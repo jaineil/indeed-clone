@@ -2,6 +2,11 @@ import Review from "../../../db/models/mongo/reviews.js";
 import CompanyDetails from "../../../db/models/mongo/companyDetails.js";
 import { make_request } from "../../../../kafka/client.js";
 import client from "../../../db/config/redis.config.js";
+import { response } from "express";
+
+// client.del("review/619f3868ef6dff3633f6d959/DATE");
+// client.del("review/619f3868ef6dff3633f6d959/HELPFULNESS");
+// client.del("review/619f3868ef6dff3633f6d959/RATING");
 
 class ReviewController {
 	create = async (req, res) => {
@@ -18,16 +23,14 @@ class ReviewController {
 					jobSeekerId: req.body.jobSeekerId,
 					companyId: req.body.companyId,
 					companyName: companyDetails.companyName,
-					overallCompanyRatingByReviewer: parseInt(
-						req.body.overallRating
-					),
+					overallCompanyRatingByReviewer: parseInt(req.body.rating),
 					reviewerRole: req.body.reviewerRole,
 					reviewTitle: req.body.reviewTitle,
 					reviewBody: req.body.reviewBody,
-					pros: req.body.pros,
-					cons: req.body.cons,
-					ceoApprovalRating: parseInt(req.body.ceoApprovalRating),
-					interviewTips: req.body.interviewPrepTips,
+					pros: req.body.pros.split(","),
+					cons: req.body.cons.split(","),
+					ceoApprovalRating: parseInt(req.body.ceoApproval),
+					interviewTips: req.body.interviewPrepTips.split(","),
 					companyLocation: companyDetails.companyLocation,
 					categoricalRating: req.body.categoricalRating,
 				});
@@ -46,7 +49,6 @@ class ReviewController {
 		try {
 			const response = await Review.findOneAndUpdate(
 				{
-					companyId: req.body.companyId,
 					_id: req.body.reviewId,
 				},
 				{
@@ -56,6 +58,9 @@ class ReviewController {
 					},
 				}
 			);
+			client.del(`review/${req.body.companyId}/DATE`);
+			client.del(`review/${req.body.companyId}/HELPFULNESS`);
+			client.del(`review/${req.body.companyId}/RATING`);
 			res.status(200).send({
 				reviewHelpfulCount:
 					response.reviewHelpfulCount + (req.body.helpful ? 1 : 0),
@@ -77,17 +82,31 @@ class ReviewController {
 			);
 			const companyReviews = await Review.find({
 				companyId: req.params.companyId,
+				isReviewApprovedByAdmin: "APPROVED",
 			});
 			let response = [];
 			for (let i = 0; i < companyReviews.length; i++) {
 				response.push({
 					jobSeekerId: companyReviews[i].jobSeekerId,
 					reviewId: companyReviews[i].id,
+					companyId: companyReviews[i].companyId,
+					companyName: companyReviews[i].companyName,
 					overallCompanyRatingByReviewer:
 						companyReviews[i].overallCompanyRatingByReviewer,
 					reviewerRole: companyReviews[i].reviewerRole,
 					reviewTitle: companyReviews[i].reviewTitle,
 					reviewBody: companyReviews[i].reviewBody,
+					pros: companyReviews[i].pros,
+					cons: companyReviews[i].cons,
+					ceoApprovalRating: companyReviews[i].ceoApprovalRating,
+					interviewTips: companyReviews[i].interviewTips,
+					companyLocation: companyReviews[i].companyLocation,
+					reviewHelpfulCount: companyReviews[i].reviewHelpfulCount,
+					reviewNotHelpfulCount:
+						companyReviews[i].reviewNotHelpfulCount,
+					categoricalRating: companyReviews[i].categoricalRating,
+					isReviewApprovedByAdmin:
+						companyReviews[i].isReviewApprovedByAdmin,
 					featuredReview: featuredReviews.includes(
 						companyReviews[i].id
 					),
@@ -245,10 +264,10 @@ class ReviewController {
 									"Fetched reviews with kafka-backend"
 								);
 								console.log(results);
-								client.set(
-									`review/${req.query.companyId}/${req.query.sortBy}`,
-									JSON.stringify(results)
-								);
+								// client.set(
+								// 	`review/${req.query.companyId}/${req.query.sortBy}`,
+								// 	JSON.stringify(results)
+								// );
 								res.json(results);
 								res.end();
 							}
@@ -317,6 +336,94 @@ class ReviewController {
 					},
 				},
 			]);
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	fetchReviewsPerDay = async (req, res) => {
+		try {
+			// console.log(new Date(2021, 11, 1));
+			const response1 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 10, 27),
+					$lt: new Date(2021, 10, 28),
+				},
+			});
+			const response2 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 10, 28),
+					$lt: new Date(2021, 10, 29),
+				},
+			});
+			const response3 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 10, 29),
+					$lt: new Date(2021, 10, 30),
+				},
+			});
+			const response4 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 10, 30),
+					$lt: new Date(2021, 11, 1),
+				},
+			});
+			const response5 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 11, 1),
+					$lt: new Date(2021, 11, 2),
+				},
+			});
+			const response6 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 11, 2),
+					$lt: new Date(2021, 11, 3),
+				},
+			});
+			const response7 = await Review.find({
+				postedOn: {
+					$gte: new Date(2021, 11, 3),
+					$lt: new Date(2021, 11, 4),
+				},
+			});
+			const response = {
+				days: [
+					"2021-11-27",
+					"2021-11-28",
+					"2021-11-29",
+					"2021-11-30",
+					"2021-12-01",
+					"2021-12-02",
+					"2021-12-03",
+				],
+				reviewCount: [
+					response1.length,
+					response2.length,
+					response3.length,
+					response4.length,
+					response5.length,
+					response6.length,
+					response7.length,
+				],
+			};
+			res.status(200).send(response);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	getAcceptedRejectedReviewsForCompany = async (req, res) => {
+		try {
+			const { companyId } = req.params;
+			const response = await Review.find({
+				companyId: companyId,
+				isReviewApprovedByAdmin: {
+					$in: ["APPROVED", "REJECTED"],
+				},
+			}).sort({
+				postedOn: -1,
+			});
 			res.status(200).send(response);
 		} catch (err) {
 			console.error(err);

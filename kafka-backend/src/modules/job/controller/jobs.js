@@ -37,9 +37,9 @@ class JobController {
 				location: `${jobDetails.jobLocation.city}, ${jobDetails.jobLocation.state}, ${jobDetails.jobLocation.zip}`,
 				jobType: jobDetails.jobType,
 				salaryDetails: jobDetails.salary,
-				yourRole: jobDetails.responsibilites,
-				whyYouWillLoveWorking: jobDetails.whyUs,
-				skillsNeeded: jobDetails.requirements,
+				yourRole: jobDetails.jobDescription.description,
+				whyYouWillLoveWorking: jobDetails.jobDescription.whyUs,
+				skillsNeeded: jobDetails.jobDescription.requirements,
 			};
 
 			return this.responseGenerator(200, result);
@@ -104,7 +104,7 @@ class JobController {
 
 				jobs.map((job) =>
 					results.push({
-						jobId: job.jobId,
+						jobId: job._id,
 						jobTitle: job.jobTitle,
 						location: job.jobLocation,
 						daysPosted: computeDaysElapsed(job.postedOn),
@@ -116,7 +116,7 @@ class JobController {
 				return this.responseGenerator(200, results);
 			}
 
-			if (jobTitle && location === undefined) {
+			if (jobTitle && !location) {
 				console.log("Only job location");
 				const jobs = await Jobs.find({
 					$and: [
@@ -134,7 +134,7 @@ class JobController {
 
 				jobs.map((job) =>
 					results.push({
-						jobId: job.jobId,
+						jobId: job._id,
 						jobTitle: job.jobTitle,
 						location: job.jobLocation,
 						daysPosted: computeDaysElapsed(job.postedOn),
@@ -146,7 +146,7 @@ class JobController {
 				return this.responseGenerator(200, results);
 			}
 
-			if (jobTitle == undefined && location) {
+			if (!jobTitle && location) {
 				console.log("Only location");
 				const jobs = await Jobs.find({
 					$and: [
@@ -174,7 +174,7 @@ class JobController {
 
 				jobs.map((job) =>
 					results.push({
-						jobId: job.jobId,
+						jobId: job._id,
 						jobTitle: job.jobTitle,
 						location: job.jobLocation,
 						daysPosted: computeDaysElapsed(job.postedOn),
@@ -186,11 +186,11 @@ class JobController {
 				return this.responseGenerator(200, results);
 			}
 
-			if (jobTitle === undefined && location === undefined) {
+			if (!jobTitle && !location) {
 				const jobs = await Jobs.find({ companyId: companyId });
 				jobs.map((job) =>
 					results.push({
-						jobId: job.jobId,
+						jobId: job._id,
 						jobTitle: job.jobTitle,
 						location: job.jobLocation,
 						daysPosted: computeDaysElapsed(job.postedOn),

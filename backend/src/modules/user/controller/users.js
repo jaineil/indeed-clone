@@ -36,10 +36,10 @@ export class UserController {
 
     signup = async (req, res) => {
 		try {
-            const {emailId, pass, userPersona} = req.body
+            const {emailId, pass, userPersona="ADMIN"} = req.body
             const hashpass = await bcrypt.hash(pass, 10);
             var mongoId
-            
+        
             let sql = "INSERT INTO users (emailId, pass, userPersona) VALUES (?, ?, ?)"
             conn.query(sql, [emailId, hashpass, userPersona],
                 async (err, result) => {

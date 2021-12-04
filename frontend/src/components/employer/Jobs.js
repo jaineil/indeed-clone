@@ -5,6 +5,7 @@ import DashboardItems from './DashboardItems';
 import JobsTable from './RenderTable';
 import endPointObj from '../../endPointUrl.js';
 import axios from "axios";
+import RedirectUnauthorized from './RedirectUnauthorized';
 
 import {
     Box,
@@ -29,7 +30,7 @@ export default function Jobs() {
     
     useEffect(async () => {
         console.log("Jobs Fetch");
-        const employerId = "619f3868ef6dff3633f6d959";
+        const employerId = localStorage.getItem('userId');
         try {
             const employerJobs = await axios.get(endPointObj.url+ "/employer/get-job-list/" + employerId);
     
@@ -61,6 +62,7 @@ export default function Jobs() {
 
     return (
         <div>
+            <RedirectUnauthorized />
             {console.log(rows)}
             <Navbar current='dashboard' />
             <DashboardItems current="jobs" />
@@ -69,7 +71,7 @@ export default function Jobs() {
                 <Card sx={{ display: 'flex' }} style={{ width: '75%', marginTop: '1%', marginLeft: '15%', borderRadius: '15px' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <CardContent sx={{ flex: '1 0 auto' }} style={{ marginLeft: '10%', marginRight: '10%', marginTop: '1%' }}>
-                            <JobsTable columns={columns} rows={jobs} pathname="/candidates"/>
+                            <JobsTable columns={columns} rows={jobs} pathname="/employer/candidates"/>
                         </CardContent>
                     </Box>
                 </Card>

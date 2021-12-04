@@ -20,6 +20,7 @@ import { saveJob } from "../../../_actions/saveJobAction";
 const useStyles = makeStyles((theme) => ({
 	jobContainer: {
 		width: "450px",
+		height: "400px",
 	},
 	card: {
 		border: "1px solid black",
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 		color: "grey",
 	},
 	job_section: {
-		padding: "0 8vw",
+		//padding: "0 8vw",
 		position: "relative",
 	},
 	sort_container: {
@@ -88,7 +89,7 @@ function DisplayJobs(props) {
 	let jobs = useSelector((state) => state.search.searchedJobs);
 	console.log("jobs", jobs);
 	let totalCount = useSelector((state) => state.search.totalCount);
-	const loggedUser = useSelector((state) => state.login.loggedUser);
+	const { isAuth } = useSelector((state) => state.login);
 	let isLoading = useSelector((state) => state.search.isLoading);
 	let userId = localStorage.getItem("userId");
 	console.log("Inside display jobs: searchedJobs", jobs);
@@ -136,22 +137,30 @@ function DisplayJobs(props) {
 	//     delete saved_jobs[jobId]
 	//     //dispatch(makeSaveJobRequest({user_id:id,saved_jobs}))
 	// }
-
+	console.log("isAuth", isAuth);
 	return (
 		<ThemeProvider theme={theme}>
-			<Header /> <hr />
+			{isAuth ? (
+				<Header />
+			) : (
+				<>
+					<br />
+					<br />
+				</>
+			)}
+			<br />
 			<Container className={classes.job_section}>
 				<SearchJobForm /> <br />
 				{isLoading ? (
 					<></>
-				) : jobs.length ? (
+				) : jobs ? (
 					<>
 						<Box className={classes.greyText}>
 							<b>Jobs in {location}</b>
 						</Box>
 						{ignored ? null : null}
 
-						<Box style={{ display: "flex" }}>
+						<Box style={{ display: "flex", height: "1600px" }}>
 							<Grid className={classes.jobContainer} container>
 								{pageOfItems.map((job, index) => (
 									<Grid
@@ -205,22 +214,26 @@ function DisplayJobs(props) {
 										/>
 									</Grid>
 								))}
+							</Grid>{" "}
+							&nbsp;&nbsp;&nbsp;
+							<Grid>
+								{jobData ? (
+									<JobDescription
+										jobData={jobData}
+										summary={job.jobDescription}
+									/>
+								) : (
+									<></>
+								)}
 							</Grid>
-							{jobData ? (
-								<JobDescription
-									jobData={jobData}
-									summary={job.jobDescription}
-								/>
-							) : (
-								<></>
-							)}
 						</Box>
-
-						<JwPagination
-							pageSize={5}
-							items={jobs}
-							onChangePage={setPageOfItems}
-						/>
+						<Grid>
+							<JwPagination
+								pageSize={5}
+								items={jobs}
+								onChangePage={setPageOfItems}
+							/>
+						</Grid>
 					</>
 				) : (
 					<Box>No results found</Box>

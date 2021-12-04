@@ -12,7 +12,7 @@ class JobSeekerApplicationController {
 
 		try {
 			await JobSeekerDetails.updateOne(
-				{ jobSeekerId: data.jobSeekerId },
+				{ _id: data.jobSeekerId },
 				{
 					$push: {
 						resumes: {
@@ -34,7 +34,7 @@ class JobSeekerApplicationController {
 				{ _id: data.jobSeekerId },
 				{ resumes: { $slice: -1 } }
 			);
-
+			console.log();
 			resumeId = lastUsedResume.resumes[0].id;
 
 			console.log("Fetched resumeId ", resumeId);
@@ -68,14 +68,20 @@ class JobSeekerApplicationController {
 	};
 
 	changeApplicantStatus = async (data) => {
-		console.log(data);
+		console.log("data",data);
 		const jobApplicationId = data.jobApplicationId;
-		const updatedStatus = data.status;
+		const updatedStatus = data.updatedStatus;
+		console.log(jobApplicationId)
 
 		try {
-			await JobSeekerApplications.findByIdAndUpdate(jobApplicationId, {
-				applicationStatus: updatedStatus,
-			});
+			const jobapplication = await JobSeekerApplications.findOneAndUpdate(
+				{_id:jobApplicationId
+			},
+			{applicationStatus: updatedStatus});
+			console.log("jobAPp", jobapplication)
+			console.log("Updated status", updatedStatus)
+	
+		
 			return this.responseGenerator(200, "Updated");
 		} catch (err) {
 			console.error(

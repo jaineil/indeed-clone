@@ -46,7 +46,7 @@ class CompanyController {
 				companySize: company.companySize,
 				revenue: company.revenue,
 				industry: company.industry,
-				companyDescription: company.about,
+				companyDescription: company.description.about,
 				companyMission: company.description.missionAndVision,
 				featuredReviews: featuredReviews,
 			};
@@ -116,7 +116,10 @@ class CompanyController {
 		const companyId = data.companyId;
 
 		try {
-			const salaries = await JobRecords.find({companyId: companyId}, {jobTitle: 1, salary: 1})
+			const salaries = await JobRecords.find(
+				{ companyId: companyId },
+				{ jobTitle: 1, salary: 1 }
+			);
 			// const salaries = await JobRecords.aggregate([
 			// 	{
 			// 		$match: {
