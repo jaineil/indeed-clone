@@ -1,4 +1,8 @@
-import { GET_PROFILE, UPDATE_PROFILE } from "../_actions/actionTypes";
+import {
+  GET_PROFILE,
+  UPDATE_PROFILE,
+  CLEAR_PROFILE,
+} from "../_actions/actionTypes";
 
 const initState = {
   firstName: "",
@@ -34,6 +38,10 @@ export const jobseekerReducer = (state = initState, { type, payload }) => {
       return {
         ...state,
         ...payload,
+      };
+    case CLEAR_PROFILE:
+      return {
+        ...state,
       };
     default:
       return state;

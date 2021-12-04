@@ -1,7 +1,7 @@
 import axios from "axios";
 import endPointObj from "../endPointUrl.js";
 
-import { UPDATE_PROFILE, GET_PROFILE } from "./actionTypes";
+import { UPDATE_PROFILE, GET_PROFILE, CLEAR_PROFILE } from "./actionTypes";
 
 export const updateProfile = (jobSeekerProfile) => async (dispatch) => {
   try {
@@ -10,6 +10,7 @@ export const updateProfile = (jobSeekerProfile) => async (dispatch) => {
       .then((res) => {
         if (res.status === 200) {
           console.log("Job Seeker : " + res);
+          dispatch(getProfile(jobSeekerProfile.jobseekerId));
           dispatch({
             type: UPDATE_PROFILE,
             payload: jobSeekerProfile,
@@ -66,4 +67,10 @@ export const getProfile = (jobseekerId) => async (dispatch) => {
   } catch (err) {
     console.log("Error in Get Profile Action: ", err.message);
   }
+};
+
+export const clearProfile = () => {
+  return {
+    type: CLEAR_PROFILE,
+  };
 };
