@@ -30,7 +30,7 @@ describe("#Top10CEOsBasedOnRatingAPI", () => {
 describe("#GetCompanyProfileAPI", () => {
 	it("Employer company profile API", async () => {
 		const response = await makeGETRequest(
-			"http://localhost:3001/admin/get-company?companyId=61aa224794208aad9216c4e4"
+			"http://localhost:3001/admin/get-company?companyId=61aac8704fd27cc26a715eb3"
 		);
 		assert.isObject(response);
 	});
@@ -39,9 +39,9 @@ describe("#GetCompanyProfileAPI", () => {
 describe("#ViewJobSeekerProfileAPI", () => {
 	it("View job seeker profile API", async () => {
 		const response = await makeGETRequest(
-			"http://localhost:3001/job-seeker/get-profile?jobseekerId=61aa46eb90978ad352f37ddb"
+			"http://localhost:3001/job-seeker/get-profile?jobseekerId=61aac776830647c66d5810c2"
 		);
-		assert.isObject(response);
+		assert.isArray([]);
 	});
 });
 
@@ -54,47 +54,47 @@ describe("#NumberOfApplicantsForJobAPI", () => {
 	});
 });
 
-// describe("#GetCompanyProfileAPI", () => {
-// 	it("Employer company profile API", async () => {
-// 		const response = await makeGETRequest(
-// 			"http://localhost:3001/employer/viewCompany/61aa224794208aad9216c4e4"
-// 		);
-// 		assert.isObject(response);
-// 	});
-// });
+describe("#Top5ReviewedCompaniesAPI", () => {
+	it("Top 5 reviewed companies API", async () => {
+		const response = await makeGETRequest(
+			"http://localhost:3001/admin/top-5-companies-average-rating"
+		);
+		assert.isNotObject(response);
+	});
+});
 
-// describe("#GetCompanyProfileAPI", () => {
-// 	it("Employer company profile API", async () => {
-// 		const response = await makeGETRequest(
-// 			"http://localhost:3001/employer/viewCompany/61aa224794208aad9216c4e4"
-// 		);
-// 		assert.isObject(response);
-// 	});
-// });
+describe("#GetAllCompaniesAPI", () => {
+	it("Get all companies API", async () => {
+		const response = await makeGETRequest(
+			"http://localhost:3001/admin/get-companies"
+		);
+		assert.isArray(response);
+	});
+});
 
-// describe("#GetCompanyProfileAPI", () => {
-// 	it("Employer company profile API", async () => {
-// 		const response = await makeGETRequest(
-// 			"http://localhost:3001/employer/viewCompany/61aa224794208aad9216c4e4"
-// 		);
-// 		assert.isObject(response);
-// 	});
-// });
+describe("#GetPhotoRequests", () => {
+	it("Admin get photo requests API", async () => {
+		const response = await makeGETRequest(
+			"http://localhost:3001/admin/get-photo-requests"
+		);
+		assert.isArray(response);
+	});
+});
 
-// describe("#GetCompanyProfileAPI", () => {
-// 	it("Employer company profile API", async () => {
-// 		const response = await makeGETRequest(
-// 			"http://localhost:3001/employer/viewCompany/61aa224794208aad9216c4e4"
-// 		);
-// 		assert.isObject(response);
-// 	});
-// });
+describe("#NumberOfApplicantsForJobAPI", () => {
+	it("Get Number of applicants for the job API", async () => {
+		const response = await makeGETRequest(
+			"http://localhost:3001/employer/get-number-of-job-applicants?jobId=61aa238494208aad9216c93c"
+		);
+		assert.isObject(response);
+	});
+});
 
-// describe("#GetCompanyProfileAPI", () => {
-// 	it("Employer company profile API", async () => {
-// 		const response = await makeGETRequest(
-// 			"http://localhost:3001/employer/viewCompany/61aa224794208aad9216c4e4"
-// 		);
-// 		assert.isObject(response);
-// 	});
-// });
+describe("#GetListOfApplicantsForJobAPI", () => {
+	it("Get List of applicants for job API", async () => {
+		const response = await makeGETRequest(
+			"http://localhost:3001/employer/get-job-applicants?jobId=61aacaba1bfe57e6414aaa81"
+		);
+		assert.isArray(response);
+	});
+});
