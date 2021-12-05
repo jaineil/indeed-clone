@@ -52,7 +52,7 @@ export class KafkaRPC {
 					topic: topicName,
 					messages: JSON.stringify({
 						correlationId: correlationId,
-						replyTo: "response_topic",
+						replyTo: "response",
 						data: content,
 					}),
 					partition: 0,
@@ -74,7 +74,7 @@ export class KafkaRPC {
 		self = this;
 
 		// subscribe to messages
-		const consumer = self.connection.getConsumer("response_topic");
+		const consumer = self.connection.getConsumer("response");
 
 		consumer.on("message", (message) => {
 			console.log("Message received");

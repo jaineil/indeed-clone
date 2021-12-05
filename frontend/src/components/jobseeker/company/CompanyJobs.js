@@ -158,7 +158,7 @@ function DisplayJobs(props) {
 				<SearchJobTabForm /> <br />
 				{isLoading ? (
 					<></>
-				) : jobs.length ? (
+				) : jobs ? (
 					<>
 						{ignored ? null : null}
 
