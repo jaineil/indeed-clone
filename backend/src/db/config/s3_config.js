@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
-const ACCESS_KEY = "AKIAQL5KLZPDA3RB7SER";
-const SECRET_KEY = "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";
+const ACCESS_KEY = "";
+const SECRET_KEY = "";
 const S3_BUCKET = "indeed-clone";
 
 AWS.config.update({
